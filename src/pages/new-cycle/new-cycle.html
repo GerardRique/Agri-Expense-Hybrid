@@ -1,0 +1,61 @@
+<!--
+  Generated template for the NewCyclePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>New Cycle</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <!--Template for user to select type of crop that will be planted for the new cycle-->
+  <ng-template #selectCropTemplate>
+    <h4>Select the crop to plant for this cycle</h4>
+    <ion-list>
+      <button ion-item *ngFor="let seed of seeds" (click)="goToSelectLandTypeTemplate(seed)">
+        {{seed}}
+      </button>
+      
+    </ion-list>
+  </ng-template>
+
+  <!--Template for the user to select the unit of plant that will be used for the new cycle-->
+  <ng-template #selectLandTypeTemplate>
+    <h4>Select the type of land that you are using</h4>
+    <ion-list>
+      <button ion-item *ngFor="let landType of landTypes" (click)="goToSelectLandQuantityPage(landType)">
+        {{landType}}
+      </button>
+    </ion-list>
+  </ng-template>
+
+  <!--Template for the user to select the name of the cycle as well as to confirm the date it was planted as well as the number of units of land that will be planted-->
+  <ng-template #selectLandQuantityTemplate>
+      <h4>Select the Quantity of land that you are using</h4>
+      <form [formGroup]="newCycle">
+        <ion-item>
+          <ion-label color="primary" stacked>Cycle Name</ion-label>
+          <ion-input type="text" placeholder="Enter Name of cycle" name="cycleName" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>Land Quantity</ion-label>
+          <ion-input type="number" placeholder="Land Quantity" name="landQuantity" formControlName="landQuantity"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
+        </ion-item>
+        <button ion-button block (click)="submit()">Done</button>
+      </form>
+  </ng-template>
+
+  <div *ngIf="selectSeedTemplate === true;then selectCropTemplate"></div>
+  <div *ngIf="selectLandTypeTemplatePage === true;then selectLandTypeTemplate"></div>
+  <div *ngIf="selectLandQuantityTemplatePage === true;then selectLandQuantityTemplate"></div>
+
+</ion-content>

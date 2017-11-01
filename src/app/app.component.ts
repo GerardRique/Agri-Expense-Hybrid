@@ -1,29 +1,36 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CycleHandler } from '../core/CycleHandler';
+import { PurchaseHandler } from '../core/PurchaseHandler';
+import { NewCyclePage } from '../pages/new-cycle/new-cycle';
+import { TabsPage } from '../pages/tabs/tabs';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-
+import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [CycleHandler, PurchaseHandler]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
+  @ViewChild('myNav') navCtrl: NavController;
 
-  rootPage: any = HomePage;
+  rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'New Cycle', component: NewCyclePage },
+      { title: 'New Purchase', component: NewPurchasePage }
     ];
+
 
   }
 
@@ -39,6 +46,7 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    //this.nav.setRoot(page.component);
+    this.navCtrl.push(page.component);
   }
 }

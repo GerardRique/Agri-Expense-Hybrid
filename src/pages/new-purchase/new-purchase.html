@@ -1,0 +1,63 @@
+<!--
+  Generated template for the NewPurchasePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>new-purchase</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ng-template #selectMaterialTemplate>
+    <h4>Select the type of material you are buying</h4>
+    <ion-list>
+      <button ion-item *ngFor="let material of materialListTemplate.listData" (click)="selectMaterial(material)">
+        {{material}}
+      </button>
+    </ion-list>
+  </ng-template>
+
+  <ng-template #selectMaterialTypeTemplate>
+    <h5>Select Type of material</h5>
+    <ion-list>
+      <button ion-item *ngFor="let materialType of materialTypeTemplate.listData" (click)="goToSelectMaterialUnits(materialType)">{{materialType}}</button>
+    </ion-list>
+  </ng-template>
+
+  <ng-template #selectMaterialUnitsTemplate>
+    <h5>Select Units of material</h5>
+    <ion-list>
+      <button ion-item *ngFor="let unit of materialUnitsTemplate.listData" (click)="goToSubmitTemplate(unit)">{{unit}}</button>
+    </ion-list>
+  </ng-template>
+
+  <ng-template #submitDataTemplate>
+    <h4>Select Quantity of product to be purchased</h4>
+    <form [formGroup]="newPurchase" (ngSubmit)="savePurchase()">
+      <ion-item>
+        <ion-label color="primary" stacked>Quantity</ion-label>
+        <ion-input type="number" placeholder="Quantity" name="quantity" formControlName="quantity"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Cost</ion-label>
+        <ion-input type="number" placeholder="Cost" name="cost" formControlName="cost"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePurchased" formControlName="datePurchased"></ion-datetime>
+      </ion-item>
+      <button ion-button block type="submit">Done</button>
+    </form>
+  </ng-template>
+
+  <div *ngIf="materialListTemplate.isActive() === true;then selectMaterialTemplate"></div>
+  <div *ngIf="materialTypeTemplate.isActive() === true;then selectMaterialTypeTemplate"></div>
+  <div *ngIf="materialUnitsTemplate.isActive() === true;then selectMaterialUnitsTemplate"></div>
+  <div *ngIf="submitTemplate.isActive() === true;then submitDataTemplate"></div>
+  
+</ion-content>
