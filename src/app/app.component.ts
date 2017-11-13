@@ -10,6 +10,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { DataManager } from '../core/DataManager';
+import { PlantMaterialManager } from '../core/PlantMaterialManager';
+
 @Component({
   templateUrl: 'app.html',
   providers: [CycleHandler, PurchaseHandler]
@@ -22,7 +24,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -31,9 +33,6 @@ export class MyApp {
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage }
     ];
-    
-
-
 
   }
 

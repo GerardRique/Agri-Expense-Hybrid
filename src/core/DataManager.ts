@@ -8,12 +8,11 @@ export abstract class DataManager{
 
     protected dataID: string;
     protected dataList: Array<Object>;
-    private storage: Storage;
 
-    constructor(){
+    constructor(private storage: Storage){
     }
 
-    private initialize(): Promise<any>{
+    public initialize(): Promise<any>{
         let promises = [];
         return this.storage.ready().then(() => {
             for(let current of this.dataList){
@@ -31,7 +30,7 @@ export abstract class DataManager{
         });
     }
 
-    public getAll(): Promise<any>{
+    public getAll(): Promise<Array<Object>>{
         let list = Array<Object>();
         return this.storage.ready().then(() => {
             return this.storage.forEach((value, key, index) => {
@@ -50,7 +49,29 @@ export abstract class DataManager{
         });
     }
 
-    public addNew(data: Object): Promise<any>{
+    public getNameList(): Promise<Array<string>>{
+        let nameList = Array<string>();
+        return this.storage.ready().then(() => {
+            return this.storage.forEach((value, key, index) => {
+                let id = key.substring(0, 4);
+                if(id.localeCompare(this.dataID) == 0){
+                    let current = JSON.parse(value);
+                    if('name' in current)
+                        nameList.push(current['name']);
+                    else return [];
+                }
+            }).then(() => {
+                return nameList;
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
+    }
+
+
+    public addNew(data: Object): Promise<boolean>{
         return this.storage.ready().then(() => {
             let date = new Date();
             let key = this.dataID + '_' + date.getTime();//Creates unique id (conatining a timestamp) for the new material to be saved. 

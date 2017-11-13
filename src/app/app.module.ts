@@ -12,6 +12,7 @@ import { NewCyclePage } from '../pages/new-cycle/new-cycle';
 import { TabsPage } from '../pages/tabs/tabs';
 import { PurchaseListingPage } from '../pages/purchase-listing/purchase-listing'
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
+import { PlantMaterialManager } from '../core/PlantMaterialManager';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -51,6 +52,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     CycleHandler,
     PurchaseHandler,
+    PlantMaterialManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

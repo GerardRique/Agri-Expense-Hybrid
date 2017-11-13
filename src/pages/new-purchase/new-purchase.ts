@@ -4,6 +4,7 @@ import { ListTemplate } from '../../core/ListTemplate';
 import { Template } from '../../core/Template';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseHandler } from '../../core/PurchaseHandler';
+import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -21,7 +22,7 @@ export class NewPurchasePage {
   materialList = ['Chemical', 'Fertilizer', 'Planting Material', 'Soil Amendment', 'Other'];
   chemicals = ['Algicides', 'Antimicrobials', 'Biocides', 'Biopestocides'];
   fertilizers = ['UREA 46-0-0', 'Techni-Grow (7.12.27 + TE)', 'Plant Prod (7.12.27)', 'Magic Grow (7.12.40 + TE HYDROPHONIC)'];
-  plantingMaterials = ['Anise Seed', 'Banana', 'Basil', 'Bay Leaf', 'Beet', 'Bhagi', 'Bora(Bodi) Bean'];
+  plantingMaterials = Array<string>();
   soilAmendments = ['Calphos', 'Chicken manure', 'Compost', 'Cow manure', 'Gypsum', 'Horse Manure', 'Limestone', 'Molasses', 'Sharp sand', 'Sulphur'];
 
   chemicalUnitsList = ['grams (g)', 'Kilograms (Kg)', 'Litres (L)', 'millilitres (ml)', 'ounces (oz)'];
@@ -39,7 +40,12 @@ export class NewPurchasePage {
   private newPurchase: FormGroup;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager) {
+
+    plantMaterialManager.getNameList().then((nameList) => {
+      this.plantingMaterials = nameList.slice();
+      console.log(this.plantingMaterials);
+    })
 
     this.materialListTemplate = new ListTemplate('Material List', 'selectMaterialTypeTemplate');
     this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
