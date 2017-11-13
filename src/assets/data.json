@@ -1,0 +1,73 @@
+{
+    "data":[
+        {
+            "name": "Planting Materials",
+            "id": "1000",
+            "list": [
+                {
+                    "id": "1001",
+                    "name": "Anise Seed",
+                    "imagePath": "./assets/"
+                },
+                {
+                    "id": "1002",
+                    "name": "Banana",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1003",
+                    "name": "Basil",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1004",
+                    "name": "Bay Leaf",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1005",
+                    "name": "Beet",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1006",
+                    "name": "Bhagi",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1007",
+                    "name": "Bora (Bodi) Bean",
+                    "imagePath": "./assets"
+                },
+                {
+                    "id": "1008",
+                    "name": "BreadFruit",
+                    "imagePath": "./assets"
+                }
+            ]
+        },
+        {
+            "name": "Chemicals",
+            "id": "2000",
+            "list": [
+                {
+                    "id": "2001",
+                    "name": "Algicides"
+                },
+                {
+                    "id": "2002",
+                    "name": "Antimicrobials"
+                },
+                {
+                    "id": "2003",
+                    "name": "Biocides"
+                },
+                {
+                    "id": "2004",
+                    "name": "Biopesticides"
+                }
+
+            ]
+        }
+    ]
+}

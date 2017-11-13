@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Cycles</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -16,7 +16,7 @@
       <h2>{{cycle.name}}</h2>
       <h3>Crop: {{cycle.crop}}</h3>
       <h3>Land: {{cycle.landQuantity}} {{cycle.landUnit}}</h3>
-      <h4>Date Planted: {{cycle.datePlanted | date: 'EEEE dd MMMM, yyyy'}}</h4>
+      <h4>Date Planted: {{cycle.datePlanted}}</h4>
       <h4>Harvested: {{cycle.harvested}}</h4>
     </ion-item>
   </ion-list>

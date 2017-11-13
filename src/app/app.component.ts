@@ -9,6 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { HomePage } from '../pages/home/home';
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
+import { DataManager } from '../core/DataManager';
 @Component({
   templateUrl: 'app.html',
   providers: [CycleHandler, PurchaseHandler]
@@ -30,6 +31,8 @@ export class MyApp {
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage }
     ];
+    
+
 
 
   }
