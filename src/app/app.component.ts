@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CycleHandler } from '../core/CycleHandler';
@@ -11,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { DataManager } from '../core/DataManager';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
+import { ChemicalsManager } from '../core/ChemicalsManager';
 
 @Component({
   templateUrl: 'app.html',
@@ -24,7 +26,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private storage: Storage, private chemicalManager: ChemicalsManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation

@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HttpModule } from '@angular/http';
+import { UUID } from 'angular2-uuid';
 import { ListPage } from '../pages/list/list';
 import { CycleHandler } from '../core/CycleHandler';
 import { PurchaseHandler } from '../core/PurchaseHandler';
@@ -13,7 +14,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { PurchaseListingPage } from '../pages/purchase-listing/purchase-listing'
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
-
+import { ChemicalsManager } from '../core/ChemicalsManager';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
@@ -53,6 +54,8 @@ import { IonicStorageModule } from '@ionic/storage';
     CycleHandler,
     PurchaseHandler,
     PlantMaterialManager,
+    ChemicalsManager,
+    UUID,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

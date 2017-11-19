@@ -3,23 +3,35 @@ import { Injectable } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { UUID } from 'angular2-uuid';
 
 export abstract class DataManager{
 
-    protected dataID: string;
-    protected dataList: Array<Object>;
+    protected abstract dataID: string;
+    //TODO: Create interface for data list to ensure that objects have the appropriate keys. 
+    protected abstract dataList: Array<Object>;
 
-    constructor(private storage: Storage){
+    protected abstract unitList: Array<string>;
+    protected unitListKey = "UNIT_LIST";
+
+    constructor(private storage: Storage, private uuid: UUID){
     }
 
+    //The initialize function takes all the data provided in the data list and persists that data to the device storage. This function returns a promise that is resolved when all items in the data list have been stored on device storage. 
     public initialize(): Promise<any>{
-        let promises = [];
-        return this.storage.ready().then(() => {
-            for(let current of this.dataList){
+        let promises = [];//This promise array will contain all the promises that are returned when each item in the data list is stored. 
+        return this.storage.ready().then(() => {//returns a promise that is resolved when the data store is ready. i.e. we ensure the data store is ready before proceeding. 
+            for(let current of this.dataList){//Loop through every item in the data list. 
+                let currentUUID = UUID.UUID();//Generates a unique id for each item in the list.
+                let key = this.dataID + "_" + currentUUID;
+                current['id'] = key;
                 let currentString = JSON.stringify(current);
-                let key = this.dataID + "_" + current['id'];
                 promises.push(this.storage.set(key, currentString));
             }
+            let unitListString = JSON.stringify(this.unitList);
+            let unitListStringKey = this.unitListKey + "_" + this.dataID;
+            promises.push(this.storage.set(unitListStringKey, unitListString));
+
             return Promise.all(promises).then(() => { //Creates a Promise that is resolved with an array of results when all of the provided Promises resolve, or rejected when any Promise is rejected.
                 return this;
             }).catch((error) => {
@@ -73,9 +85,9 @@ export abstract class DataManager{
 
     public addNew(data: Object): Promise<boolean>{
         return this.storage.ready().then(() => {
-            let date = new Date();
-            let key = this.dataID + '_' + date.getTime();//Creates unique id (conatining a timestamp) for the new material to be saved. 
-            data['id'] = key;
+            let newUUID =  UUID.UUID();
+            let key = this.dataID + '_' + newUUID;//Creates unique id (conatining a timestamp) for the new material to be saved. 
+            data['id'] = newUUID;
             let dataString = JSON.stringify(data);
             return this.storage.set(key, dataString).then(() => {
                 return true;
