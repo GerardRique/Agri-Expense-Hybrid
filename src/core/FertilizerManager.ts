@@ -7,29 +7,28 @@ import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
 
 @Injectable()
-export class ChemicalsManager extends DataManager{
-
+export class FertilizerManager extends DataManager{
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
     protected dataID: string;
 
-    constructor(private chemicalStorage: Storage, private chemicalsUUID: UUID){
-        super(chemicalStorage, chemicalsUUID);
-        this.unitList = ['grams(g)', 'Kilograms(kg)', 'Litres(L)', 'millitires(ml)', 'ounces(oz)'];
-        this.dataID = "2000";
+    constructor(private fertilizerStorage: Storage, private fertilizerUUID: UUID){
+        super(fertilizerStorage, fertilizerUUID);
+        this.dataID = "3000";
+        this.unitList = ['Bags', 'grams(g)', 'Kilograms(Kg)', 'pounds(lb)'];
         this.dataList = [
             {
-                "name": "Algicides"
+                "name": "UREA 46-0-0"
             },
             {
-                "name": "Antimicrobials"
+                "name": "Techni-Grow (7.12.27 + TE)"
             },
             {
-                "name": "Biocides"
+                "name": "Plant Prod (7.12.27)"
             },
             {
-                "name": "Biopesticides"
+                "name": "Magic Grow (7.12.40 + TE HYDROPHONIC)"
             }
-        ]
+        ];
     }
 }

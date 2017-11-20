@@ -13,6 +13,7 @@ import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { DataManager } from '../core/DataManager';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
+import { FertilizerManager } from '../core/FertilizerManager';
 
 @Component({
   templateUrl: 'app.html',
@@ -26,7 +27,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private storage: Storage, private chemicalManager: ChemicalsManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private storage: Storage, private chemicalManager: ChemicalsManager, private fertilizerManager: FertilizerManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -35,6 +36,11 @@ export class MyApp {
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage }
     ];
+
+    /*this.storage.clear().then(() => {
+      console.log("Cleared");
+    })*/
+
 
   }
 

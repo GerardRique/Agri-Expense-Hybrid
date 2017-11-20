@@ -15,6 +15,8 @@ import { PurchaseListingPage } from '../pages/purchase-listing/purchase-listing'
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
+import { FertilizerManager } from '../core/FertilizerManager';
+import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
@@ -55,6 +57,8 @@ import { IonicStorageModule } from '@ionic/storage';
     PurchaseHandler,
     PlantMaterialManager,
     ChemicalsManager,
+    FertilizerManager,
+    SoilAmendmentsManager,
     UUID,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

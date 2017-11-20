@@ -6,6 +6,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseHandler } from '../../core/PurchaseHandler';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { ChemicalsManager } from '../../core/ChemicalsManager';
+import { FertilizerManager } from '../../core/FertilizerManager';
+import { SoilAmendmentsManager } from '../../core/SoilAmendmentsManager';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -21,15 +23,15 @@ import { ChemicalsManager } from '../../core/ChemicalsManager';
 export class NewPurchasePage {
 
   materialList = ['Chemical', 'Fertilizer', 'Planting Material', 'Soil Amendment', 'Other'];
-  chemicals = Array<string>();
-  fertilizers = ['UREA 46-0-0', 'Techni-Grow (7.12.27 + TE)', 'Plant Prod (7.12.27)', 'Magic Grow (7.12.40 + TE HYDROPHONIC)'];
-  plantingMaterials = Array<string>();
-  soilAmendments = ['Calphos', 'Chicken manure', 'Compost', 'Cow manure', 'Gypsum', 'Horse Manure', 'Limestone', 'Molasses', 'Sharp sand', 'Sulphur'];
+  chemicals = Array<Object>();
+  fertilizers = Array<Object>();
+  plantingMaterials = Array<Object>();
+  soilAmendments = Array<Object>();
 
-  chemicalUnitsList = ['grams (g)', 'Kilograms (Kg)', 'Litres (L)', 'millilitres (ml)', 'ounces (oz)'];
-  fertilizerUnitsList = ['Bags', 'grams (g)', 'Kilograms (Kg)', 'pounds (lb)'];
-  plantingMaterialUnitsList = ['Heades', 'Seed', 'Seedling', 'Slips', 'Stick', 'Tubes'];
-  soilAmendmentUnitsList = ['Bag', 'Truck'];
+  chemicalUnitsList = Array<string>();
+  fertilizerUnitsList = Array<string>();
+  plantingMaterialUnitsList = Array<string>();
+  soilAmendmentUnitsList = Array<string>();
 
 
 
@@ -41,16 +43,36 @@ export class NewPurchasePage {
   private newPurchase: FormGroup;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private chemicalManager: ChemicalsManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private chemicalManager: ChemicalsManager, private fertilizerManager: FertilizerManager, private soilAmendmentsManager: SoilAmendmentsManager) {
 
-    plantMaterialManager.getNameList().then((nameList) => {
-      this.plantingMaterials = nameList.slice();
-      console.log(this.plantingMaterials);
+    plantMaterialManager.getAll().then((data) => {
+      this.plantingMaterials = data.slice();
     })
 
-    chemicalManager.getNameList().then((nameList) => {
-      this.chemicals = nameList.slice();
-      console.log(this.chemicals);
+    chemicalManager.getAll().then((data) => {
+      this.chemicals = data.slice();
+    });
+    this.fertilizerManager.getAll().then((data) => {
+      this.fertilizers = data.slice();
+    });
+    this.soilAmendmentsManager.getAll().then((data) => {
+      this.soilAmendments = data.slice();
+    })
+
+    this.plantMaterialManager.getUnitsList().then((data) => {
+      this.plantingMaterialUnitsList = data.slice();
+    });
+
+    this.chemicalManager.getUnitsList().then((data) => {
+      this.chemicalUnitsList = data.slice();
+    });
+
+    this.fertilizerManager.getUnitsList().then((data) => {
+      this.fertilizerUnitsList = data.slice();
+    });
+
+    this.soilAmendmentsManager.getUnitsList().then((data) => {
+      this.soilAmendmentUnitsList = data.slice();
     })
 
     this.materialListTemplate = new ListTemplate('Material List', 'selectMaterialTypeTemplate');
@@ -79,29 +101,31 @@ export class NewPurchasePage {
   }
 
   selectMaterial(material){
+    console.log(material)
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material);
-    if(material.localeCompare('Chemical') == 0){
+    if(material.localeCompare('Chemical') === 0){
       this.materialTypeTemplate.setList(this.chemicals);
       this.materialUnitsTemplate.setList(this.chemicalUnitsList);
       console.log(material);
     }
-    else if(material.localeCompare('Fertilizer') == 0){
+    else if(material.localeCompare('Fertilizer') === 0){
       this.materialTypeTemplate.setList(this.fertilizers);
       this.materialUnitsTemplate.setList(this.fertilizerUnitsList);
     }
-    else if(material.localeCompare('Planting Material') == 0){
+    else if(material.localeCompare('Planting Material') === 0){
       this.materialTypeTemplate.setList(this.plantingMaterials);
       this.materialUnitsTemplate.setList(this.plantingMaterialUnitsList);
     }
-    else if(material.localeCompare('Soil Amendment') == 0){
+    else if(material.localeCompare('Soil Amendment') === 0){
       this.materialTypeTemplate.setList(this.soilAmendments);
       this.materialUnitsTemplate.setList(this.soilAmendmentUnitsList);
     }
   }
 
   goToSelectMaterialUnits(materialType){
+    console.log(materialType);
     this.materialTypeTemplate.deactivate();
     this.materialUnitsTemplate.activate();
     this.newPurchase.controls['type'].setValue(materialType);
