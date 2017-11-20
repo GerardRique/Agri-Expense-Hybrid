@@ -20,35 +20,35 @@ export class PlantMaterialManager extends DataManager{
         this.dataList = [
             {
                 "name": "Anise Seed",
-                "imagePath": "./assets/"
+                "imagePath": "assets/img/anise_seed.jpg"
             },
             {
                 "name": "Banana",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/banana.jpg"
             },
             {
                 "name": "Basil",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/basil.jpg"
             },
             {
                 "name": "Bay Leaf",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/bay_leaf.jpg"
             },
             {
                 "name": "Beet",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/beet.jpg"
             },
             {
                 "name": "Bhagi",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/bhagi.jpg"
             },
             {
                 "name": "Bora (Bodi) Bean",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/bodi_bean.jpg"
             },
             {
                 "name": "BreadFruit",
-                "imagePath": "./assets"
+                "imagePath": "assets/img/breadfruit.jpg"
             }
         ];
     }

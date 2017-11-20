@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CycleHandler } from '../../core/CycleHandler';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 /**
  * Generated class for the NewCyclePage page.
  *
@@ -15,8 +16,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: 'new-cycle.html',
 })
 export class NewCyclePage {
-
-  seeds = ['Anise Seed', 'Banana', 'Basil', 'Bay Leaf', 'Beet', 'Bhagi', 'Bora(Bodi) Bean'];
+  
+  seeds = Array<Object>();
   landTypes = ['Acre', 'Bed', 'Hectare'];
   selectSeedTemplate = true;
   selectLandTypeTemplatePage = false;
@@ -24,10 +25,17 @@ export class NewCyclePage {
 
   private newCycle: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager) {
+
+    this.plantMaterialManager.getAll().then((data) => {
+      console.log(data);
+      this.seeds = data.slice();
+    })
     this.newCycle = this.formBuilder.group({
       name: ['', Validators.required],
       crop: ['', Validators.required],
+      cropId: ['', Validators.required],
+      cropImagePath: ['', Validators.required],
       landUnit: ['', Validators.required],
       landQuantity: ['', Validators.required],
       datePlanted: [new Date().toISOString(), Validators.required],
@@ -41,8 +49,10 @@ export class NewCyclePage {
   }
 
   goToSelectLandTypeTemplate(seed){
-    this.newCycle.controls['crop'].setValue(seed);
-    this.newCycle.controls['name'].setValue(seed);
+    this.newCycle.controls['crop'].setValue(seed.name);
+    this.newCycle.controls['name'].setValue(seed.name);
+    this.newCycle.controls['cropId'].setValue(seed.id);
+    this.newCycle.controls['cropImagePath'].setValue(seed.imagePath);
     this.selectSeedTemplate = false;
     this.selectLandTypeTemplatePage= true;
   }
@@ -54,7 +64,7 @@ export class NewCyclePage {
   }
 
   submit(){
-    console.log(this.newCycle);
+    console.log(this.newCycle.value);
     this.cycleHandler.add(this.newCycle.value).then((response) => {
       console.log(response);
       this.navCtrl.pop();

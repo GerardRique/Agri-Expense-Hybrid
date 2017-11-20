@@ -12,12 +12,24 @@
   <h2>Cycle Listing</h2>
 
   <ion-list>
-    <ion-item *ngFor="let cycle of cycleListing">
+    <!--<ion-item *ngFor="let cycle of cycleListing">
       <h2>{{cycle.name}}</h2>
       <h3>Crop: {{cycle.crop}}</h3>
       <h3>Land: {{cycle.landQuantity}} {{cycle.landUnit}}</h3>
       <h4>Date Planted: {{cycle.datePlanted}}</h4>
       <h4>Harvested: {{cycle.harvested}}</h4>
-    </ion-item>
+    </ion-item>-->
+
+    <ion-card *ngFor="let cycle of cycleListing">
+      <img src="{{cycle.cropImagePath}}" alt="myImage">
+      <ion-card-content>
+        <ion-card-title>
+          {{cycle.name}}
+        </ion-card-title>
+        <p>Crop: {{cycle.crop}}</p>
+        <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
+        <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
 </ion-content>
