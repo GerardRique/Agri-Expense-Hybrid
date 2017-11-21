@@ -20,16 +20,28 @@
       <h4>Harvested: {{cycle.harvested}}</h4>
     </ion-item>-->
 
-    <ion-card *ngFor="let cycle of cycleListing">
+    <ion-card *ngFor="let cycle of cycleListing; let i = index">
+        <ion-card-title>{{cycle.name}}</ion-card-title>
       <img src="{{cycle.cropImagePath}}" alt="myImage">
       <ion-card-content>
-        <ion-card-title>
-          {{cycle.name}}
-        </ion-card-title>
         <p>Crop: {{cycle.crop}}</p>
         <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
         <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
       </ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear small (click)="deleteCycle(cycle.id, i)">
+            <ion-icon name="trash"></ion-icon>
+            <div>Delete cycle</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear small>
+            <ion-icon ios="md-create" md="md-create"></ion-icon>
+            <div>Edit cycle</div>
+          </button>
+        </ion-col>
+      </ion-row>
     </ion-card>
   </ion-list>
 </ion-content>
