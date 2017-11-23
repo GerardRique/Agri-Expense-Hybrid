@@ -10,6 +10,7 @@ import { ListPage } from '../pages/list/list';
 import { CycleHandler } from '../core/CycleHandler';
 import { PurchaseHandler } from '../core/PurchaseHandler';
 import { NewCyclePage } from '../pages/new-cycle/new-cycle';
+import { EditCyclePage } from '../pages/edit-cycle/edit-cycle';
 import { TabsPage } from '../pages/tabs/tabs';
 import { PurchaseListingPage } from '../pages/purchase-listing/purchase-listing'
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
@@ -29,7 +30,8 @@ import { IonicStorageModule } from '@ionic/storage';
     NewCyclePage,
     TabsPage,
     PurchaseListingPage,
-    NewPurchasePage
+    NewPurchasePage,
+    EditCyclePage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { IonicStorageModule } from '@ionic/storage';
     NewCyclePage,
     TabsPage,
     PurchaseListingPage,
-    NewPurchasePage
+    NewPurchasePage,
+    EditCyclePage
   ],
   providers: [
     StatusBar,

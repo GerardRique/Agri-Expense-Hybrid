@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
+import { Jsonp } from '@angular/http/src/http';
 
 @Injectable()
 export class PlantMaterialManager extends DataManager{
@@ -51,6 +52,20 @@ export class PlantMaterialManager extends DataManager{
                 "imagePath": "assets/img/breadfruit.jpg"
             }
         ];
+    }
+
+    //The getData function returns a promise that contains an object that contains data on a plant material given the id of the plant material. 
+    public getData(key: string): Promise<Object>{
+        return this.plantStorage.ready().then(() => {
+            return this.plantStorage.get(key).then((materialString) => {
+                let materialObject = JSON.parse(materialString);
+                return materialObject;
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
     }
     
 }

@@ -9,16 +9,7 @@
 
 <ion-content padding>
 
-  <h2>Cycle Listing</h2>
-
   <ion-list>
-    <!--<ion-item *ngFor="let cycle of cycleListing">
-      <h2>{{cycle.name}}</h2>
-      <h3>Crop: {{cycle.crop}}</h3>
-      <h3>Land: {{cycle.landQuantity}} {{cycle.landUnit}}</h3>
-      <h4>Date Planted: {{cycle.datePlanted}}</h4>
-      <h4>Harvested: {{cycle.harvested}}</h4>
-    </ion-item>-->
 
     <ion-card *ngFor="let cycle of cycleListing; let i = index">
         <ion-card-title>{{cycle.name}}</ion-card-title>
@@ -36,7 +27,7 @@
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button icon-left clear small>
+          <button ion-button icon-left clear small (click)="editCycle(cycle, cycle.id)">
             <ion-icon ios="md-create" md="md-create"></ion-icon>
             <div>Edit cycle</div>
           </button>
