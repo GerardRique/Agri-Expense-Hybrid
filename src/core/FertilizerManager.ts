@@ -10,11 +10,12 @@ import { UUID } from 'angular2-uuid';
 export class FertilizerManager extends DataManager{
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
-    protected dataID: string;
+    public DATA_ID: string;
+
 
     constructor(private fertilizerStorage: Storage, private fertilizerUUID: UUID){
         super(fertilizerStorage, fertilizerUUID);
-        this.dataID = "3000";
+        this.DATA_ID = "Fertilizer";
         this.unitList = ['Bags', 'grams(g)', 'Kilograms(Kg)', 'pounds(lb)'];
         this.dataList = [
             {

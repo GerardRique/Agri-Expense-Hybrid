@@ -14,7 +14,8 @@ import { DataManager } from '../core/DataManager';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';
-
+import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
+import { MaterialManager } from '../core/MaterialManager';
 @Component({
   templateUrl: 'app.html',
   providers: [CycleHandler, PurchaseHandler]
@@ -27,7 +28,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private storage: Storage, private chemicalManager: ChemicalsManager, private fertilizerManager: FertilizerManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private storage: Storage, private chemicalManager: ChemicalsManager, private fertilizerManager: FertilizerManager, private soilAmendmentsManager: SoilAmendmentsManager, private materialManager: MaterialManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -37,20 +38,50 @@ export class MyApp {
       { title: 'New Purchase', component: NewPurchasePage }
     ];
 
-    /*this.storage.clear().then(() => {
-      console.log("Cleared");
-    })*/
+    // this.storage.clear().then(() => {
+    //   console.log("Cleared");
+    // })
 
 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.materialManager.initialize().then((result) => {
+        if(result === true)
+          console.log("Initialized");
+        else console.log("error");
+      })
+
+      
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  initializeMaterials(): Promise<boolean>{
+    let materialList = [this.plantMaterialManager.DATA_ID, this.chemicalManager.DATA_ID, this.fertilizerManager.DATA_ID, this.soilAmendmentsManager.DATA_ID];
+    let materialListString = JSON.stringify(materialList);
+    return this.storage.ready().then(() => {
+      return this.storage.get('MaterialList').then((list) => {
+        if(list === null){
+          return this.storage.set('MaterialList', materialListString).then(() => {
+            console.log("Initialized Material List");
+            return true;
+          }).catch((error) => {
+            return false;
+          });
+        } else {
+          console.log("Material List Already Inilialized");
+          return true;
+        }
+      });
+    }).catch((error) => {
+      return false;
+    })
+
   }
 
   openPage(page) {

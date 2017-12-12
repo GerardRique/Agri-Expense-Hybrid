@@ -8,6 +8,9 @@ import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { ChemicalsManager } from '../../core/ChemicalsManager';
 import { FertilizerManager } from '../../core/FertilizerManager';
 import { SoilAmendmentsManager } from '../../core/SoilAmendmentsManager';
+import { DataManagerFactory } from '../../core/DataManagerFactory';
+import { DataManager } from '../../core/DataManager';
+import { MaterialManager } from '../../core/MaterialManager';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -22,19 +25,8 @@ import { SoilAmendmentsManager } from '../../core/SoilAmendmentsManager';
 })
 export class NewPurchasePage {
 
-  materialList = ['Chemical', 'Fertilizer', 'Planting Material', 'Soil Amendment', 'Other'];
-  chemicals = Array<Object>();
-  fertilizers = Array<Object>();
-  plantingMaterials = Array<Object>();
-  soilAmendments = Array<Object>();
-
-  chemicalUnitsList = Array<string>();
-  fertilizerUnitsList = Array<string>();
-  plantingMaterialUnitsList = Array<string>();
-  soilAmendmentUnitsList = Array<string>();
-
-
-
+  materialList = Array<Object>();
+  
   materialListTemplate: ListTemplate;
   materialTypeTemplate: ListTemplate;
   materialUnitsTemplate: ListTemplate;
@@ -42,42 +34,20 @@ export class NewPurchasePage {
 
   private newPurchase: FormGroup;
 
+  private dataManager: DataManager;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private plantMaterialManager: PlantMaterialManager, private chemicalManager: ChemicalsManager, private fertilizerManager: FertilizerManager, private soilAmendmentsManager: SoilAmendmentsManager) {
 
-    plantMaterialManager.getAll().then((data) => {
-      this.plantingMaterials = data.slice();
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager) {
+
+    materialManager.retrieveAll().then((list) => {
+      this.materialList = list.slice();
+      this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
+      this.materialListTemplate.setList(this.materialList);
+      console.log(this.materialList);
     })
 
-    chemicalManager.getAll().then((data) => {
-      this.chemicals = data.slice();
-    });
-    this.fertilizerManager.getAll().then((data) => {
-      this.fertilizers = data.slice();
-    });
-    this.soilAmendmentsManager.getAll().then((data) => {
-      this.soilAmendments = data.slice();
-    })
-
-    this.plantMaterialManager.getUnitsList().then((data) => {
-      this.plantingMaterialUnitsList = data.slice();
-    });
-
-    this.chemicalManager.getUnitsList().then((data) => {
-      this.chemicalUnitsList = data.slice();
-    });
-
-    this.fertilizerManager.getUnitsList().then((data) => {
-      this.fertilizerUnitsList = data.slice();
-    });
-
-    this.soilAmendmentsManager.getUnitsList().then((data) => {
-      this.soilAmendmentUnitsList = data.slice();
-    })
-
+    
     this.materialListTemplate = new ListTemplate('Material List', 'selectMaterialTypeTemplate');
-    this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
-    this.materialListTemplate.setList(this.materialList);
 
     this.materialTypeTemplate = new ListTemplate('Select Type of material to be purchased', 'selectMaterialTypeTemplate');
 
@@ -87,7 +57,8 @@ export class NewPurchasePage {
 
     this.newPurchase = this.formBuilder.group({
       material: ['', Validators.required],
-      type: ['', Validators.required],
+      typeName: ['', Validators.required],
+      typeID: ['', Validators.required],
       units: ['', Validators.required],
       quantity: [0, Validators.required],
       cost: [0.0, Validators.required],
@@ -105,30 +76,22 @@ export class NewPurchasePage {
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material);
-    if(material.localeCompare('Chemical') === 0){
-      this.materialTypeTemplate.setList(this.chemicals);
-      this.materialUnitsTemplate.setList(this.chemicalUnitsList);
-      console.log(material);
-    }
-    else if(material.localeCompare('Fertilizer') === 0){
-      this.materialTypeTemplate.setList(this.fertilizers);
-      this.materialUnitsTemplate.setList(this.fertilizerUnitsList);
-    }
-    else if(material.localeCompare('Planting Material') === 0){
-      this.materialTypeTemplate.setList(this.plantingMaterials);
-      this.materialUnitsTemplate.setList(this.plantingMaterialUnitsList);
-    }
-    else if(material.localeCompare('Soil Amendment') === 0){
-      this.materialTypeTemplate.setList(this.soilAmendments);
-      this.materialUnitsTemplate.setList(this.soilAmendmentUnitsList);
-    }
+    this.dataManager = this.dataManagerFactory.getManager(material);
+    this.dataManager.getAll().then((list) => {
+      console.log(list);
+      this.materialTypeTemplate.setList(list.slice());
+    });
+    this.dataManager.getUnitsList().then((units) => {
+      this.materialUnitsTemplate.setList(units.slice());
+    })
   }
 
   goToSelectMaterialUnits(materialType){
     console.log(materialType);
     this.materialTypeTemplate.deactivate();
     this.materialUnitsTemplate.activate();
-    this.newPurchase.controls['type'].setValue(materialType);
+    this.newPurchase.controls['typeName'].setValue(materialType.name);
+    this.newPurchase.controls['typeID'].setValue(materialType.id);
   }
 
   goToSubmitTemplate(unit){

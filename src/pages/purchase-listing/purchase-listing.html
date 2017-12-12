@@ -17,17 +17,30 @@
 
 
 <ion-content padding>
-
-  <h2>Purchase Listing</h2>
   <ion-list>
-    <ion-item *ngFor="let purchase of purchaseListing" on-hold="onHold()">
-      <h2>Material: {{purchase.material}}</h2>
-      <h3>{{purchase.type}}</h3>
-      <h3>Units: {{purchase.units}}</h3>
-      <h3>Quantity: {{purchase.quantity}}</h3>
-      <h3>Cost: {{purchase.cost}}</h3>
-      <h3>Date Purchase: {{purchase.datePurchased}}</h3>
-    </ion-item>
+    <ion-card *ngFor="let purchase of purchaseListing; let i = index">
+      <ion-card-title padding >{{purchase.typeName}}</ion-card-title>
+      <img src="assets/img/dollar_sign_colored.ico" alt="myImage">
+      <ion-card-content>
+        <p>{{purchase.quantity}} {{purchase.units}}s</p>
+        <p>Cost: {{purchase.cost | currency}}</p>
+        <p>{{purchase.datePurchased | date: 'fullDate'}}</p>
+      </ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear small (click)="deletePurchase(purchase.id, i)">
+            <ion-icon name="trash"></ion-icon>
+            <div>Delete</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear small (click)="editPurchase(purchase, purchase.id)">
+            <ion-icon ios="md-create" md="md-create"></ion-icon>
+            <div>Edit</div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
   </ion-list>
 
 </ion-content>

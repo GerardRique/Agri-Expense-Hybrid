@@ -12,11 +12,11 @@ export class PlantMaterialManager extends DataManager{
 
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
-    protected dataID: string;
+    public DATA_ID: string;
 
     constructor(private plantStorage: Storage, private plantMaterialUUID: UUID){
         super(plantStorage, plantMaterialUUID);
-        this.dataID = "1000";
+        this.DATA_ID = "Plant Material";
         this.unitList = ['Seed', 'Heads', 'Seedling', 'Slips', 'Stick', 'Tubes'];
         this.dataList = [
             {

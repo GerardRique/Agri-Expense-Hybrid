@@ -10,13 +10,13 @@ import { UUID } from 'angular2-uuid';
 export class SoilAmendmentsManager extends DataManager{
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
-    protected dataID: string;
+    public DATA_ID: string;
 
     constructor(private soilAmendmentStorage: Storage, private soilAmendmentUUID: UUID){
         super(soilAmendmentStorage, soilAmendmentUUID);
 
         this.unitList = ['Bag', 'Truck'];
-        this.dataID = "4000";
+        this.DATA_ID = "Soil Amendment";
         this.dataList = [
             {
                 "name": "Calphos"

@@ -29,7 +29,7 @@ export class NewCyclePage {
 
     this.plantMaterialManager.getAll().then((data) => {
       console.log(data);
-      this.seeds = data.slice();
+      this.seeds = data;
     })
     this.newCycle = this.formBuilder.group({
       name: ['', Validators.required],

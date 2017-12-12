@@ -12,7 +12,7 @@
   <ion-list>
 
     <ion-card *ngFor="let cycle of cycleListing; let i = index">
-        <ion-card-title>{{cycle.name}}</ion-card-title>
+        <ion-card-title padding>{{cycle.name}}</ion-card-title>
       <img src="{{cycle.cropImagePath}}" alt="myImage">
       <ion-card-content>
         <p>Crop: {{cycle.crop}}</p>

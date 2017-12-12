@@ -11,12 +11,12 @@ export class ChemicalsManager extends DataManager{
 
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
-    protected dataID: string;
+    public DATA_ID: string;
 
     constructor(private chemicalStorage: Storage, private chemicalsUUID: UUID){
         super(chemicalStorage, chemicalsUUID);
         this.unitList = ['grams(g)', 'Kilograms(kg)', 'Litres(L)', 'millitires(ml)', 'ounces(oz)'];
-        this.dataID = "2000";
+        this.DATA_ID = "Chemical";
         this.dataList = [
             {
                 "name": "Algicides"
