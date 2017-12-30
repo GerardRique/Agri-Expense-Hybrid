@@ -5,9 +5,10 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
+import { MeasurableDataManager } from './MeasurableDataManager';
 
 @Injectable()
-export class FertilizerManager extends DataManager{
+export class FertilizerManager extends MeasurableDataManager{
     protected unitList: Array<string>;
     protected dataList: Array<Object>;
     public DATA_ID: string;

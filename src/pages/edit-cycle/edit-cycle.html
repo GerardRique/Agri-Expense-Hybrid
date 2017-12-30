@@ -43,7 +43,7 @@
       <ion-label color="primary" stacked>Date Planted</ion-label>
       <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
     </ion-item>
-    <button ion-button block (click)="editCycle()">Done</button>
+    <button ion-button block [disabled]="!editedCycle.valid" (click)="editCycle()">Done</button>
   </form>
 
 </ion-content>

@@ -4,10 +4,11 @@ import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
+import { MeasurableDataManager } from './MeasurableDataManager';
 import { UUID } from 'angular2-uuid';
 
 @Injectable()
-export class ChemicalsManager extends DataManager{
+export class ChemicalsManager extends MeasurableDataManager{
 
     protected unitList: Array<string>;
     protected dataList: Array<Object>;

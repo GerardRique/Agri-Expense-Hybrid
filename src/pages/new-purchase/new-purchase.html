@@ -51,7 +51,7 @@
       <ion-item>
         <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePurchased" formControlName="datePurchased"></ion-datetime>
       </ion-item>
-      <button ion-button block type="submit">Done</button>
+      <button ion-button block [disabled]="!newPurchase.valid" type="submit">Done</button>
     </form>
   </ng-template>
 

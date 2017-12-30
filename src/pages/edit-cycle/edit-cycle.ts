@@ -31,16 +31,16 @@ export class EditCyclePage {
 
 
     this.editedCycle = this.formBuilder.group({
-      id: [this.navParams.get('id'), Validators.required],
+      id: [this.navParams.get('id')],
       name: [this.navParams.get('name'), Validators.required],
       crop: ['', Validators.required],
-      cropId: [this.navParams.get('cropId'), Validators.required],
-      cropImagePath: ['', Validators.required],
+      cropId: [this.navParams.get('cropId')],
+      cropImagePath: ['',],
       landUnit: [this.navParams.get('landUnit'), Validators.required],
       landQuantity: [this.navParams.get('landQuantity'), Validators.required],
       datePlanted: [this.navParams.get('datePlanted'), Validators.required],
-      harvested: [this.navParams.get('harvested'), Validators.required],
-      ongoing: [this.navParams.get('ongoing'), Validators.required]
+      harvested: [this.navParams.get('harvested')],
+      ongoing: [this.navParams.get('ongoing'),]
     })
   }
 

@@ -50,7 +50,7 @@
         <ion-item>
           <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
         </ion-item>
-        <button ion-button block (click)="submit()">Done</button>
+        <button ion-button block [disabled]="!newCycle.valid" (click)="submit()">Done</button>
       </form>
   </ng-template>
 

@@ -23,15 +23,21 @@
         <ion-col>
           <button ion-button icon-left clear small (click)="deleteCycle(cycle.id, i)">
             <ion-icon name="trash"></ion-icon>
-            <div>Delete cycle</div>
+            <div>Delete</div>
           </button>
         </ion-col>
         <ion-col>
           <button ion-button icon-left clear small (click)="editCycle(cycle, cycle.id)">
             <ion-icon ios="md-create" md="md-create"></ion-icon>
-            <div>Edit cycle</div>
+            <div>Edit</div>
           </button>
         </ion-col>
+        <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon ios="md-close" md="md-close"></ion-icon>
+              <div>Close</div>
+            </button>
+          </ion-col>
       </ion-row>
     </ion-card>
   </ion-list>

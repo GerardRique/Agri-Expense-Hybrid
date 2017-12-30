@@ -4,11 +4,12 @@ import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
+import { MeasurableDataManager } from './MeasurableDataManager';
 import { UUID } from 'angular2-uuid';
 import { Jsonp } from '@angular/http/src/http';
 
 @Injectable()
-export class PlantMaterialManager extends DataManager{
+export class PlantMaterialManager extends MeasurableDataManager{
 
     protected unitList: Array<string>;
     protected dataList: Array<Object>;

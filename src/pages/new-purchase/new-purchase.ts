@@ -10,6 +10,8 @@ import { FertilizerManager } from '../../core/FertilizerManager';
 import { SoilAmendmentsManager } from '../../core/SoilAmendmentsManager';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
+import { MeasurableDataManager } from '../../core/MeasurableDataManager';
+import { MeasurableDataManagerFactory } from '../../core/MeasurableDataManagerFactory';
 import { MaterialManager } from '../../core/MaterialManager';
 /**
  * Generated class for the NewPurchasePage page.
@@ -36,8 +38,10 @@ export class NewPurchasePage {
 
   private dataManager: DataManager;
 
+  private measurableDataManager: MeasurableDataManager;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory) {
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list.slice();
@@ -76,12 +80,12 @@ export class NewPurchasePage {
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material);
-    this.dataManager = this.dataManagerFactory.getManager(material);
-    this.dataManager.getAll().then((list) => {
+    this.measurableDataManager = this.measurableDataManagerFactory.getManager(material);
+    this.measurableDataManager.getAll().then((list) => {
       console.log(list);
       this.materialTypeTemplate.setList(list.slice());
     });
-    this.dataManager.getUnitsList().then((units) => {
+    this.measurableDataManager.getUnitsList().then((units) => {
       this.materialUnitsTemplate.setList(units.slice());
     })
   }
