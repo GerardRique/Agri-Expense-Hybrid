@@ -5,7 +5,7 @@ export class Task implements Serializeable{
 
     private id;
 
-    constructor(private cycleId: string, private labourerId: string, private dateStarted: Date, private ratePerHour: number){
+    constructor(private cycleId: string, private labourerId: string, private dateStarted: Date, private ratePerHour: number, private description: string){
         let uuid = new UUID();
         this.id = UUID.UUID();
     }
@@ -28,5 +28,9 @@ export class Task implements Serializeable{
 
     public getRate(): number{
         return this.ratePerHour;
+    }
+
+    public getDescription(): string{
+        return this.description;
     }
 }
