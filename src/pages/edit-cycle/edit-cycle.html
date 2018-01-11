@@ -23,8 +23,9 @@
     <ion-item>
       <ion-label color="primary" stacked >Plant Material</ion-label>
       <ion-select formControlName="cropId">
-        <ion-option *ngFor="let plantMaterial of plantMaterialList" [value]="plantMaterial.id">{{plantMaterial.name}}</ion-option>
+        <ion-option *ngFor="let plantMaterial of plantMaterialList; let i = index" [value]="plantMaterial.id" >{{plantMaterial.name}}</ion-option>
       </ion-select>
+
     </ion-item>
 
     <ion-item>

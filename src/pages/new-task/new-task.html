@@ -1,0 +1,63 @@
+<!--
+  Generated template for the NewTaskPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>newTask</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="newTask">
+    <ion-item>
+        <ion-label color="primary" stacked >Rate Of Pay</ion-label>
+        <ion-select formControlName="rateOfPay" (ionChange)="selectRateOfPay()">
+          <ion-option *ngFor="let rate of listOfRatesOfPay" [value]="rate">{{rate}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>{{salaryLabel}}</ion-label>
+        <ion-input type="number" placeholder="Enter Salary" name="salary" formControlName="salary"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>{{quantityLabel}}</ion-label>
+        <ion-input type="number" placeholder="{{quantityPlaceHolder}}" name="quantity" formControlName="quantity"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Description</ion-label>
+        <ion-textarea placeholder="Enter a description" name="description" formControlName="description"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary" stacked>Date Started</ion-label>
+        <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="dateStarted" formControlName="dateStarted"></ion-datetime>
+      </ion-item>
+  </form>
+
+  <ion-list>
+    <ion-item *ngFor="let cycle of selectedCycles">
+      <ion-avatar item-start>
+        <img src="{{cycle.cropImagePath}}">
+      </ion-avatar>
+
+      <h2>{{cycle.name}}</h2>
+      <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
+      <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom *ngIf="newTask.valid">
+    <button ion-fab (click)="saveTasks()"><ion-icon name="checkmark"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

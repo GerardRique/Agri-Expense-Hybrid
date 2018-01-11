@@ -17,7 +17,7 @@ export class SoilAmendmentsManager extends MeasurableDataManager{
         super(soilAmendmentStorage, soilAmendmentUUID);
 
         this.unitList = ['Bag', 'Truck'];
-        this.DATA_ID = "Soil Amendment";
+        this.DATA_ID = "Soil Ammendment";
         this.dataList = [
             {
                 "name": "Calphos"

@@ -12,6 +12,28 @@ export abstract class DBHandler{
     getSize(){
         return this.size;
     }
+
+    public get(idList: Array<string>): Promise<Array<Object>>{
+        let list = Array<Object>();
+        let promises = [];
+        return this.storage.ready().then(() => {
+            for(let id of idList){
+                promises.push(this.storage.get(id).then((result) => {
+                    let data = JSON.parse(result);
+                    list.push(data);
+                }));
+            }
+
+            return Promise.all(promises).then(() => {
+                return list;
+            }).catch((error) => {
+                return error;
+            });
+            
+        }).catch((error) => {
+            return error;
+        });
+    }
     public getAll(): Promise<any>{
         let list = Array<Object>();
         return this.storage.ready().then(() => {

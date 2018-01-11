@@ -1,11 +1,18 @@
 import { Serializeable } from './Serializeable'
 import { UUID } from 'angular2-uuid';
 
+
+export enum RateOfPay{
+    Hours,
+    Days,
+    Weeks,
+    Months
+}
 export class Task implements Serializeable{
 
     private id;
 
-    constructor(private cycleId: string, private labourerId: string, private dateStarted: Date, private ratePerHour: number, private description: string){
+    constructor(private cycleId: string, private labourerId: string, private dateStarted: Date, private rateOfPay: string, private salary: number, private quantity: number, private description: string){
         let uuid = new UUID();
         this.id = UUID.UUID();
     }
@@ -26,8 +33,25 @@ export class Task implements Serializeable{
         return this.dateStarted;
     }
 
-    public getRate(): number{
-        return this.ratePerHour;
+    public getSalary(): number{
+        return this.salary;
+    }
+
+    public getQuantity(): number{
+        return this.quantity;
+    }
+
+    public getRateOfPay(): string{
+        return this.rateOfPay;
+    }
+
+    public static getRatesOfPay(): Array<string>{
+        let list = [];
+        for(let rate in RateOfPay){
+            if(isNaN(Number(rate)))
+                list.push(rate.toString());
+        }
+        return list;
     }
 
     public getDescription(): string{

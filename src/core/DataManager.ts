@@ -32,7 +32,7 @@ export abstract class DataManager{
             let uuidListString = JSON.stringify(uniqueIDs);
             promises.push(this.storage.set(this.DATA_ID, uuidListString));
             return Promise.all(promises).then(() => { //Creates a Promise that is resolved with an array of results when all of the provided Promises resolve, or rejected when any Promise is rejected.
-                console.log("Initialized");
+                console.log("Initialized data");
                 return this;
             }).catch((error) => {
                 return error;

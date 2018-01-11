@@ -18,7 +18,7 @@
 
   <ion-list>
     <ion-item-sliding *ngFor="let labourer of labourerListing">
-      <ion-item>
+      <ion-item (click)="assignTask(labourer)">
         <h2>{{labourer.firstName}} {{labourer.lastName}}</h2>
       </ion-item>
       <ion-item-options side="left">
@@ -37,4 +37,5 @@
   <ion-fab right bottom>
     <button ion-fab (click)="goToNewLabourerPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
+
 </ion-content>

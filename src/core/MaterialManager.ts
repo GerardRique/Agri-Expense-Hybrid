@@ -16,7 +16,31 @@ export class MaterialManager{
 
     constructor(private materialStorage: Storage, private materialUUID: UUID){
         this.DATA_ID = "Material _List";
-        this.dataList = ["Plant Materials", "Chemicals", "Fertilizer", "Soil Ammendments"];
+        // this.dataList = [
+        //     "Plant Materials", 
+        //     "Chemicals", 
+        //     "Fertilizer", 
+        //     "Soil Ammendments"
+        // ];
+
+        this.dataList = [
+            {
+                "name": "Plant Materials",
+                "imagePath": "assets/img/plant_material.jpg"
+            },
+            {
+                "name": "Chemicals",
+                "imagePath": "assets/img/chemical.jpg"
+            },
+            {
+                "name": "Fertilizer",
+                "imagePath": "assets/img/fertilizer.jpg"
+            },
+            {
+                "name": "Soil Ammendment",
+                "imagePath": "assets/img/soil_ammendment.jpg"
+            }
+        ];
     }
 
     public setData(): Promise<any>{

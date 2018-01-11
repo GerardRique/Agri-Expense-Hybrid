@@ -22,9 +22,9 @@ export enum ManagerType{
 export class MeasurableDataManagerFactory{
 
     public static PLANT_MATERIAL = "Plant Materials"; 
-    public static FERTILIZER = "Fertilizers";
+    public static FERTILIZER = "Fertilizer";
     public static CHEMICAL = "Chemicals";
-    public static SOIL_AMENDMENT = "Soil Ammendments";
+    public static SOIL_AMENDMENT = "Soil Ammendment";
 
     constructor(private storage: Storage, private uuid: UUID){
 
@@ -36,13 +36,13 @@ export class MeasurableDataManagerFactory{
         else if(type.localeCompare(MeasurableDataManagerFactory.PLANT_MATERIAL) === 0){
             return new PlantMaterialManager(this.storage, this.uuid);
         }
-        else if(type.localeCompare(MeasurableDataManagerFactory.CHEMICAL)){
+        else if(type.localeCompare(MeasurableDataManagerFactory.CHEMICAL) === 0){
             return new ChemicalsManager(this.storage, this.uuid);
         }
-        else if(type.localeCompare(MeasurableDataManagerFactory.FERTILIZER)){
+        else if(type.localeCompare(MeasurableDataManagerFactory.FERTILIZER) === 0){
             return new FertilizerManager(this.storage, this.uuid);
         }
-        else if(type.localeCompare(MeasurableDataManagerFactory.SOIL_AMENDMENT)){
+        else if(type.localeCompare(MeasurableDataManagerFactory.SOIL_AMENDMENT) === 0){
             return new SoilAmendmentsManager(this.storage, this.uuid);
         }
         return null;

@@ -18,7 +18,7 @@ export abstract class MeasurableDataManager extends DataManager {
     public initialize(): Promise<any>{
         let promises = [];
         promises.push(super.initialize());
-        promises.push(this.initializeUnits);
+        promises.push(this.initializeUnits());
         return Promise.all(promises).then(() => {
             console.log("Units Initialized");
             return this;
@@ -28,6 +28,7 @@ export abstract class MeasurableDataManager extends DataManager {
     }
 
     private initializeUnits(): Promise<boolean>{
+        console.log("Initializing units...");
         return this.dataStorage.ready().then(() => {
             let unitListString = JSON.stringify(this.unitList);
             let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;

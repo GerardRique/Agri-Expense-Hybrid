@@ -1,0 +1,36 @@
+<!--
+  Generated template for the SelectCyclePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>selectCycle</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let cycle of cycleListing; let i = index">
+      <ion-label>
+            <h2>{{cycle.name}}</h2>
+            <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
+            <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
+      </ion-label>
+      <ion-checkbox item-right (ionChange)="addCycle(i, cycle.id)"></ion-checkbox>
+      <ion-avatar item-start>
+          <img src="{{cycle.cropImagePath}}">
+        </ion-avatar>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom *ngIf="showContinueButton">
+    <button ion-fab (click)="goToNewTaskDataPage()"><ion-icon name="arrow-round-forward"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

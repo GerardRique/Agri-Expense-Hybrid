@@ -33,9 +33,9 @@ export class EditCyclePage {
     this.editedCycle = this.formBuilder.group({
       id: [this.navParams.get('id')],
       name: [this.navParams.get('name'), Validators.required],
-      crop: ['', Validators.required],
-      cropId: [this.navParams.get('cropId')],
-      cropImagePath: ['',],
+      crop: [''],
+      cropId: [this.navParams.get('cropId'), Validators.required],
+      cropImagePath: [''],
       landUnit: [this.navParams.get('landUnit'), Validators.required],
       landQuantity: [this.navParams.get('landQuantity'), Validators.required],
       datePlanted: [this.navParams.get('datePlanted'), Validators.required],
@@ -46,6 +46,10 @@ export class EditCyclePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditCyclePage');
+  }
+
+  updateCropName(){
+    console.log("Updating crop name...");
   }
 
   public editCycle(): void{

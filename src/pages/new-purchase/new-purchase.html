@@ -18,7 +18,7 @@
     <h4>Select the type of material you are buying</h4>
     <ion-list>
       <button ion-item *ngFor="let material of materialListTemplate.listData" (click)="selectMaterial(material)">
-        {{material}}
+        {{material.name}}
       </button>
     </ion-list>
   </ng-template>

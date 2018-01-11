@@ -61,6 +61,7 @@ export class NewPurchasePage {
 
     this.newPurchase = this.formBuilder.group({
       material: ['', Validators.required],
+      materialImagePath: [''],
       typeName: ['', Validators.required],
       typeID: ['', Validators.required],
       units: ['', Validators.required],
@@ -79,8 +80,11 @@ export class NewPurchasePage {
     console.log(material)
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
-    this.newPurchase.controls['material'].setValue(material);
-    this.measurableDataManager = this.measurableDataManagerFactory.getManager(material);
+    this.newPurchase.controls['material'].setValue(material.name);
+    this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
+    console.log(material.name);
+    this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
+    console.log(this.measurableDataManager);
     this.measurableDataManager.getAll().then((list) => {
       console.log(list);
       this.materialTypeTemplate.setList(list.slice());

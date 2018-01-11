@@ -16,6 +16,8 @@ import { LabourManager } from '../core/LabourManager';
 import { MaterialManager } from '../core/MaterialManager';
 import { Labourer } from '../core/Labourer';
 import { UUID } from 'angular2-uuid';
+import { MeasurableDataManager } from '../core/MeasurableDataManager';
+import { FertilizerManager } from '../core/FertilizerManager';
 @Component({
   templateUrl: 'app.html',
   providers: [CycleHandler, PurchaseHandler]
@@ -30,7 +32,9 @@ export class MyApp {
 
   labourer: Labourer;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager){
+  m: MeasurableDataManager
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID){
     this.initializeApp();
 
     // used for an example of ngFor and navigation

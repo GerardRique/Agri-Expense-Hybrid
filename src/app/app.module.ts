@@ -17,12 +17,15 @@ import { PurchaseListingPage } from '../pages/purchase-listing/purchase-listing'
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { LabourerListingPage } from '../pages/labourer-listing/labourer-listing';
 import { NewLabourerPage } from '../pages/new-labourer/new-labourer';
+import { SelectCyclePage } from '../pages/select-cycle/select-cycle';
+import { NewTaskPage } from '../pages/new-task/new-task';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';
 import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
 import { MaterialManager } from '../core/MaterialManager';
 import { LabourManager } from '../core/LabourManager';
+import { TaskManager } from '../core/TaskManager';
 import { DataManagerFactory } from '../core/DataManagerFactory';
 import { MeasurableDataManagerFactory } from '../core/MeasurableDataManagerFactory';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -41,7 +44,9 @@ import { IonicStorageModule } from '@ionic/storage';
     EditCyclePage,
     EditPurchasePage,
     LabourerListingPage,
-    NewLabourerPage
+    NewLabourerPage,
+    SelectCyclePage,
+    NewTaskPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,9 @@ import { IonicStorageModule } from '@ionic/storage';
     EditCyclePage,
     EditPurchasePage,
     LabourerListingPage,
-    NewLabourerPage
+    NewLabourerPage,
+    SelectCyclePage,
+    NewTaskPage
   ],
   providers: [
     StatusBar,
@@ -77,6 +84,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SoilAmendmentsManager,
     MaterialManager,
     LabourManager,
+    TaskManager,
     DataManagerFactory,
     MeasurableDataManagerFactory,
     UUID,
