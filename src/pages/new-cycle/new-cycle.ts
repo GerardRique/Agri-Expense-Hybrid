@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CycleHandler } from '../../core/CycleHandler';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
+import { AlertController } from 'ionic-angular';
+import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
 /**
  * Generated class for the NewCyclePage page.
  *
@@ -25,10 +27,9 @@ export class NewCyclePage {
 
   private newCycle: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController) {
 
     this.plantMaterialManager.getAll().then((data) => {
-      console.log(data);
       this.seeds = data;
     })
     this.newCycle = this.formBuilder.group({
@@ -46,6 +47,42 @@ export class NewCyclePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewCyclePage');
+  }
+
+  presentPromptForPlantMaterial(){
+    let alert = this.alertCtrl.create({
+      title: 'New Plant Material',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Enter Plant Material Name'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel Clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            if(data.name.localeCompare("") === 0){
+              console.log("Invalid Name");
+            }else {
+              let imagePath = "assets/img/plant_material.jpg";
+              let plantMaterial = new PlantingMaterial(data.name, imagePath);
+              this.plantMaterialManager.add(plantMaterial);
+              this.seeds.push(plantMaterial);
+            }
+            console.log(data);
+          } 
+        }
+      ]
+    });
+    alert.present();
   }
 
   goToSelectLandTypeTemplate(seed){

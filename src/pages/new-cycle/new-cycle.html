@@ -21,8 +21,11 @@
       <button ion-item *ngFor="let seed of seeds" (click)="goToSelectLandTypeTemplate(seed)">
         {{seed.name}}
       </button>
-      
     </ion-list>
+
+    <ion-fab right bottom>
+        <button ion-fab (click)="presentPromptForPlantMaterial()"><ion-icon name="add"></ion-icon></button>
+      </ion-fab>
   </ng-template>
 
   <!--Template for the user to select the unit of plant that will be used for the new cycle-->
