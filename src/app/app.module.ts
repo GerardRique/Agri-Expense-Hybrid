@@ -19,6 +19,7 @@ import { LabourerListingPage } from '../pages/labourer-listing/labourer-listing'
 import { NewLabourerPage } from '../pages/new-labourer/new-labourer';
 import { SelectCyclePage } from '../pages/select-cycle/select-cycle';
 import { NewTaskPage } from '../pages/new-task/new-task';
+import { ReportsPage } from '../pages/reports/reports';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';
@@ -31,6 +32,8 @@ import { MeasurableDataManagerFactory } from '../core/MeasurableDataManagerFacto
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,8 @@ import { IonicStorageModule } from '@ionic/storage';
     LabourerListingPage,
     NewLabourerPage,
     SelectCyclePage,
-    NewTaskPage
+    NewTaskPage,
+    ReportsPage
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ import { IonicStorageModule } from '@ionic/storage';
     LabourerListingPage,
     NewLabourerPage,
     SelectCyclePage,
-    NewTaskPage
+    NewTaskPage,
+    ReportsPage
   ],
   providers: [
     StatusBar,
@@ -88,6 +93,8 @@ import { IonicStorageModule } from '@ionic/storage';
     DataManagerFactory,
     MeasurableDataManagerFactory,
     UUID,
+    File,
+    FileOpener,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

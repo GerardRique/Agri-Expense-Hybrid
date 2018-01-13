@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { LabourerListingPage } from '../pages/labourer-listing/labourer-listing';
+import { ReportsPage } from '../pages/reports/reports';
 import { DataManager } from '../core/DataManager';
 import { LabourManager } from '../core/LabourManager';
 import { MaterialManager } from '../core/MaterialManager';
@@ -18,6 +19,10 @@ import { Labourer } from '../core/Labourer';
 import { UUID } from 'angular2-uuid';
 import { MeasurableDataManager } from '../core/MeasurableDataManager';
 import { FertilizerManager } from '../core/FertilizerManager';
+import { ReportCreator } from '../core/ReportCreator';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+
 @Component({
   templateUrl: 'app.html',
   providers: [CycleHandler, PurchaseHandler]
@@ -34,7 +39,7 @@ export class MyApp {
 
   m: MeasurableDataManager
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID, private labourManager: LabourManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -42,15 +47,13 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage },
-      { title: 'Labour', component: LabourerListingPage } 
+      { title: 'Hire Labour', component: LabourerListingPage },
+      { title: 'Reports ', component: ReportsPage }
     ];
 
     // this.storage.clear().then(() => {
     //   console.log("Cleared");
     // })
-
-
-
 
   }
 
