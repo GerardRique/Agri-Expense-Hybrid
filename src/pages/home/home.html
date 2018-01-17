@@ -11,7 +11,7 @@
 
   <ion-list>
 
-    <ion-card *ngFor="let cycle of cycleListing; let i = index">
+    <!--<ion-card *ngFor="let cycle of cycleListing; let i = index">
         <ion-card-title padding>{{cycle.name}}</ion-card-title>
       <img src="{{cycle.cropImagePath}}" alt="myImage">
       <ion-card-content>
@@ -39,16 +39,20 @@
             </button>
           </ion-col>
       </ion-row>
-    </ion-card>
+    </ion-card>-->
 
-    <!--<ion-item *ngFor="let cycle of cycleListing; let i = index">
+    <ion-item *ngFor="let cycle of cycleListing; let i = index">
       <ion-thumbnail item-start>
         <img src="{{cycle.cropImagePath}}">
       </ion-thumbnail>
       <p>Crop: {{cycle.crop}}</p>
       <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
       <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
-    </ion-item>-->
+
+      <button ion-button item-right clear icon-only (click)="openPopover($event, cycle, i)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-item>
   </ion-list>
   <ion-fab right bottom >
     <button ion-fab><ion-icon name="add"></ion-icon></button>

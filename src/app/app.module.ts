@@ -20,6 +20,7 @@ import { NewLabourerPage } from '../pages/new-labourer/new-labourer';
 import { SelectCyclePage } from '../pages/select-cycle/select-cycle';
 import { NewTaskPage } from '../pages/new-task/new-task';
 import { ReportsPage } from '../pages/reports/reports';
+import { PopoverPage } from '../pages/home/PopoverPage';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';
@@ -34,6 +35,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { ReportCreator } from '../core/ReportCreator';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { FileOpener } from '@ionic-native/file-opener';
     NewLabourerPage,
     SelectCyclePage,
     NewTaskPage,
-    ReportsPage
+    ReportsPage,
+    PopoverPage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { FileOpener } from '@ionic-native/file-opener';
     NewLabourerPage,
     SelectCyclePage,
     NewTaskPage,
-    ReportsPage
+    ReportsPage,
+    PopoverPage
   ],
   providers: [
     StatusBar,
@@ -95,6 +99,7 @@ import { FileOpener } from '@ionic-native/file-opener';
     UUID,
     File,
     FileOpener,
+    ReportCreator,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

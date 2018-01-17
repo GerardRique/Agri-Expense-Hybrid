@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, NavController, AlertController } from 'ionic-angular';
 import { CycleHandler } from '../../core/CycleHandler';
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import { PopoverPage } from './PopoverPage';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -11,7 +13,7 @@ export class HomePage {
   @ViewChild('myNav') nav: Nav;
   cycleListing: Array<any>;
 
-  constructor(private navCtrl: NavController, private cycleHandler: CycleHandler, private alertCtrl: AlertController) {
+  constructor(private navCtrl: NavController, private cycleHandler: CycleHandler, private alertCtrl: AlertController, public popoverCtrl: PopoverController) {
     
   }
 
@@ -22,9 +24,25 @@ export class HomePage {
     })
   }
 
-  public editCycle(cycle, cycleID): void{
-    console.log("Editing Cycle: " + cycleID);
+  public editCycle(cycle): void{
     this.navCtrl.push(EditCyclePage, cycle);
+  }
+
+  public openPopover(myEvent, cycle, index){
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data.options.localeCompare('edit') === 0){
+        this.editCycle(cycle);
+      }
+      else if(data.options.localeCompare('delete') === 0){
+        this.deleteCycle(cycle.id, index);
+      }
+      console.log(data);
+    })
   }
 
   public deleteCycle(cycleId, index): void{
@@ -38,7 +56,7 @@ export class HomePage {
           handler: () => {
             this.cycleHandler.remove(cycleId).then((response) => {
               if(response === true){
-                console.log("Successfully Deleted Cycle: "+ cycleId + " index: " + index);
+                console.log("Successfully Deleted Cycle: "+ cycleId);
                 this.cycleListing.splice(index, 1);
               }
             }).catch((error) => {

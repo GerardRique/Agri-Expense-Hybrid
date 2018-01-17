@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ReportCreator } from '../../core/ReportCreator';
+import { LabourManager } from '../../core/LabourManager';
 
 /**
  * Generated class for the ReportsPage page.
@@ -15,7 +17,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ReportsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager) {
+    this.reportCreator.createReport(this.labourManager)
   }
 
   ionViewDidLoad() {
