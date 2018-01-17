@@ -11,8 +11,6 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content padding>
   <!--Template for user to select type of crop that will be planted for the new cycle-->
   <ng-template #selectCropTemplate>
@@ -22,13 +20,9 @@
         {{seed.name}}
       </button>
     </ion-list>
-
-    <ion-fab right bottom>
-        <button ion-fab (click)="presentPromptForPlantMaterial()"><ion-icon name="add"></ion-icon></button>
-      </ion-fab>
   </ng-template>
 
-  <!--Template for the user to select the unit of plant that will be used for the new cycle-->
+    <!--Template for the user to select the unit of plant that will be used for the new cycle-->
   <ng-template #selectLandTypeTemplate>
     <h4>Select the type of land that you are using</h4>
     <ion-list>
@@ -38,23 +32,23 @@
     </ion-list>
   </ng-template>
 
-  <!--Template for the user to select the name of the cycle as well as to confirm the date it was planted as well as the number of units of land that will be planted-->
+    <!--Template for the user to select the name of the cycle as well as to confirm the date it was planted as well as the number of units of land that will be planted-->
   <ng-template #selectLandQuantityTemplate>
-      <h4>Select the Quantity of land that you are using</h4>
-      <form [formGroup]="newCycle">
-        <ion-item>
-          <ion-label color="primary" stacked>Cycle Name</ion-label>
-          <ion-input type="text" placeholder="Enter Name of cycle" name="cycleName" formControlName="name"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="primary" stacked>Land Quantity</ion-label>
-          <ion-input type="number" placeholder="Land Quantity" name="landQuantity" formControlName="landQuantity"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
-        </ion-item>
-        <button ion-button block [disabled]="!newCycle.valid" (click)="submit()">Done</button>
-      </form>
+    <h4>Select the Quantity of land that you are using</h4>
+    <form [formGroup]="newCycle">
+      <ion-item>
+        <ion-label color="primary" stacked>Cycle Name</ion-label>
+        <ion-input type="text" placeholder="Enter Name of cycle" name="cycleName" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Land Quantity</ion-label>
+        <ion-input type="number" placeholder="Land Quantity" name="landQuantity" formControlName="landQuantity"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
+      </ion-item>
+      <button ion-button block [disabled]="!newCycle.valid" (click)="submit()">Done</button>
+    </form>
   </ng-template>
 
   <div *ngIf="selectSeedTemplate === true;then selectCropTemplate"></div>
@@ -62,3 +56,7 @@
   <div *ngIf="selectLandQuantityTemplatePage === true;then selectLandQuantityTemplate"></div>
 
 </ion-content>
+
+<ion-fab right bottom *ngIf="selectSeedTemplate === true">
+  <button ion-fab (click)="presentPromptForPlantMaterial()"><ion-icon name="add"></ion-icon></button>
+</ion-fab>

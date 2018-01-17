@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar >
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -40,5 +40,17 @@
           </ion-col>
       </ion-row>
     </ion-card>
+
+    <!--<ion-item *ngFor="let cycle of cycleListing; let i = index">
+      <ion-thumbnail item-start>
+        <img src="{{cycle.cropImagePath}}">
+      </ion-thumbnail>
+      <p>Crop: {{cycle.crop}}</p>
+      <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
+      <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
+    </ion-item>-->
   </ion-list>
+  <ion-fab right bottom >
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

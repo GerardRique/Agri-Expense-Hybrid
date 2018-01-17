@@ -25,7 +25,7 @@ export class ReportCreator{
             else {
                 this.file.writeFile(this.file.dataDirectory, 'report.csv', blob, { replace: true}).then((fileEntry) => {
                     this.fileOpener.open(this.file.dataDirectory + 'report.csv', 'text/csv;charset=utf-8;');
-                })
+                });
             }
         })
     }
