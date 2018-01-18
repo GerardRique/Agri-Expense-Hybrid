@@ -1,40 +1,37 @@
 import { Component } from "@angular/core";
 import { ViewController } from "ionic-angular/navigation/view-controller";
+import { NavParams } from "ionic-angular/navigation/nav-params";
 
 @Component({
     template: `
       <ion-list>
-        <ion-item>
-            <button ion-button icon-left clear small (click)="close('edit')">
-                <ion-icon ios="md-create" md="md-create"></ion-icon>
-                <div>Edit</div>
-            </button>
-        </ion-item>
-        <ion-item>
-            <button ion-button icon-left clear small (click)="close('close')">
-                <ion-icon ios="md-close" md="md-close"></ion-icon>
-                <div>Close</div>
-            </button>
-        </ion-item>
-        <ion-item>
-            <button ion-button icon-left clear small (click)="close('delete')">
-                <ion-icon name="trash"></ion-icon>
-                <div>Delete</div>
+        <ion-item *ngFor="let option of menuList">
+            <button ion-button icon-left clear small (click)="close(option.title)">
+                <ion-icon ios="{{option.iosIcon}}" md="{{option.mdIcon}}"></ion-icon>
+                <div>{{option.title}}</div>
             </button>
         </ion-item>
     </ion-list>
     `
   })
 
-  export class PopoverPage{
-      constructor(public viewCtrl: ViewController){
+export class PopoverPage{
 
-      }
+    menuList: Array<Object>;
+    constructor(public viewCtrl: ViewController, public navParams: NavParams){
+        if('menu' in this.navParams.data){
+            this.menuList = this.navParams.get('menu');
+            console.log(this.menuList);
+        }
 
-      close(options: string){
-          let data = {
-              options: options
-          }
-          this.viewCtrl.dismiss(data);
-      }
-  }
+        else throw new Error('Data must contain attribute menu');
+
+    }
+
+    close(options: string){
+        let data = {
+            options: options
+        }
+        this.viewCtrl.dismiss(data);
+    }
+}

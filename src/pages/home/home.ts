@@ -28,17 +28,42 @@ export class HomePage {
     this.navCtrl.push(EditCyclePage, cycle);
   }
 
-  public openPopover(myEvent, cycle, index){
-    let popover = this.popoverCtrl.create(PopoverPage);
+  public openCycleOptionsPopover(myEvent, cycle, index){
+    let list = [
+      {
+        'title': 'Edit',
+        'iosIcon': 'md-create',
+        'mdIcon': 'md-create'
+        
+      },
+      {
+        'title': 'Delete',
+        'iosIcon': 'ios-trash',
+        'mdIcon': 'md-trash'
+      },
+      {
+        'title': 'Close',
+        'iosIcon': 'md-close',
+        'mdIcon': 'md-close'
+      }
+    ];
+
+    let data = {
+      'menu': list
+    };
+    let popover = this.popoverCtrl.create(PopoverPage, data);
+    
     popover.present({
       ev: myEvent
     });
 
     popover.onDidDismiss((data) => {
-      if(data.options.localeCompare('edit') === 0){
+      if(data === null)
+        return;
+      if(data.options.localeCompare('Edit') === 0){
         this.editCycle(cycle);
       }
-      else if(data.options.localeCompare('delete') === 0){
+      else if(data.options.localeCompare('Delete') === 0){
         this.deleteCycle(cycle.id, index);
       }
       console.log(data);
