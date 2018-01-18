@@ -36,6 +36,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { ReportCreator } from '../core/ReportCreator';
+import { CycleDataPage } from '../pages/cycle-data/cycle-data';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ReportCreator } from '../core/ReportCreator';
     SelectCyclePage,
     NewTaskPage,
     ReportsPage,
-    PopoverPage
+    PopoverPage,
+    CycleDataPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { ReportCreator } from '../core/ReportCreator';
     SelectCyclePage,
     NewTaskPage,
     ReportsPage,
-    PopoverPage
+    PopoverPage,
+    CycleDataPage
   ],
   providers: [
     StatusBar,

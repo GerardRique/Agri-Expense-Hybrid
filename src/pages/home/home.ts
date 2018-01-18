@@ -4,6 +4,8 @@ import { CycleHandler } from '../../core/CycleHandler';
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import { PopoverPage } from './PopoverPage';
+import { NewCyclePage } from '../new-cycle/new-cycle';
+import { CycleDataPage } from '../cycle-data/cycle-data';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -26,6 +28,14 @@ export class HomePage {
 
   public editCycle(cycle): void{
     this.navCtrl.push(EditCyclePage, cycle);
+  }
+
+  public newCycle(): void{
+    this.navCtrl.push(NewCyclePage);
+  }
+
+  public goToCycleDataPage(): void{
+    this.navCtrl.push(CycleDataPage)
   }
 
   public openCycleOptionsPopover(myEvent, cycle, index){
@@ -52,7 +62,7 @@ export class HomePage {
       'menu': list
     };
     let popover = this.popoverCtrl.create(PopoverPage, data);
-    
+
     popover.present({
       ev: myEvent
     });

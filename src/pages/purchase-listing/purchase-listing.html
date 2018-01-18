@@ -44,8 +44,9 @@
 
     <ion-item *ngFor="let purchase of purchaseListing; let i = index">
       <ion-thumbnail item-start>
-          <img src="{{purchase.materialImagePath}}" alt="myImage">
+        <img src="{{purchase.materialImagePath}}" alt="myImage">
       </ion-thumbnail>
+      <p>{{purchase.typeName}}</p>
       <p>{{purchase.quantity}} {{purchase.units}}s</p>
       <p>Cost: {{purchase.cost | currency}}</p>
       <p>{{purchase.datePurchased | date: 'fullDate'}}</p>
@@ -55,7 +56,7 @@
       </button>
     </ion-item>
   </ion-list>
-  <ion-fab right bottom >
+  <ion-fab right bottom>
     <button ion-fab><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
