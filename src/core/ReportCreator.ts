@@ -7,11 +7,13 @@ import 'rxjs/Rx';
 import { DataManager } from './DataManager';
 import { File, FileSaver } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 @Injectable()
 export class ReportCreator{
 
-    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener){
+    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController){
 
     }
 
@@ -23,8 +25,38 @@ export class ReportCreator{
                 console.log('Browser');
             }
             else {
-                this.file.writeFile(this.file.dataDirectory, 'report.csv', blob, { replace: true}).then((fileEntry) => {
-                    this.fileOpener.open(this.file.dataDirectory + 'report.csv', 'text/csv;charset=utf-8;');
+
+                let toast = this.toastCtrl.create({
+                    message: 'File created',
+                    duration: 3000,
+                    position: 'top'
+                  });
+
+                  
+                
+               /* this.file.writeFile(this.file.dataDirectory, 'report.csv', blob, { replace: true}).then((fileEntry) => {
+                    this.fileOpener.open(this.file.dataDirectory + 'report.csv', 'text/csv;charset=utf-8;').then(() => {
+                        toast.present();
+                    }).catch((error ) => {
+                        let errorToast = this.toastCtrl.create({
+                            message: 'error ' + JSON.stringify(error),
+                            duration: 3000,
+                            position: 'top'
+                          });
+                          errorToast.present();
+                    });
+                });*/
+
+                this.file.writeFile(this.file.externalRootDirectory, 'report.csv', result, {replace: true}).then(() => {
+                    toast.present();
+                }).catch((error) => {
+                    this.file.writeExistingFile(this.file.externalRootDirectory, 'report.csv', result).then(() => {
+                        toast.present();
+                    }).catch((error) => {
+                        alert('error ' + JSON.stringify(error));
+                    });
+                }).catch((error) => {
+                    alert('Error ' + JSON.stringify(error));
                 });
             }
         })
