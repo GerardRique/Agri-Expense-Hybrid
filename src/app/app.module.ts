@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/home';
 import { HttpModule } from '@angular/http';
 import { UUID } from 'angular2-uuid';
 import { ListPage } from '../pages/list/list';
-import { CycleHandler } from '../core/CycleHandler';
 import { PurchaseHandler } from '../core/PurchaseHandler';
 import { NewCyclePage } from '../pages/new-cycle/new-cycle';
 import { EditCyclePage } from '../pages/edit-cycle/edit-cycle';
@@ -37,6 +36,9 @@ import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { ReportCreator } from '../core/ReportCreator';
 import { CycleDataPage } from '../pages/cycle-data/cycle-data';
+import { TaskListingPage } from '../pages/task-listing/task-listing';
+import { CycleManager } from '../core/CycleManager';
+import { CycleHandler } from '../core/CycleHandler';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { CycleDataPage } from '../pages/cycle-data/cycle-data';
     NewTaskPage,
     ReportsPage,
     PopoverPage,
-    CycleDataPage
+    CycleDataPage,
+    TaskListingPage
   ],
   imports: [
     BrowserModule,
@@ -83,11 +86,13 @@ import { CycleDataPage } from '../pages/cycle-data/cycle-data';
     NewTaskPage,
     ReportsPage,
     PopoverPage,
-    CycleDataPage
+    CycleDataPage,
+    TaskListingPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    CycleManager,
     CycleHandler,
     PurchaseHandler,
     PlantMaterialManager,

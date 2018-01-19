@@ -29,14 +29,14 @@ export class TaskManager extends DataManager{
             let taskId = data.getId();
             let cycleId = data.getCycleId();
             let labourerId = data.getLabourerId();
-            let labourerTasksId = labourerId + "_" + this.DATA_ID;
-            let cycleTasksId = cycleId + "_" + this.DATA_ID;
+            let labourerTasksId = this.DATA_ID + "_" + labourerId;
+            let cycleTasksId = this.DATA_ID + "_" + cycleId;
             promises.push(this.taskStorage.get(labourerTasksId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(taskId);
-
+                console.log(result);
                 let resultString = JSON.stringify(result);
                 this.taskStorage.set(labourerTasksId, resultString);
             }));
@@ -46,9 +46,9 @@ export class TaskManager extends DataManager{
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(taskId);
-
+                console.log(result);
                 let resultString = JSON.stringify(result);
-                this.taskStorage.set(labourerTasksId, resultString);
+                this.taskStorage.set(cycleTasksId, resultString);
             }));
 
             return Promise.all(promises).then(() => {
@@ -58,6 +58,47 @@ export class TaskManager extends DataManager{
             });
         }).catch((error) => {
             return false;
+        })
+    }
+
+    public getByCycleId(cycleId: string): Promise<Array<Task>>{
+        let taskList = Array<Task>();
+        let promises = [];
+        return this.taskStorage.ready().then(() => {
+            let cycleTaskId =  this.DATA_ID + "_" + cycleId;
+            return this.taskStorage.get(cycleTaskId).then((taskIdList) => {
+                console.log(taskIdList);
+                if(taskIdList === null){
+                    return taskList;
+                }
+                if(!isObject(taskIdList))taskIdList = JSON.parse(taskIdList);
+
+                for(let id of taskIdList){
+                    promises.push(this.taskStorage.get(id).then((dataString) => {
+                        let data = JSON.parse(dataString);
+                        let task = <Task> data;
+                        taskList.push(task);
+                    }));
+                }
+                return Promise.all(promises).then(() => {
+                    return taskList;
+                }).catch((error) => {
+                    return error;
+                });
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
+    }
+
+    public get(id: string): Promise<Task>{
+        return super.get(id).then((data) => {
+            let task = <Task> data;
+            return task;
+        }).catch((error) => {
+            return error;
         })
     }
 }

@@ -1,0 +1,31 @@
+<!--
+  Generated template for the TaskListingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Task Listing</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-card *ngFor="let task of taskListing">
+      <ion-card-title padding>{{task['firstName']}} {{task['lastName']}}</ion-card-title>
+      <ion-card-content>
+        <p>{{task.dateStarted | date: 'fullDate'}}</p>
+        <p>Rate of Pay: {{task.rateOfPay}}</p>
+        <p>Number of {{task.rateOfPay}} worked for: {{task.quantity}}</p>
+        <p>Salary: ${{task.salary | number: '.2-2'}}</p>
+        <p>Description: {{task.description}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+</ion-content>

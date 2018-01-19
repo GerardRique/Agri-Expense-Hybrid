@@ -45,4 +45,13 @@ export class LabourManager extends DataManager{
             return false;
         });
     }
+
+    public get(id: string): Promise<Labourer>{
+        return super.get(id).then((data) => {
+            let labourer = <Labourer> data;
+            return labourer;
+        }).catch((error) => {
+            return error;
+        })
+    }
 }

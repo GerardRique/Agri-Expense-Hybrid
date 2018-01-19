@@ -42,12 +42,12 @@
     </ion-card>-->
 
     <ion-item *ngFor="let cycle of cycleListing; let i = index">
-      <button item-start (click)="goToCycleDataPage()">
+      <button item-start (click)="goToCycleDataPage(cycle.id)">
         <ion-thumbnail>
           <img src="{{cycle.cropImagePath}}">
         </ion-thumbnail>
       </button>
-      <div (click)="goToCycleDataPage()">
+      <div (click)="goToCycleDataPage(cycle.id)">
         <p>Crop: {{cycle.crop}}</p>
         <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
         <p>{{cycle.datePlanted | date: 'fullDate'}}</p>

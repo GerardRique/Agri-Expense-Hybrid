@@ -106,6 +106,19 @@ export abstract class DataManager{
         });
     }
 
+    public get(id: string): Promise<Object>{
+        return this.storage.ready().then(() => {
+            return this.storage.get(id).then((dataString) => {
+                let data = JSON.parse(dataString);
+                return data;
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
+    }
+
     public add(data: Serializeable): Promise<boolean>{
         return this.storage.ready().then(() => {
             let id = data.getId();
@@ -131,6 +144,20 @@ export abstract class DataManager{
         }).catch((error) => {
             return false;
         });
+    }
+
+    public edit(data: Serializeable): Promise<boolean>{
+        return this.storage.ready().then(() => {
+            let id = data.getId();
+            let dataString = JSON.stringify(data);
+            return this.storage.set(id, dataString).then(() => {
+                return true;
+            }).catch((error) => {
+                return false;
+            });
+        }).catch((error) => {
+            return false;
+        })
     }
 
 }

@@ -4,10 +4,12 @@ import { UUID } from 'angular2-uuid';
 export class Cycle implements Serializeable{
 
     private id: string;
-    constructor(private name: string, private crop: string,private cropId: string, private cropImagePath: string, private landUnit: string, private landQuantity: number, private datePlanted: string, private harvested: number, private active: boolean){
-        let uuid = new UUID();
-        this.id = UUID.UUID();
-
+    constructor(private name: string, private crop: string,private cropId: string, private cropImagePath: string, private landUnit: string, private landQuantity: number, private datePlanted: string, private harvested: number, private active: boolean, id? : string){
+        if(id){
+            this.id = id;
+        }else{
+            this.id = UUID.UUID();
+        }
     }
 
     public getId(): string{

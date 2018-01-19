@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { TaskListingPage } from '../task-listing/task-listing';
+import { LabourerListingPage } from '../labourer-listing/labourer-listing';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -25,7 +27,16 @@ export class CycleDataPage {
   labour: string;
   other: string;
 
+  cycleId: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+    if('cycleId' in this.navParams.data){
+        this.cycleId = this.navParams.get('cycleId');
+        console.log(this.cycleId);
+    }
+
+    else throw new Error('Data must contain attribute cycleId');
 
     this.totalAmountSpent = 0.0;
 
@@ -40,6 +51,18 @@ export class CycleDataPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CycleDataPage');
+  }
+
+  goToTaskListingPage(){
+    let data = {
+      'cycleId': this.cycleId
+    };
+
+    this.navCtrl.push(TaskListingPage, data);
+  }
+
+  goToLabourListingPage(){
+    this.navCtrl.push(LabourerListingPage);
   }
 
 }

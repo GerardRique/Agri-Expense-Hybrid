@@ -60,9 +60,7 @@ export class MyApp {
   initializeApp() {
     this.platform.ready().then(() => {
       this.materialManager.initialize().then((result) => {
-        if(result === true)
-          console.log("Initialized");
-        else console.log("error");
+        //console.log(JSON.stringify(result));
       })
 
       

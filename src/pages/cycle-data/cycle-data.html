@@ -107,15 +107,15 @@
         </ion-card-content>
         <ion-row>
             <ion-col>
-              <button ion-button icon-left clear small>
+              <button ion-button icon-left clear small (click)="goToTaskListingPage()">
                 <ion-icon name="eye"></ion-icon>
                 <div>View</div>
               </button>
             </ion-col>
             <ion-col>
-                <button ion-button icon-left clear small>
+                <button ion-button icon-left clear small (click)="goToLabourListingPage()">
                   <ion-icon name="add-circle"></ion-icon>
-                  <div>Use material</div>
+                  <div>Assign Labour</div>
                 </button>
               </ion-col>
           </ion-row>

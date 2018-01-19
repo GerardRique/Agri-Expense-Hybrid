@@ -6,17 +6,19 @@ import { PopoverController } from 'ionic-angular/components/popover/popover-cont
 import { PopoverPage } from './PopoverPage';
 import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
+import { App } from 'ionic-angular';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
 })
 export class HomePage {
 
-  @ViewChild('myNav') nav: Nav;
   cycleListing: Array<any>;
 
-  constructor(private navCtrl: NavController, private cycleHandler: CycleHandler, private alertCtrl: AlertController, public popoverCtrl: PopoverController) {
-    
+  newNav: any;
+
+  constructor(private navCtrl: NavController, private cycleHandler: CycleHandler, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App) {
+    this.newNav = this.app.getRootNav();
   }
 
   //The ionViewWillEnter will run when the page is fully entered and is now the active page. The event will fire whether it was the first load or a cached page. 
@@ -34,8 +36,12 @@ export class HomePage {
     this.navCtrl.push(NewCyclePage);
   }
 
-  public goToCycleDataPage(): void{
-    this.navCtrl.push(CycleDataPage)
+  public goToCycleDataPage(cycleId): void{
+    let data = {
+      'cycleId': cycleId
+    };
+    //this.navCtrl.push(CycleDataPage, data);
+    this.newNav.push(CycleDataPage, data);
   }
 
   public openCycleOptionsPopover(myEvent, cycle, index){
