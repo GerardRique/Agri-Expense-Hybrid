@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CycleHandler } from '../../core/CycleHandler';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { AlertController } from 'ionic-angular';
 import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
+import { Cycle } from '../../core/Models/Cycle';
+import { CycleManager } from '../../core/CycleManager';
 /**
  * Generated class for the NewCyclePage page.
  *
@@ -27,7 +28,7 @@ export class NewCyclePage {
 
   private newCycle: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager) {
 
     this.plantMaterialManager.getAll().then((data) => {
       this.seeds = data;
@@ -101,9 +102,11 @@ export class NewCyclePage {
   }
 
   submit(){
-    console.log(this.newCycle.value);
-    this.cycleHandler.add(this.newCycle.value).then((response) => {
-      console.log(response);
+    let cycle = new Cycle(this.newCycle.get('name').value, this.newCycle.get('crop').value, this.newCycle.get('cropId').value, this.newCycle.get('cropImagePath').value, this.newCycle.get('landUnit').value, this.newCycle.get('landQuantity').value, this.newCycle.get('datePlanted').value, this.newCycle.get('harvested').value, this.newCycle.get('ongoing').value);
+    console.log(cycle);
+
+    this.cycleManager.add(cycle).then((response) => {
+      console.log('Cycle Manager test successfull');
       this.navCtrl.pop();
     })
   }

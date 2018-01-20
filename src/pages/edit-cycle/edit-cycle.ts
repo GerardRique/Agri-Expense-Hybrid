@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
-import { CycleHandler } from '../../core/CycleHandler';
+import { CycleManager } from '../../core/CycleManager';
 /**
  * Generated class for the EditCyclePage page.
  *
@@ -23,7 +23,7 @@ export class EditCyclePage {
   //TODO: Create class for units. 
   private landUnitList = ['Acre', 'Bed', 'Hectare'];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private cycleHandler: CycleHandler) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private cycleManager: CycleManager) {
 
     this.plantMaterialManager.getAll().then((data) => {
       this.plantMaterialList = data.slice();
@@ -59,12 +59,15 @@ export class EditCyclePage {
 
       console.log(this.editedCycle.value);
 
-      this.cycleHandler.edit(this.navParams.get('id'), this.editedCycle.value).then(() => {
-        console.log("Cycle Successfully edited");
-        this.navCtrl.pop();
+      this.cycleManager.edit(this.navParams.get('id'), this.editedCycle.value).then((response) => {
+        if(response === true){
+          console.log('Successfully edited cycle: ' + this.navParams.get('id'));
+          this.navCtrl.pop();
+        }
+        else console.log('Error editing cycle');
       }).catch((error) => {
-        console.log("Error editing cycle");
-      });
+        console.log('Error editing cycle: + ' + JSON.stringify(error));
+      })
 
     }).catch((error) => {
       console.log("Error retrieving crop data for updating cycle");

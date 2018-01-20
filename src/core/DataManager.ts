@@ -146,9 +146,8 @@ export abstract class DataManager{
         });
     }
 
-    public edit(data: Serializeable): Promise<boolean>{
+    public edit(id: string, data: Object): Promise<boolean>{
         return this.storage.ready().then(() => {
-            let id = data.getId();
             let dataString = JSON.stringify(data);
             return this.storage.set(id, dataString).then(() => {
                 return true;
@@ -158,6 +157,40 @@ export abstract class DataManager{
         }).catch((error) => {
             return false;
         })
+    }
+
+    public remove(key): Promise<boolean>{
+        return this.storage.ready().then(() => {
+            return this.storage.remove(key).then(() => {
+                return true;
+            }).catch((error) => {
+                return false;
+            });
+        }).catch((error) => {
+            return false;
+        })
+    }
+
+    public getList(idList: Array<string>): Promise<Array<Object>>{
+        let list = Array<Object>();
+        let promises = [];
+        return this.storage.ready().then(() => {
+            for(let id of idList){
+                promises.push(this.storage.get(id).then((result) => {
+                    let data = JSON.parse(result);
+                    list.push(data);
+                }));
+            }
+
+            return Promise.all(promises).then(() => {
+                return list;
+            }).catch((error) => {
+                return error;
+            });
+            
+        }).catch((error) => {
+            return error;
+        });
     }
 
 }

@@ -16,7 +16,7 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-card *ngFor="let task of taskListing">
+    <ion-card *ngFor="let task of taskListingData">
       <ion-card-title padding>{{task['firstName']}} {{task['lastName']}}</ion-card-title>
       <ion-card-content>
         <p>{{task.dateStarted | date: 'fullDate'}}</p>

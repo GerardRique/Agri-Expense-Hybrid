@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CycleHandler } from '../../core/CycleHandler';
 import { NewTaskPage } from '../../pages/new-task/new-task';
+import { CycleManager } from '../../core/CycleManager';
 
 /**
  * Generated class for the SelectCyclePage page.
@@ -22,8 +22,8 @@ export class SelectCyclePage {
   showContinueButton: boolean;
   labourerId: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleHandler: CycleHandler) {
-    this.cycleHandler.getAll().then((list) => {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager) {
+    this.cycleManager.getAll().then((list) => {
       this.cycleListing = list;
     })
 

@@ -9,7 +9,8 @@ export class CycleHandler extends DBHandler{
 
     KEY_NAME = '0002';
     constructor(private cycleStorage: Storage){
-        super(cycleStorage)
+        super(cycleStorage);
+        console.warn('Cycle Handler instantiated');
     }    
 
 }

@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, NavController, AlertController } from 'ionic-angular';
-import { CycleHandler } from '../../core/CycleHandler';
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import { PopoverPage } from './PopoverPage';
 import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';
+import { CycleManager } from '../../core/CycleManager';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -17,13 +17,15 @@ export class HomePage {
 
   newNav: any;
 
-  constructor(private navCtrl: NavController, private cycleHandler: CycleHandler, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager) {
     this.newNav = this.app.getRootNav();
   }
 
   //The ionViewWillEnter will run when the page is fully entered and is now the active page. The event will fire whether it was the first load or a cached page. 
   ionViewDidEnter(){
-    this.cycleHandler.getAll().then((list) => {
+
+
+    this.cycleManager.getAll().then((list) => {
       this.cycleListing = list;
     })
   }
@@ -33,14 +35,13 @@ export class HomePage {
   }
 
   public newCycle(): void{
-    this.navCtrl.push(NewCyclePage);
+    this.newNav.push(NewCyclePage);
   }
 
   public goToCycleDataPage(cycleId): void{
     let data = {
       'cycleId': cycleId
     };
-    //this.navCtrl.push(CycleDataPage, data);
     this.newNav.push(CycleDataPage, data);
   }
 
@@ -95,7 +96,7 @@ export class HomePage {
         {
           text: 'Yes',
           handler: () => {
-            this.cycleHandler.remove(cycleId).then((response) => {
+            this.cycleManager.remove(cycleId).then((response) => {
               if(response === true){
                 console.log("Successfully Deleted Cycle: "+ cycleId);
                 this.cycleListing.splice(index, 1);

@@ -9,7 +9,11 @@ export class Labourer implements Serializeable{
         let uuid = new UUID();
         this.id = UUID.UUID();
     }
-
+    
+    public static deserialize(data: Object): Labourer{
+        let labourer = new Labourer(data['firstName'], data['lastName'], data['contactNumber']);
+        return labourer;
+    }
 
     public getId(): string{
         return this.id;

@@ -6,7 +6,6 @@ import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
 import { Labourer } from '../../core/Labourer';
 import { ListTemplate } from '../../core/ListTemplate';
-import { CycleHandler } from '../../core/CycleHandler';
 import { SelectCyclePage } from '../select-cycle/select-cycle';
 
 /**
@@ -29,7 +28,7 @@ export class LabourerListingPage {
 
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataManagerFactory: DataManagerFactory, private cycleHandler: CycleHandler){
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataManagerFactory: DataManagerFactory){
     this.labourerListing = [];
     this.labourManager = this.dataManagerFactory.getManager(DataManagerFactory.LABOUR);
     this.labourManager.getAll().then((list) => {

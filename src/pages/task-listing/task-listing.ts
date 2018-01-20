@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TaskManager } from '../../core/TaskManager';
 import { Task } from '../../core/Task';
 import { LabourManager } from '../../core/LabourManager';
+import { Labourer } from '../../core/Labourer';
 
 /**
  * Generated class for the TaskListingPage page.
@@ -19,7 +20,7 @@ import { LabourManager } from '../../core/LabourManager';
 export class TaskListingPage {
 
   cycleId: string;
-  taskListing: Array<Task>;
+  taskListingData: Array<Task>;
   labourerListingMap = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public taskManager: TaskManager, public labourManager :LabourManager) {
@@ -29,8 +30,8 @@ export class TaskListingPage {
       console.log('Cycle ID: ' + this.navParams.get('cycleId'));
       this.cycleId = this.navParams.get('cycleId');
       this.taskManager.getByCycleId(this.cycleId).then((data)=>{
-        this.taskListing = data;
-        console.log(this.taskListing);
+        this.taskListingData = data;
+        console.log(this.taskListingData);
         this.getLabourers();
       });
 
@@ -43,12 +44,13 @@ export class TaskListingPage {
   }
 
   getLabourers(){
-    for(let task of this.taskListing){
+    for(let task of this.taskListingData){
       console.log(task);
       this.labourManager.get(task['labourerId']).then((labourer) => {
         console.log(labourer);
-        task['firstName'] = labourer['firstName'];
-        task['lastName'] = labourer['lastName'];
+        let currentLabourer = Labourer.deserialize(labourer);
+        task['firstName'] = currentLabourer.getFirstName();
+        task['lastName'] = currentLabourer.getLastName();
       });
     }
   }

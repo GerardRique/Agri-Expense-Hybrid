@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Task } from '../../core/Task';
-import { CycleHandler } from '../../core/CycleHandler';
 import { TaskManager } from '../../core/TaskManager';
+import { CycleManager } from '../../core/CycleManager';
 
 /**
  * Generated class for the NewTaskPage page.
@@ -30,7 +30,7 @@ export class NewTaskPage {
   private quantityLabel: string;
   private salaryLabel: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private cycleHandler: CycleHandler, private taskManager: TaskManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private cycleManager: CycleManager, private taskManager: TaskManager) {
     this.newTask = this.formBuilder.group({
       dateStarted: [new Date().toISOString(), Validators.required],
       rateOfPay: ['', Validators.required],
@@ -62,7 +62,7 @@ export class NewTaskPage {
   getCycles(){
 
     this.cycleIds = JSON.parse(this.navParams.get('cycles'));
-    this.cycleHandler.get(this.cycleIds).then((list) => {
+    this.cycleManager.getList(this.cycleIds).then((list) => {
       this.selectedCycles = list;
     })
 
