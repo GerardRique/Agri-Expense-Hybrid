@@ -39,6 +39,10 @@ import { CycleDataPage } from '../pages/cycle-data/cycle-data';
 import { TaskListingPage } from '../pages/task-listing/task-listing';
 import { CycleManager } from '../core/CycleManager';
 import { CycleHandler } from '../core/CycleHandler';
+import { PurchaseManager } from '../core/PurchaseManager';
+import { SelectPurchasePage } from '../pages/select-purchase/select-purchase';
+import { UseMaterialPage } from '../pages/use-material/use-material';
+import { MaterialUseManager } from '../core/MaterialUseManager';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,9 @@ import { CycleHandler } from '../core/CycleHandler';
     ReportsPage,
     PopoverPage,
     CycleDataPage,
-    TaskListingPage
+    TaskListingPage,
+    SelectPurchasePage,
+    UseMaterialPage
   ],
   imports: [
     BrowserModule,
@@ -87,7 +93,9 @@ import { CycleHandler } from '../core/CycleHandler';
     ReportsPage,
     PopoverPage,
     CycleDataPage,
-    TaskListingPage
+    TaskListingPage,
+    SelectPurchasePage,
+    UseMaterialPage
   ],
   providers: [
     StatusBar,
@@ -95,6 +103,7 @@ import { CycleHandler } from '../core/CycleHandler';
     CycleManager,
     CycleHandler,
     PurchaseHandler,
+    PurchaseManager,
     PlantMaterialManager,
     ChemicalsManager,
     FertilizerManager,
@@ -108,6 +117,7 @@ import { CycleHandler } from '../core/CycleHandler';
     File,
     FileOpener,
     ReportCreator,
+    MaterialUseManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

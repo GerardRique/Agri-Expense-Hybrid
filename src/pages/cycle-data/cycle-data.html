@@ -16,7 +16,24 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-card>
+    <ion-card *ngFor="let material of materialList">
+      <ion-card-title padding>{{material.name}}</ion-card-title>
+      <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="eye"></ion-icon>
+              <div>View</div>
+            </button>
+          </ion-col>
+          <ion-col>
+              <button ion-button icon-left clear small (click)="goToSelectPurchasePage(material.id)">
+                <ion-icon name="add-circle"></ion-icon>
+                <div>Use material</div>
+              </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <!--<ion-card>
       <ion-card-title padding>Planting Material</ion-card-title>
       <ion-card-content>
         <p>${{totalAmountSpent | number: '.2-2'}} {{totalAmountSpentMessage}} {{plantMaterial}}</p>
@@ -98,7 +115,7 @@
               </button>
             </ion-col>
         </ion-row>
-    </ion-card>
+    </ion-card>-->
 
     <ion-card>
         <ion-card-title padding>Labour</ion-card-title>
@@ -121,7 +138,7 @@
           </ion-row>
       </ion-card>
 
-    <ion-card>
+    <!--<ion-card>
       <ion-card-title padding>Other</ion-card-title>
       <ion-card-content>
         <p>${{totalAmountSpent | number: '.2-2'}} {{totalAmountSpentMessage}} {{other}}</p>
@@ -140,7 +157,7 @@
               </button>
             </ion-col>
         </ion-row>
-    </ion-card>
+    </ion-card>-->
 
   </ion-list>
 

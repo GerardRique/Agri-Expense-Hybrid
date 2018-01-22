@@ -26,15 +26,17 @@ export class MaterialUseManager extends DataManager{
 
         promises.push(super.add(data));
 
-        promises.push(this.materialStorage.ready().then(() => {
+        return this.materialStorage.ready().then(() => {
             let useId = data.getId();
             let cycleId = data.getCycleId();
             let materialId = data.getMaterialId();
+            let purchaseId = data.getPurchaseId();
 
-            let cycleUseId = cycleId + "_" + this.DATA_ID;
-            let materialUseId = materialId + "_" + this.DATA_ID;
+            let cycleUseId = this.DATA_ID + "_" + cycleId;
+            let materialUseId = this.DATA_ID + "_" + materialId;
 
             promises.push(this.materialStorage.get(cycleUseId).then((result) => {
+                
                 if(result === null)result = [];
 
                 if(!isObject(result))result = JSON.parse(result);
@@ -42,10 +44,11 @@ export class MaterialUseManager extends DataManager{
                 result.push(useId);
 
                 let resultString = JSON.stringify(result);
-                promises.push(this.materialStorage.set(cycleUseId, resultString));
+                this.materialStorage.set(cycleUseId, resultString);
             }));
 
             promises.push(this.materialStorage.get(materialUseId).then((result) => {
+                
                 if(result === null)result = [];
 
                 if(!isObject(result))result = JSON.parse(result);
@@ -53,54 +56,56 @@ export class MaterialUseManager extends DataManager{
                 result.push(useId);
 
                 let resultString = JSON.stringify(result);
-                promises.push(this.materialStorage.set(materialUseId, useId));
+                
+                this.materialStorage.set(materialUseId, resultString);
             }));
-        }));
 
-        return Promise.all(promises).then(() => {
-            return true;
+            return Promise.all(promises).then(() => {
+                return true;
+            }).catch((error) => {
+                console.log(error);
+                return false;
+            });
+
         }).catch((error) => {
+            console.log(JSON.stringify(error));
             return false;
         });
+
     }
 
-    public getData(key: string): Promise<Object>{
-        return this.materialStorage.ready().then(() => {
-            return this.materialStorage.get(key).then((materialString) => {
-                let materialObject = JSON.parse(materialString);
-                return materialObject;
-            }).catch((error) => {
-                return error;
-            });
-        }).catch((error) => {
-            return error;
-        });
-    }
-
-    public getMaterialUsedList(cycleId: string): Promise<Array<Object>>{
+    public getByCycleId(cycleId: string): Promise<Array<Object>>{
         let promises = [];
-        let materialUseList = [];
+        let materialUseList = Array<Object>();
 
-        let cycleUseId = cycleId + "_" + this.DATA_ID;
+        return this.materialStorage.ready().then(() => {
+            let cycleUseId = this.DATA_ID + "_" + cycleId;
 
-        promises.push(this.materialStorage.ready().then(() => {
-            promises.push(this.materialStorage.get(cycleUseId).then((useIdListString) => {
-                let useIdList = JSON.parse(useIdListString);
-                for(let id of useIdList){
+            return this.materialStorage.get(cycleUseId).then((list) => {
+                console.log(list);
+                if(list === null)
+                    return [];
+                
+                if(!isObject(list)) list = JSON.parse(list);
+
+                for(let id of list){
                     promises.push(this.materialStorage.get(id).then((dataString) => {
                         let data = JSON.parse(dataString);
-                        materialUseList.push(data);
+                        let materialUse = <MaterialUse> data;
+                        materialUseList.push(materialUse);
                     }));
                 }
 
-            }));
-        }));
-
-        return Promise.all(promises).then(() => {
-            return materialUseList;
-        }).catch((error) => {
-            return error;
+                return Promise.all(promises).then(() => {
+                    return materialUseList;
+                }).catch((error) => {
+                    return error;
+                });
+            }).catch((error) => {
+                return error;
+            });
         });
+        
     }
 
 }

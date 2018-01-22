@@ -59,11 +59,15 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.materialManager.initialize().then((result) => {
-        //console.log(JSON.stringify(result));
-      })
 
-      
+      this.materialManager.checkInitialization().then((response) => {
+        if(response === true){
+          console.log('Plant material manager already initialized');
+        }
+        else {
+          this.materialManager.initialize();
+        }
+      })
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

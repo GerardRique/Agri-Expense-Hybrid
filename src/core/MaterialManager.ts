@@ -16,7 +16,7 @@ export class MaterialManager extends DataManager{
 
     constructor(private materialStorage: Storage, private materialUUID: UUID){
         super(materialStorage, materialUUID);
-        this.DATA_ID = "Material _List";
+        this.DATA_ID = "Material_List";
 
         this.dataList = [
             {

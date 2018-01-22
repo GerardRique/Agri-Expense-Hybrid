@@ -32,7 +32,7 @@ export abstract class DataManager{
             let uuidListString = JSON.stringify(uniqueIDs);
             promises.push(this.storage.set(this.DATA_ID, uuidListString));
             return Promise.all(promises).then(() => { //Creates a Promise that is resolved with an array of results when all of the provided Promises resolve, or rejected when any Promise is rejected.
-                console.log("Initialized data");
+                console.log("Initialized data for " + this.DATA_ID);
                 return this;
             }).catch((error) => {
                 return error;
@@ -45,7 +45,7 @@ export abstract class DataManager{
     public checkInitialization(): Promise<boolean>{
         return this.storage.ready().then(() => {
             return this.storage.get(this.DATA_ID).then((value) => {
-                if(value === null)
+                if(value === null || value.length === 0)
                     return false;
                 else return true;
             }).catch((error) => {
@@ -83,7 +83,6 @@ export abstract class DataManager{
 
 
     public retrieveAll(): Promise<Array<Object>>{
-        console.log("Retrieving all");
         let list = Array<Object>();
         let promises = [];
         return this.storage.ready().then(() => {

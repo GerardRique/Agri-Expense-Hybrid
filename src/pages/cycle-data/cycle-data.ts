@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TaskListingPage } from '../task-listing/task-listing';
 import { LabourerListingPage } from '../labourer-listing/labourer-listing';
+import { MaterialManager } from '../../core/MaterialManager';
+import { SelectPurchasePage } from '../select-purchase/select-purchase';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -20,37 +22,31 @@ export class CycleDataPage {
   totalAmountSpentMessage: string;
   totalAmountSpent: number
 
-  fertilizer: string;
-  chemical: string;
-  plantMaterial: string;
-  soilAmmendment: string;
-  labour: string;
-  other: string;
-
   cycleId: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  materialList: Array<Object>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager) {
 
     if('cycleId' in this.navParams.data){
         this.cycleId = this.navParams.get('cycleId');
-        console.log(this.cycleId);
+        console.log('Cycle ID: ' + this.cycleId);
     }
 
     else throw new Error('Data must contain attribute cycleId');
 
     this.totalAmountSpent = 0.0;
-
-    this.totalAmountSpentMessage = "has been spent on";
-    this.fertilizer = "fertilizers";
-    this.chemical = "chemicals";
-    this.plantMaterial = "planting materials";
-    this.soilAmmendment = "soil ammendments";
-    this.labour = "labour"
-    this.other = "other materials";
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CycleDataPage');
+  }
+
+  ionViewDidEnter(){
+    this.materialManager.getAll().then((materialList) => {
+      console.log('Successfully retrieved ' + materialList.length + ' materials');
+      this.materialList = materialList;
+    })
   }
 
   goToTaskListingPage(){
@@ -63,6 +59,14 @@ export class CycleDataPage {
 
   goToLabourListingPage(){
     this.navCtrl.push(LabourerListingPage);
+  }
+
+  goToSelectPurchasePage(materialId: string){
+    let data = {
+      'materialId': materialId,
+      'cycleId': this.cycleId
+    };
+    this.navCtrl.push(SelectPurchasePage, data);
   }
 
 }

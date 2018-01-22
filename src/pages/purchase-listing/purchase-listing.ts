@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { PurchaseHandler } from '../../core/PurchaseHandler';
 import { EditPurchasePage } from '../../pages/edit-purchase/edit-purchase';
+import { PurchaseManager } from '../../core/PurchaseManager';
+import { MaterialManager } from '../../core/MaterialManager';
 
 /**
  * Generated class for the PurchaseListingPage page.
@@ -19,7 +21,12 @@ export class PurchaseListingPage {
 
   purchaseListing: Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private alertCtrl: AlertController) {
+  purchaseList: Array<Object>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController) {
+    this.materialManager.getAll().then((response) => {
+      console.log(response);
+    })
   }
 
   ionViewDidLoad() {
@@ -27,13 +34,35 @@ export class PurchaseListingPage {
   }
 
   ionViewDidEnter(){
-    this.purchaseHandler.getAll().then((list) => {
-      this.purchaseListing = list;
+    // this.purchaseHandler.getAll().then((list) => {
+    //   this.purchaseListing = list;
+    // });
+
+    this.purchaseManager.getAll().then((list) => {
+      this.purchaseList = list;
+      this.getData();
     })
   }
 
   onHold(){
     console.log("Held");
+  }
+
+  getData(): Promise<void>{
+    let promises = [];
+    for(let purchase of this.purchaseList){
+      promises.push(this.purchaseManager.get(purchase['typeId']).then((type) => {
+        purchase['typeName'] = type['name'];
+      }));
+
+      promises.push(this.materialManager.get(purchase['materialId']).then((material) => {
+        purchase['materialImagePath'] = material['imagePath'];
+      }));
+    }
+
+    return Promise.all(promises).then(() => {
+      console.log('Successfully retrieved ' + this.purchaseList.length + ' purchases');
+    });
   }
 
   public editPurchase(purchase, purchaseID): void{
@@ -50,7 +79,7 @@ export class PurchaseListingPage {
         {
           text: 'Yes',
           handler: () => {
-            this.purchaseHandler.remove(purchaseId).then((response) => {
+            this.purchaseManager.remove(purchaseId).then((response) => {
               if(response === true){
                 console.log("Successfully Deleted Purchase: " + purchaseId);
                 this.purchaseListing.splice(index, 1);

@@ -6,7 +6,7 @@ export class Purchase implements Serializeable{
     private id: string;
     private quantityRemaining: number;
 
-    constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private dataPurchased: string){
+    constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string){
         this.id = UUID.UUID();
         this.quantityRemaining = quantityPurchased;
     }
@@ -40,7 +40,7 @@ export class Purchase implements Serializeable{
     }
 
     public getDatePurchases(): string{
-        return this.dataPurchased;
+        return this.datePurchased;
     }
 
     public getTotalCost(): number{

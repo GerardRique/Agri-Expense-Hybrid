@@ -13,6 +13,8 @@ import { DataManager } from '../../core/DataManager';
 import { MeasurableDataManager } from '../../core/MeasurableDataManager';
 import { MeasurableDataManagerFactory } from '../../core/MeasurableDataManagerFactory';
 import { MaterialManager } from '../../core/MaterialManager';
+import { PurchaseManager } from '../../core/PurchaseManager';
+import { Purchase } from '../../core/Purchase';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -41,7 +43,7 @@ export class NewPurchasePage {
   private measurableDataManager: MeasurableDataManager;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory) {
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list.slice();
@@ -62,6 +64,7 @@ export class NewPurchasePage {
     this.newPurchase = this.formBuilder.group({
       material: ['', Validators.required],
       materialImagePath: [''],
+      materialId: [''],
       typeName: ['', Validators.required],
       typeID: ['', Validators.required],
       units: ['', Validators.required],
@@ -82,11 +85,12 @@ export class NewPurchasePage {
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material.name);
     this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
+    this.newPurchase.controls['materialId'].setValue(material.id);
     console.log(material.name);
     this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
     console.log(this.measurableDataManager);
     this.measurableDataManager.getAll().then((list) => {
-      console.log(list);
+      console.log('Successfully retrieved ' + list.length + ' materials');
       this.materialTypeTemplate.setList(list.slice());
     });
     this.measurableDataManager.getUnitsList().then((units) => {
@@ -111,10 +115,25 @@ export class NewPurchasePage {
 
   savePurchase(){
     console.log(this.newPurchase.value);
-    this.purchaseHandler.add(this.newPurchase.value).then((response) => {
-      console.log(response);
-    })
-    this.navCtrl.pop();
+
+    let purchase = new Purchase(this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, this.newPurchase.get('cost').value, this.newPurchase.get('datePurchased').value);
+
+    this.purchaseManager.add(purchase).then((response) => {
+      if(response === true){
+        console.log('(TEST) Successfully served new purchase: ' + purchase.getId());
+        this.navCtrl.pop();
+      } else{
+        console.log('Error saving purchase');
+      }
+    }).catch((error) => {
+      console.log('Error saving purchase: ' + JSON.stringify(error));
+    });
+
+
+    // this.purchaseHandler.add(this.newPurchase.value).then((response) => {
+    //   console.log(response);
+    //   this.navCtrl.pop();
+    // });
   }
 
 }
