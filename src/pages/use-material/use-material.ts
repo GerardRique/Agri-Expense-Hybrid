@@ -82,7 +82,9 @@ export class UseMaterialPage {
 
   useMaterial(){
     this.materialId = this.selectedPurchase['materialId'];
-    let materialUse = new MaterialUse(this.cycleId, this.materialId, this.purchaseId, this.quantityUsed, this.selectedPurchase['units']);
+    let myDate = new Date();
+    let dateString = myDate.toISOString();
+    let materialUse = new MaterialUse(this.cycleId, this.materialId, this.purchaseId, this.quantityUsed, this.selectedPurchase['cost'], this.selectedPurchase['units'], dateString);
     this.materialUseManager.add(materialUse).then((result) => {
       if(result === true){
         console.log('Use successfully saved');

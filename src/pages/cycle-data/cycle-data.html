@@ -18,6 +18,9 @@
   <ion-list>
     <ion-card *ngFor="let material of materialList">
       <ion-card-title padding>{{material.name}}</ion-card-title>
+      <ion-card-content>
+        <p>Total spent: ${{material.total | number: '.2-2'}}</p>
+      </ion-card-content>
       <ion-row>
           <ion-col>
             <button ion-button icon-left clear small>
@@ -120,7 +123,7 @@
     <ion-card>
         <ion-card-title padding>Labour</ion-card-title>
         <ion-card-content>
-          <p>${{totalAmountSpent | number: '.2-2'}} {{totalAmountSpentMessage}} {{labour}}</p>
+          <p>$0.00</p>
         </ion-card-content>
         <ion-row>
             <ion-col>
@@ -162,3 +165,12 @@
   </ion-list>
 
 </ion-content>
+
+<ion-footer>
+  <ion-card>
+    <ion-card-content>
+      <p>Total spent on crop cycle: ${{totalAmountSpent | number: '.2-2'}}</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-footer>

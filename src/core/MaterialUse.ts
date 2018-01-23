@@ -3,9 +3,12 @@ import { UUID } from "angular2-uuid";
 
 export class MaterialUse implements Serializeable{
     private id;
+    private totalCost: number;
 
-    constructor(private cycleId: string, private materialId: string, private purchaseId: string, private quantityUsed: number, private units: string){
+    constructor(private cycleId: string, private materialId: string, private purchaseId: string, private quantityUsed: number, private costPerMaterial: number, private units: string, private dateUsed: string){
         this.id = UUID.UUID();
+
+        this.totalCost = this.quantityUsed * this.costPerMaterial;
     }
 
     public getId(){
@@ -28,7 +31,15 @@ export class MaterialUse implements Serializeable{
         return this.quantityUsed
     }
 
+    public getTotalCost(): number{
+        return this.totalCost;
+    }
+
     public getUnits(): string{
         return this.units;
+    }
+
+    public getDateUsed(): string{
+        return this.dateUsed;
     }
 }
