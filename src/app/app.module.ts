@@ -43,6 +43,7 @@ import { PurchaseManager } from '../core/PurchaseManager';
 import { SelectPurchasePage } from '../pages/select-purchase/select-purchase';
 import { UseMaterialPage } from '../pages/use-material/use-material';
 import { MaterialUseManager } from '../core/MaterialUseManager';
+import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MaterialUseManager } from '../core/MaterialUseManager';
     CycleDataPage,
     TaskListingPage,
     SelectPurchasePage,
-    UseMaterialPage
+    UseMaterialPage,
+    ViewCycleUsePage
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,8 @@ import { MaterialUseManager } from '../core/MaterialUseManager';
     CycleDataPage,
     TaskListingPage,
     SelectPurchasePage,
-    UseMaterialPage
+    UseMaterialPage,
+    ViewCycleUsePage
   ],
   providers: [
     StatusBar,

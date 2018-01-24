@@ -67,7 +67,6 @@ export class TaskManager extends DataManager{
         return this.taskStorage.ready().then(() => {
             let cycleTaskId =  this.DATA_ID + "_" + cycleId;
             return this.taskStorage.get(cycleTaskId).then((taskIdList) => {
-                console.log(taskIdList);
                 if(taskIdList === null){
                     return taskList;
                 }

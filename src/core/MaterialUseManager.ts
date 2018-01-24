@@ -82,7 +82,6 @@ export class MaterialUseManager extends DataManager{
             let cycleUseId = this.DATA_ID + "_" + cycleId;
 
             return this.materialStorage.get(cycleUseId).then((list) => {
-                console.log(list);
                 if(list === null)
                     return [];
                 

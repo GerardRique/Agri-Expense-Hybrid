@@ -1,0 +1,31 @@
+<!--
+  Generated template for the ViewCycleUsePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>View Material Use</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-card *ngFor="let materialUse of materialUseList">
+      <ion-card-title padding>{{materialUse.typeName}}</ion-card-title>
+      <ion-card-content>
+        <p>Date used: {{materialUse.dateUsed | date: 'fullDate'}}</p>
+        <p>Quantity Used: {{materialUse.quantityUsed}} {{materialUse.units}}</p>
+        <p>Cost for one {{materialUse.units}}: ${{materialUse.costPerMaterial | number: '.2-2'}}</p>
+        <p>Total Cost: ${{materialUse.totalCost | number: '.2-2'}}</p>
+        <p></p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+</ion-content>
