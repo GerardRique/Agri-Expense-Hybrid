@@ -54,6 +54,7 @@ export class SelectPurchasePage {
 
     return Promise.all(promises).then(() => {
       console.log('Successfully retrieved ' + this.avaialblePurchaseListing.length + ' purchases');
+      console.log(this.avaialblePurchaseListing);
     });
   }
 

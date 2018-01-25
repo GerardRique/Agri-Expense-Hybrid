@@ -39,9 +39,8 @@ export class ViewCycleUsePage {
     for(let materialUse of this.materialUseList){
       let purchaseId = materialUse['purchaseId'];
       this.materialUseManager.get(purchaseId).then((purchase)=> {
-        let currentPurchase = Purchase.deserialize(purchase);
-        let typeId = currentPurchase.getTypeId();
-
+        //let currentPurchase = Purchase.deserialize(purchase);
+        let typeId = purchase['typeId'];
         this.materialUseManager.get(typeId).then((data) => {
           materialUse['typeName'] = data['name'];
         })

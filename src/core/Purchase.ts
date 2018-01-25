@@ -4,17 +4,16 @@ import { UUID } from "angular2-uuid";
 export class Purchase implements Serializeable{
     
     private id: string;
-    //private quantityRemaining: number;
+    private quantityRemaining: number;
 
-    constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string, private quantityRemaining?: number){
+    constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string){
         this.id = UUID.UUID();
-        if(this.quantityRemaining === null)
-            this.quantityRemaining = this.quantityPurchased;
+        this.quantityRemaining = this.quantityPurchased;
     }
 
     public static deserialize(data: Object){
-        let purchase = new Purchase(data['materialId'], data['typeId'], data['units'], data['quantityPurchased'], data['cost'], data['datePurchased'], data['quantityRemaining']);
-        return purchase;
+        //let purchase = new Purchase(data['materialId'], data['typeId'], data['units'], data['quantityPurchased'], data['cost'], data['datePurchased'], data['quantityRemaining']);
+        //return purchase;
     }
 
     public getId(): string{
