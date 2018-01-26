@@ -47,6 +47,7 @@ import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
 import { ReportListingPage } from '../pages/report-listing/report-listing';
 import { NewHarvestPage } from '../pages/new-harvest/new-harvest';
 import { HarvestManager } from '../core/HarvestManager';
+import { SaleListingPage } from '../pages/sale-listing/sale-listing';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { HarvestManager } from '../core/HarvestManager';
     UseMaterialPage,
     ViewCycleUsePage,
     ReportListingPage,
-    NewHarvestPage
+    NewHarvestPage,
+    SaleListingPage
   ],
   imports: [
     BrowserModule,
@@ -105,7 +107,8 @@ import { HarvestManager } from '../core/HarvestManager';
     UseMaterialPage,
     ViewCycleUsePage,
     ReportListingPage,
-    NewHarvestPage
+    NewHarvestPage,
+    SaleListingPage
   ],
   providers: [
     StatusBar,
