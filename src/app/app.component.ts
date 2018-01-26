@@ -22,6 +22,7 @@ import { FertilizerManager } from '../core/FertilizerManager';
 import { ReportCreator } from '../core/ReportCreator';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { HarvestManager } from '../core/HarvestManager';
 
 @Component({
   templateUrl: 'app.html',
@@ -39,7 +40,7 @@ export class MyApp {
 
   m: MeasurableDataManager
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID, private labourManager: LabourManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID, private labourManager: LabourManager, private harvestManager: HarvestManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -72,6 +73,15 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+
+    this.harvestManager.checkInitialization().then((result) => {
+      if(result === true){
+        console.log('Harvest Manager already initialized');
+      }
+      else{
+        this.harvestManager.initialize();
+      }
     });
   }
 

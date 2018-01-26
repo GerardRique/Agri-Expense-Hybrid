@@ -7,6 +7,7 @@ import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';
 import { CycleManager } from '../../core/CycleManager';
+import { NewHarvestPage } from '../new-harvest/new-harvest';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -62,6 +63,11 @@ export class HomePage {
         'title': 'Close',
         'iosIcon': 'md-close',
         'mdIcon': 'md-close'
+      },
+      {
+        'title': 'Harvest',
+        'iosIcons': 'md-basket',
+        'mdIcon': 'md-basket'
       }
     ];
 
@@ -83,8 +89,18 @@ export class HomePage {
       else if(data.options.localeCompare('Delete') === 0){
         this.deleteCycle(cycle.id, index);
       }
+      else if(data.options.localeCompare('Harvest') === 0){
+        this.goToNewHarvestPage(cycle);   
+      }
       console.log(data);
     })
+  }
+
+  public goToNewHarvestPage(cycle: Object){
+    let data = {
+      'cycleData': cycle
+    };
+    this.navCtrl.push(NewHarvestPage, data);
   }
 
   public deleteCycle(cycleId, index): void{

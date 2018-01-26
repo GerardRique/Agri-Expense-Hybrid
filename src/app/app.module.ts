@@ -44,6 +44,9 @@ import { SelectPurchasePage } from '../pages/select-purchase/select-purchase';
 import { UseMaterialPage } from '../pages/use-material/use-material';
 import { MaterialUseManager } from '../core/MaterialUseManager';
 import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
+import { ReportListingPage } from '../pages/report-listing/report-listing';
+import { NewHarvestPage } from '../pages/new-harvest/new-harvest';
+import { HarvestManager } from '../core/HarvestManager';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,9 @@ import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
     TaskListingPage,
     SelectPurchasePage,
     UseMaterialPage,
-    ViewCycleUsePage
+    ViewCycleUsePage,
+    ReportListingPage,
+    NewHarvestPage
   ],
   imports: [
     BrowserModule,
@@ -98,7 +103,9 @@ import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
     TaskListingPage,
     SelectPurchasePage,
     UseMaterialPage,
-    ViewCycleUsePage
+    ViewCycleUsePage,
+    ReportListingPage,
+    NewHarvestPage
   ],
   providers: [
     StatusBar,
@@ -121,6 +128,7 @@ import { ViewCycleUsePage } from '../pages/view-cycle-use/view-cycle-use';
     FileOpener,
     ReportCreator,
     MaterialUseManager,
+    HarvestManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

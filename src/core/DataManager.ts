@@ -81,6 +81,52 @@ export abstract class DataManager{
         });
     }
 
+    public getDataInSpreadSheetFormat(): Promise<Array<Array<any>>>{
+        let list = Array<Array<any>>();
+        let promises = [];
+
+        return this.storage.ready().then(() => {
+            return this.storage.get(this.DATA_ID).then((uuidListString) => {
+                if(!isObject(uuidListString))uuidListString = JSON.parse(uuidListString);
+
+                let firstId = uuidListString[0];
+
+                return this.storage.get(firstId).then((firstDataString) => {
+                    let firstData = JSON.parse(firstDataString);
+                    let keyList = [];
+                    for(let key in firstData){
+                        keyList.push(key);
+                    }
+
+                    list.push(keyList);
+
+                    for(let id of uuidListString){
+                        promises.push(this.storage.get(id).then((dataString) => {
+                            let data = JSON.parse(dataString);
+                            let dataList = [];
+                            for(let key in data){
+                                dataList.push(data[key]);
+                            }
+                            list.push(dataList);
+                        }));
+                    }
+                    return Promise.all(promises).then(() => {
+                        return list;
+                    }).catch((error) => {
+                        return error;
+                    });
+
+                }).catch((error) => {
+                    return error;
+                });
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
+    }
+
 
     public retrieveAll(): Promise<Array<Object>>{
         let list = Array<Object>();

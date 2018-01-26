@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
 import { LabourManager } from '../../core/LabourManager';
+import { CycleManager } from '../../core/CycleManager';
+import { ReportListingPage } from '../report-listing/report-listing';
 
 /**
  * Generated class for the ReportsPage page.
@@ -17,8 +19,17 @@ import { LabourManager } from '../../core/LabourManager';
 })
 export class ReportsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager) {
-    this.reportCreator.createReport(this.labourManager)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
+
+    this.cycleManager.getDataInSpreadSheetFormat().then((dataList) => {
+      let dataString = JSON.stringify(dataList);
+
+      let data = {
+        'tableData': dataString
+      };
+      this.navCtrl.push(ReportListingPage, data);
+    })
+    
   }
 
   ionViewDidLoad() {

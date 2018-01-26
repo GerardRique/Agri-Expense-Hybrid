@@ -40,6 +40,29 @@ export abstract class MeasurableDataManager extends DataManager {
         })
     }
 
+    public checkInitialization(): Promise<boolean>{
+        let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;
+        return this.dataStorage.ready().then(() => {
+            return super.checkInitialization().then((result) => {
+                if(result == true){
+                    return this.dataStorage.get(unitListStringKey).then((value) => {
+                        if(value === null || value.length === 0)
+                            return false;
+                        else return true;
+                    }).catch((error) => {
+                        return false;
+                    });
+                } else {
+                    return false;
+                }
+            }).catch((error) => {
+                return false;
+            });
+        }).catch((error) => {
+            return false;
+        });
+    }
+
     public getUnitsList(): Promise<Array<string>>{
         return this.dataStorage.ready().then(() => {
             let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;

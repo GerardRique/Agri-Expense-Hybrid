@@ -10,8 +10,20 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
+import * as XLSX from 'xlsx';
+import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
+
 @Injectable()
 export class ReportCreator{
+
+    ws: XLSX.WorkSheet;
+
+
+    wb: XLSX.WorkBook;
+
+    wbout: string;
+
+
 
     constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController){
 
@@ -60,6 +72,63 @@ export class ReportCreator{
                 });
             }
         })
+    }
+
+    public createExcel(manager: DataManager){
+        let data: Array<Array<any>> = new Array<Array<any>>();
+
+        let list: any[] = [
+            'Gerard',
+            'Rique',
+            '4604644'
+        ];
+
+        let list2: any[] = [
+            'Jerome',
+            'Rique',
+            '4604642'
+        ];
+
+        data.push(list);
+        data.push(list2);
+
+        //this.createExcelSpreadSheet(data);
+
+        manager.getDataInSpreadSheetFormat().then((list) => {
+            let name = this.createExcelSpreadSheet(list);
+            console.log(list);
+        })
+        
+    }
+
+    public createExcelSpreadSheet(data: Array<Array<any>>): string{
+        this.ws = XLSX.utils.aoa_to_sheet(data);
+
+        this.wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(this.wb, this.ws, 'Sheet1');
+
+        this.wbout = XLSX.write(this.wb, { bookType: 'xlsx', type: 'array' });
+
+        console.log('Creating excel...');
+
+        let blob: Blob = new Blob([this.wbout]);
+
+        let filename = 'mySheet.xlsx';
+
+        //this.saveInBrowser(blob, filename)
+
+        return filename;
+    }
+
+    private saveInBrowser(blob: Blob, filename: string){
+        let a = document.createElement("a");
+        document.body.appendChild(a);
+
+        let url= window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
     }
 
     private convertToCsv(manager: DataManager): Promise<string>{
