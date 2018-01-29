@@ -14,7 +14,10 @@
 
 
 <ion-content padding>
-  <ion-searchbar></ion-searchbar>
+
+  <ion-searchbar [(ngModel)]="searchLabourer" [formControl]="searchControl"></ion-searchbar>
+
+  <p text-center *ngIf="displayEmptyListMessage">No Labourers added</p>
 
   <ion-list>
     <ion-item-sliding *ngFor="let labourer of labourerListing">

@@ -17,6 +17,8 @@
 
 
 <ion-content padding>
+
+  <p text-center *ngIf="displayEmptyListMessage">No purchases made</p>
   <ion-list>
     <!--<ion-card *ngFor="let purchase of purchaseListing; let i = index">
       <ion-card-title padding >{{purchase.typeName}}</ion-card-title>
@@ -57,7 +59,7 @@
     </ion-item>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="goToNewPurchasePage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

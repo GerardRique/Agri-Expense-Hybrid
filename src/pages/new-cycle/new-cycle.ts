@@ -115,7 +115,7 @@ export class NewCyclePage {
 
       toast.present();
       console.log('Cycle Manager test successfull');
-      this.navCtrl.pop();
+      this.navCtrl.popToRoot();
     })
   }
 

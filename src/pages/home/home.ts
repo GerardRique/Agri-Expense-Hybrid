@@ -31,12 +31,16 @@ export class HomePage {
 
     this.cycleManager.getAll().then((list) => {
       this.cycleListing = list;
-      console.log(this.cycleListing);
+      console.log("Successfully retrieved " + this.cycleListing.length + " cycles");
       if(this.cycleListing.length === 0){
         this.displayNoCyclesMadeMessage = true;
       }
       else this.displayNoCyclesMadeMessage = false;
     })
+  }
+
+  ionViewCanEnter(){
+    console.log('Entered page');
   }
 
   public editCycle(cycle): void{

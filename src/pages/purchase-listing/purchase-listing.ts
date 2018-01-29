@@ -4,6 +4,8 @@ import { PurchaseHandler } from '../../core/PurchaseHandler';
 import { EditPurchasePage } from '../../pages/edit-purchase/edit-purchase';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialManager } from '../../core/MaterialManager';
+import { App } from 'ionic-angular';
+import { NewPurchasePage } from '../new-purchase/new-purchase';
 
 /**
  * Generated class for the PurchaseListingPage page.
@@ -23,10 +25,14 @@ export class PurchaseListingPage {
 
   purchaseList: Array<Object>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController) {
-    this.materialManager.getAll().then((response) => {
-      console.log(response);
-    })
+  displayEmptyListMessage: boolean;
+
+  rootNav: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App) {
+    this.displayEmptyListMessage = false;
+    this.rootNav = this.app.getRootNav();
+
   }
 
   ionViewDidLoad() {
@@ -34,18 +40,13 @@ export class PurchaseListingPage {
   }
 
   ionViewDidEnter(){
-    // this.purchaseHandler.getAll().then((list) => {
-    //   this.purchaseListing = list;
-    // });
-
     this.purchaseManager.getAll().then((list) => {
       this.purchaseList = list;
+      if(this.purchaseList.length === 0){
+        this.displayEmptyListMessage = true;
+      } else this.displayEmptyListMessage = false;
       this.getData();
     })
-  }
-
-  onHold(){
-    console.log("Held");
   }
 
   getData(): Promise<void>{
@@ -68,6 +69,10 @@ export class PurchaseListingPage {
   public editPurchase(purchase, purchaseID): void{
     console.log("Editing Cycle: " + purchase);
     this.navCtrl.push(EditPurchasePage, purchase);
+  }
+
+  public goToNewPurchasePage(){
+    this.rootNav.push(NewPurchasePage);
   }
 
   public deletePurchase(purchaseId, index): void{

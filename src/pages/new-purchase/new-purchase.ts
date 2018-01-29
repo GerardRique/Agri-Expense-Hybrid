@@ -89,7 +89,6 @@ export class NewPurchasePage {
     console.log(material.name);
     //this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
     this.measurableDataManager = this.materialManager.getManager(material.name);
-    console.log(this.measurableDataManager);
     this.measurableDataManager.getAll().then((list) => {
       console.log('Successfully retrieved ' + list.length + ' materials');
       this.materialTypeTemplate.setList(list.slice());
@@ -122,7 +121,7 @@ export class NewPurchasePage {
     this.purchaseManager.add(purchase).then((response) => {
       if(response === true){
         console.log('(TEST) Successfully served new purchase: ' + purchase.getId());
-        this.navCtrl.pop();
+        this.navCtrl.popToRoot();
       } else{
         console.log('Error saving purchase');
       }
