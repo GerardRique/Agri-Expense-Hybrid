@@ -23,6 +23,10 @@ import { ReportCreator } from '../core/ReportCreator';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { HarvestManager } from '../core/HarvestManager';
+import { ChemicalsManager } from '../core/ChemicalsManager';
+import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
+import { PlantingMaterial } from '../core/Models/Plantingmaterial';
+import { PlantMaterialManager } from '../core/PlantMaterialManager';
 
 @Component({
   templateUrl: 'app.html',
@@ -40,7 +44,7 @@ export class MyApp {
 
   m: MeasurableDataManager
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private cycleHandler: CycleHandler, private purchaseHandler: PurchaseHandler, private storage: Storage, private materialManager: MaterialManager, private uuid: UUID, private labourManager: LabourManager, private harvestManager: HarvestManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storage: Storage, private materialManager: MaterialManager, private labourManager: LabourManager, private harvestManager: HarvestManager, private fertilizerManager: FertilizerManager, private chemicalManager: ChemicalsManager, private soilAmmendmentManager: SoilAmendmentsManager, private plantMaterialManager: PlantMaterialManager){
     this.initializeApp();
 
     // used for an example of ngFor and navigation

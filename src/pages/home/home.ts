@@ -18,7 +18,10 @@ export class HomePage {
 
   newNav: any;
 
+  displayNoCyclesMadeMessage: boolean;
+
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager) {
+    this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
 
@@ -28,6 +31,11 @@ export class HomePage {
 
     this.cycleManager.getAll().then((list) => {
       this.cycleListing = list;
+      console.log(this.cycleListing);
+      if(this.cycleListing.length === 0){
+        this.displayNoCyclesMadeMessage = true;
+      }
+      else this.displayNoCyclesMadeMessage = false;
     })
   }
 
@@ -116,6 +124,8 @@ export class HomePage {
               if(response === true){
                 console.log("Successfully Deleted Cycle: "+ cycleId);
                 this.cycleListing.splice(index, 1);
+                if(this.cycleListing.length === 0)
+                  this.displayNoCyclesMadeMessage = true;
               }
             }).catch((error) => {
               console.log("Error removing cycle: " + error);

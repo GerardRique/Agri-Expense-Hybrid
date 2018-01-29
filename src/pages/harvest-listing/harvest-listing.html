@@ -1,0 +1,33 @@
+<!--
+  Generated template for the HarvestListingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Harvest Listing</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-card *ngFor="let harvest of harvestListing">
+      <ion-card-title padding>{{harvest.crop}}</ion-card-title>
+      <ion-card-content>
+        <p>Quantity harvested: {{harvest.quantityHarvested}} {{harvest.unitsHarvested}}</p>
+        <p>Quantity remaining: {{harvest.quantityRemaining}} {{harvest.unitsHarvested}}</p>
+        <p>Date harvested: {{harvest.dateHarvested | date: 'fullDate'}}</p>
+      </ion-card-content>
+
+      <ion-row padding >
+          <button ion-button block (click)="goToNewSalePage(harvest)">Make Sale <ion-icon name="pricetags"></ion-icon></button>
+      </ion-row>
+    </ion-card>
+  </ion-list>
+
+</ion-content>

@@ -67,7 +67,15 @@ export class NewHarvestPage {
     let myHarvest = new Harvest(this.newHarvest.get('cycleId').value, this.newHarvest.get('cropId').value, this.newHarvest.get('crop').value, this.newHarvest.get('quantityHarvested').value, this.newHarvest.get('unitsHarvested').value, this.newHarvest.get('dateHarvested').value);
     console.log(myHarvest);
 
-    //this.harvestManager.add(myHarvest);
+    this.harvestManager.add(myHarvest).then((result) => {
+      if(result === true){
+        console.log('Successfully saved new harvest: ' + myHarvest.getId());
+      }
+      else console.log('Error saving harvest');
+      this.navCtrl.pop();
+    }).catch((error) => {
+      console.log('Error saving harvest');
+    });
   }
 
 }

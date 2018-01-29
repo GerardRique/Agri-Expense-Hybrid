@@ -6,6 +6,7 @@ import { AlertController } from 'ionic-angular';
 import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
 import { Cycle } from '../../core/Models/Cycle';
 import { CycleManager } from '../../core/CycleManager';
+import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the NewCyclePage page.
  *
@@ -28,7 +29,7 @@ export class NewCyclePage {
 
   private newCycle: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager, public toastCtrl: ToastController) {
 
     this.plantMaterialManager.getAll().then((data) => {
       this.seeds = data;
@@ -106,6 +107,13 @@ export class NewCyclePage {
     console.log(cycle);
 
     this.cycleManager.add(cycle).then((response) => {
+      let toast = this.toastCtrl.create({
+        message: 'Cycle Successfully created',
+        duration: 3000,
+        position: 'top'
+      });
+
+      toast.present();
       console.log('Cycle Manager test successfull');
       this.navCtrl.pop();
     })

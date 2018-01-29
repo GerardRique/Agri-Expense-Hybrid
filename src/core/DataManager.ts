@@ -81,6 +81,29 @@ export abstract class DataManager{
         });
     }
 
+    public getAllById(id: string): Promise<Array<Object>>{
+        let list = Array<Object>();
+        let promises = [];
+        return  this.storage.ready().then(() => {
+            return this.storage.get(id).then((uuidListString) => {
+                if(!isObject(uuidListString))uuidListString = JSON.parse(uuidListString);
+                for(let id of uuidListString){
+                    promises.push(this.storage.get(id).then((dataString) => {
+                        let data = JSON.parse(dataString);
+                        list.push(data);
+                    }))
+                }
+                return Promise.all(promises).then(() => {
+                    return list;
+                });
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((error) => {
+            return error;
+        });
+    }
+
     public getDataInSpreadSheetFormat(): Promise<Array<Array<any>>>{
         let list = Array<Array<any>>();
         let promises = [];
@@ -97,7 +120,6 @@ export abstract class DataManager{
                     for(let key in firstData){
                         keyList.push(key);
                     }
-
                     list.push(keyList);
 
                     for(let id of uuidListString){
@@ -204,16 +226,46 @@ export abstract class DataManager{
         })
     }
 
-    public remove(key): Promise<boolean>{
+    public remove(key: string): Promise<boolean>{
+
+        let promises = [];
+
         return this.storage.ready().then(() => {
-            return this.storage.remove(key).then(() => {
-                return true;
+            return this.storage.get(this.DATA_ID).then((uuidListString) => {
+                if(!isObject(uuidListString))uuidListString = JSON.parse(uuidListString);
+
+                console.log(uuidListString);
+
+                for(let index in uuidListString){
+                    if(key.localeCompare(uuidListString[index]) === 0){
+                        uuidListString.splice(index, 1);
+                    }
+                }
+                
+                uuidListString = JSON.stringify(uuidListString);
+                return this.storage.set(this.DATA_ID, uuidListString).then(() => {
+                    return this.storage.remove(key).then(() => {
+                        return true;
+                    }).catch((error) => {
+                        console.log(error);
+                        return false;
+                    });
+                    
+                }).catch((error) => {
+                    console.log(error);
+                    return false;
+                });
+
             }).catch((error) => {
+                console.log(error);
                 return false;
             });
+            
         }).catch((error) => {
+            console.log(error);
             return false;
-        })
+        });
+
     }
 
     public getList(idList: Array<string>): Promise<Array<Object>>{

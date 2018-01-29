@@ -87,7 +87,8 @@ export class NewPurchasePage {
     this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
     this.newPurchase.controls['materialId'].setValue(material.id);
     console.log(material.name);
-    this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
+    //this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
+    this.measurableDataManager = this.materialManager.getManager(material.name);
     console.log(this.measurableDataManager);
     this.measurableDataManager.getAll().then((list) => {
       console.log('Successfully retrieved ' + list.length + ' materials');

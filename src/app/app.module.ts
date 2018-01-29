@@ -48,6 +48,9 @@ import { ReportListingPage } from '../pages/report-listing/report-listing';
 import { NewHarvestPage } from '../pages/new-harvest/new-harvest';
 import { HarvestManager } from '../core/HarvestManager';
 import { SaleListingPage } from '../pages/sale-listing/sale-listing';
+import { HarvestListingPage } from '../pages/harvest-listing/harvest-listing';
+import { NewSalePage } from '../pages/new-sale/new-sale';
+import { SaleManager } from '../core/SaleManager';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,9 @@ import { SaleListingPage } from '../pages/sale-listing/sale-listing';
     ViewCycleUsePage,
     ReportListingPage,
     NewHarvestPage,
-    SaleListingPage
+    SaleListingPage,
+    HarvestListingPage,
+    NewSalePage
   ],
   imports: [
     BrowserModule,
@@ -108,7 +113,9 @@ import { SaleListingPage } from '../pages/sale-listing/sale-listing';
     ViewCycleUsePage,
     ReportListingPage,
     NewHarvestPage,
-    SaleListingPage
+    SaleListingPage,
+    HarvestListingPage,
+    NewSalePage
   ],
   providers: [
     StatusBar,
@@ -132,6 +139,7 @@ import { SaleListingPage } from '../pages/sale-listing/sale-listing';
     ReportCreator,
     MaterialUseManager,
     HarvestManager,
+    SaleManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

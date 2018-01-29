@@ -9,6 +9,8 @@
 
 <ion-content padding>
 
+    <p text-center *ngIf="displayNoCyclesMadeMessage">No Cycles made</p>
+
   <ion-list>
 
     <!--<ion-card *ngFor="let cycle of cycleListing; let i = index">

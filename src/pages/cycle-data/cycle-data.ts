@@ -72,8 +72,6 @@ export class CycleDataPage {
           this.totalAmountSpent = this.totalAmountSpent + total;
         }
       });
-
-
     });
 
     //Retrieve all the tasks associated with the selected crop cycle. 
@@ -120,6 +118,7 @@ export class CycleDataPage {
     return total;
   }
 
+  //The following function navigates the user to the task listing page when the user selects the option to view all labourers assigned to the selected crop cycle.
   goToTaskListingPage(){
     let data = {
       'cycleId': this.cycleId
