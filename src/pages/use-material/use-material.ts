@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialUse } from '../../core/MaterialUse';
 import { MaterialUseManager } from '../../core/MaterialUseManager';
+import { App } from 'ionic-angular';
 
 /**
  * Generated class for the UseMaterialPage page.
@@ -34,10 +35,14 @@ export class UseMaterialPage {
 
   private displayInsufficientStockMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private materialUseManager: MaterialUseManager) {
+  rootNav: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private materialUseManager: MaterialUseManager, private app: App) {
 
     this.displayConfirmButton = false;
     this.displayInsufficientStockMessage = false;
+
+    this.rootNav = this.app.getRootNav();
 
     this.selectedPurchase = new Object;
 
@@ -92,7 +97,8 @@ export class UseMaterialPage {
         this.purchaseManager.edit(this.purchaseId, this.selectedPurchase).then((editResult) => {
           if(editResult === true){
             console.log('Purchase Successfully updated');
-            this.navCtrl.popToRoot();
+            //this.navCtrl.popToRoot();
+            this.rootNav.popToRoot();
           }
         })
       }
