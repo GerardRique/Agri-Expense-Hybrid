@@ -105,11 +105,9 @@ export class ReportCreator{
             duration: 3000,
             position: 'top'
         });
-        this.file.writeFile(this.file.externalRootDirectory + 'NewAgriExpense', filename, blob, {replace: true}).then(() => {
-            toast.present();
-        }).catch((error) => {
-            this.file.writeExistingFile(this.file.externalRootDirectory + 'NewAgrExpense', filename, blob).then(() => {
-                toast.setMessage('File created with replacement');
+
+        this.file.createDir(this.file.externalRootDirectory, 'NewAgriExpense', true).then((entry) => {
+            this.file.writeFile(entry.toURL(), filename, blob, {replace: true}).then(() => {
                 toast.present();
             }).catch((error) => {
                 errorToast.present();
@@ -117,6 +115,20 @@ export class ReportCreator{
         }).catch((error) => {
             errorToast.present();
         })
+
+
+        // this.file.writeFile(this.file.externalRootDirectory + '\ NewAgriExpense', filename, blob, {replace: true}).then(() => {
+        //     toast.present();
+        // }).catch((error) => {
+        //     this.file.writeExistingFile(this.file.externalRootDirectory + '\ NewAgrExpense', filename, blob).then(() => {
+        //         toast.setMessage('File created with replacement');
+        //         toast.present();
+        //     }).catch((error) => {
+        //         errorToast.present();
+        //     });
+        // }).catch((error) => {
+        //     errorToast.present();
+        // })
     }
 
     public createDirectory(directoryName: string){

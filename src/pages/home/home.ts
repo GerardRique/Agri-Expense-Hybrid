@@ -8,6 +8,7 @@ import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';
 import { CycleManager } from '../../core/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
+import { Content } from 'ionic-angular/components/content/content';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -19,6 +20,8 @@ export class HomePage {
   newNav: any;
 
   displayNoCyclesMadeMessage: boolean;
+
+  @ViewChild(Content) content: Content;
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager) {
     this.displayNoCyclesMadeMessage = false;
@@ -37,6 +40,11 @@ export class HomePage {
       }
       else this.displayNoCyclesMadeMessage = false;
     })
+  }
+
+  ionViewWillEnter(){
+    this.content.resize();
+    console.log('Will enter page')
   }
 
   ionViewCanEnter(){
