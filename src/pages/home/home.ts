@@ -44,11 +44,6 @@ export class HomePage {
 
   ionViewWillEnter(){
     this.content.resize();
-    console.log('Will enter page')
-  }
-
-  ionViewCanEnter(){
-    console.log('Entered page');
   }
 
   public editCycle(cycle): void{

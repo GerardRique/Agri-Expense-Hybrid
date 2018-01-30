@@ -20,6 +20,14 @@ import { ReportListingPage } from '../report-listing/report-listing';
 export class ReportsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
+    
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ReportsPage');
+  }
+
+  generateStandardReport(){
 
     this.reportCreator.getCycleSpreadsheetData(this.cycleManager).then((cycleData) => {
 
@@ -30,11 +38,7 @@ export class ReportsPage {
       }
       this.navCtrl.push(ReportListingPage, data);
     })
-    
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportsPage');
   }
 
 }
