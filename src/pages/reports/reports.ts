@@ -21,12 +21,13 @@ export class ReportsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
 
-    this.cycleManager.getDataInSpreadSheetFormat().then((dataList) => {
-      let dataString = JSON.stringify(dataList);
+    this.reportCreator.getCycleSpreadsheetData(this.cycleManager).then((cycleData) => {
+
+      let dataString = JSON.stringify(cycleData);
 
       let data = {
         'tableData': dataString
-      };
+      }
       this.navCtrl.push(ReportListingPage, data);
     })
     

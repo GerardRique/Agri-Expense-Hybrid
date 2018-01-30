@@ -12,6 +12,7 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 
 import * as XLSX from 'xlsx';
 import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
+import { CycleManager } from './CycleManager';
 
 @Injectable()
 export class ReportCreator{
@@ -25,7 +26,7 @@ export class ReportCreator{
 
 
 
-    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController){
+    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController, private cycleManager: CycleManager){
 
     }
 
@@ -74,31 +75,41 @@ export class ReportCreator{
         })
     }
 
-    public createExcel(manager: DataManager){
-        let data: Array<Array<any>> = new Array<Array<any>>();
+    public createCycleReport(){
+        this.getCycleSpreadsheetData(this.cycleManager);
+    }
 
-        let list: any[] = [
-            'Gerard',
-            'Rique',
-            '4604644'
-        ];
+    public getCycleSpreadsheetData(cycleManager: DataManager): Promise<Array<Array<string>>>{
+        let list = Array<Array<string>>();
+        return cycleManager.getAll().then((cycleData) => {
+            let titleList = ['ID Number', 'Cycle Name', 'Crop Planted', 'Land Quantity', 'Units of land', 'Date Planted', 'Open'];
+            list.push(titleList);
+            for(let cycle of cycleData){
+                let currentCycle = Array<string>();
+                let date: Date = new Date(cycle['datePlanted']);
+                currentCycle.push(cycle['id']);
+                currentCycle.push(cycle['name']);
+                currentCycle.push(cycle['crop']);
+                currentCycle.push(cycle['landQuantity']);
+                currentCycle.push(cycle['landUnit']);
+                currentCycle.push(date.toString())
+                currentCycle.push(cycle['active']);
+                list.push(currentCycle);
+            }
 
-        let list2: any[] = [
-            'Jerome',
-            'Rique',
-            '4604642'
-        ];
-
-        data.push(list);
-        data.push(list2);
-
-        //this.createExcelSpreadSheet(data);
-
-        manager.getDataInSpreadSheetFormat().then((list) => {
-            let name = this.createExcelSpreadSheet(list);
-            console.log(list);
+            return list;
         })
-        
+    }
+
+    public createExcelSheet(data: Array<Array<string>>): XLSX.WorkSheet{
+        return XLSX.utils.aoa_to_sheet(data);
+    }
+
+    createCycleSheet(): Promise<XLSX.WorkSheet>{
+        return this.getCycleSpreadsheetData(this.cycleManager).then((data) => {
+            let ws: XLSX.WorkSheet = this.createExcelSheet(data);
+            return ws;
+        })
     }
 
     public createExcelSpreadSheet(data: Array<Array<any>>): string{
@@ -113,11 +124,43 @@ export class ReportCreator{
 
         let blob: Blob = new Blob([this.wbout]);
 
-        let filename = 'mySheet.xlsx';
+        let filename = 'TestSheet.xlsx';
 
-        //this.saveInBrowser(blob, filename)
+        if(this.platform.is('core') || this.platform.is('mobileweb')){
+            console.log('Saving file in browser...');
+            this.saveInBrowser(blob, filename);
+        } 
+        else{
+            console.log('Saving file on device...');
+            this.saveOnDevice(blob, filename);
+        }
 
         return filename;
+    }
+
+    public saveOnDevice(blob: Blob, filename: string){
+        let toast = this.toastCtrl.create({
+            message: 'File created',
+            duration: 3000,
+            position: 'top'
+        });
+
+        let errorToast = this.toastCtrl.create({
+            message: 'Error creating file',
+            duration: 3000,
+            position: 'top'
+        });
+        this.file.writeFile(this.file.externalRootDirectory, filename, blob, {replace: true}).then(() => {
+            toast.present();
+        }).catch((error) => {
+            this.file.writeExistingFile(this.file.externalRootDirectory, 'report.csv', blob).then(() => {
+                toast.present();
+            }).catch((error) => {
+                errorToast.present();
+            });
+        }).catch((error) => {
+            errorToast.present();
+        })
     }
 
     private saveInBrowser(blob: Blob, filename: string){
