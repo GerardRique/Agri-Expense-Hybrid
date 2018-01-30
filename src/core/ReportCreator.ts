@@ -30,51 +30,6 @@ export class ReportCreator{
 
     }
 
-    public createReport(manager: DataManager): Promise<any>{
-        return this.convertToCsv(manager).then((result) => {
-            let blob = new Blob(['\ufeff' + result], { type: 'text/csv;charset=utf-8;' });
-
-            if(this.platform.is('core') || this.platform.is('mobileweb')){
-                console.log('Browser');
-            }
-            else {
-
-                let toast = this.toastCtrl.create({
-                    message: 'File created',
-                    duration: 3000,
-                    position: 'top'
-                  });
-
-                  
-                
-               /* this.file.writeFile(this.file.dataDirectory, 'report.csv', blob, { replace: true}).then((fileEntry) => {
-                    this.fileOpener.open(this.file.dataDirectory + 'report.csv', 'text/csv;charset=utf-8;').then(() => {
-                        toast.present();
-                    }).catch((error ) => {
-                        let errorToast = this.toastCtrl.create({
-                            message: 'error ' + JSON.stringify(error),
-                            duration: 3000,
-                            position: 'top'
-                          });
-                          errorToast.present();
-                    });
-                });*/
-
-                this.file.writeFile(this.file.externalRootDirectory, 'report.csv', result, {replace: true}).then(() => {
-                    toast.present();
-                }).catch((error) => {
-                    this.file.writeExistingFile(this.file.externalRootDirectory, 'report.csv', result).then(() => {
-                        toast.present();
-                    }).catch((error) => {
-                        alert('error ' + JSON.stringify(error));
-                    });
-                }).catch((error) => {
-                    alert('Error ' + JSON.stringify(error));
-                });
-            }
-        })
-    }
-
     public createCycleReport(){
         this.getCycleSpreadsheetData(this.cycleManager);
     }
@@ -150,16 +105,33 @@ export class ReportCreator{
             duration: 3000,
             position: 'top'
         });
-        this.file.writeFile(this.file.externalRootDirectory, filename, blob, {replace: true}).then(() => {
+        this.file.writeFile(this.file.externalRootDirectory + 'NewAgriExpense', filename, blob, {replace: true}).then(() => {
             toast.present();
         }).catch((error) => {
-            this.file.writeExistingFile(this.file.externalRootDirectory, 'report.csv', blob).then(() => {
+            this.file.writeExistingFile(this.file.externalRootDirectory + 'NewAgrExpense', filename, blob).then(() => {
+                toast.setMessage('File created with replacement');
                 toast.present();
             }).catch((error) => {
                 errorToast.present();
             });
         }).catch((error) => {
             errorToast.present();
+        })
+    }
+
+    public createDirectory(directoryName: string){
+        return this.file.checkDir(this.file.externalRootDirectory, directoryName).then((result) => {
+            if(result === true){
+                return true;
+            } else{
+                this.file.createDir(this.file.externalRootDirectory, directoryName, true).then((entry) => {
+                    return true;
+                }).catch((error) => {
+                    return false;
+                });
+            }
+        }).catch((error) => {
+            return false;
         })
     }
 
