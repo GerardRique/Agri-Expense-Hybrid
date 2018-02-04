@@ -72,6 +72,30 @@ export class MyApp {
         else {
           this.materialManager.initialize();
         }
+
+        this.fertilizerManager.checkInitialization().then((response) => {
+          if(response === true) console.log('Fertilizer manager already initialized');
+
+          else this.fertilizerManager.initialize();
+        });
+
+        this.plantMaterialManager.checkInitialization().then((reponse) => {
+          if(response === true)console.log('Plant material manager already initialized');
+
+          else this.plantMaterialManager.initialize();
+        })
+
+        this.chemicalManager.checkInitialization().then((response) => {
+          if(response === true)console.log('Chemical manager already initialized');
+
+          else this.chemicalManager.initialize();
+        })
+
+        this.soilAmmendmentManager.checkInitialization().then((response) => {
+          if(response === true)console.log('Soil Ammendment manager already initialized');
+
+          else this.soilAmmendmentManager.initialize();
+        })
       })
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

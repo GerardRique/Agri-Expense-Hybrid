@@ -22,18 +22,29 @@ export class SaleListingPage {
 
   saleListing: Array<Object>;
 
+  displayEmptyListMessage: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager) {
 
-    this.saleManager.getAll().then((list) => {
-      this.saleListing = list;
-      console.log(this.saleListing);
-    })
-
     this.rootNav = this.app.getRootNav();
+
+    this.displayEmptyListMessage = false;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SaleListingPage');
+  }
+
+  ionViewDidEnter(){
+    this.saleManager.getAll().then((list) => {
+      this.saleListing = list;
+      if(this.saleListing.length === 0){
+        this.displayEmptyListMessage = true;
+      }else{
+        this.displayEmptyListMessage = false;
+      }
+      console.log("Successfully retrieved " + this.saleListing.length + " sales");
+    })
   }
 
   goToHarvestListingPage(){

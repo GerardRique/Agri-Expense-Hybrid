@@ -82,7 +82,7 @@ export class NewSalePage {
   submitNewSale(){
     let mySale = new Sale(this.selectedHarvest['crop'], this.selectedHarvest['cropId'], this.selectedHarvest['id'], this.selectedHarvest['cycleId'], this.unitsSoldBy, this.quantityOfUnitsSold, this.costPerUnitSold, this.dateSold);
     let selectedHarvestId = this.selectedHarvest['id'];
-    console.log(this.selectedHarvest);
+    console.log(mySale);
     this.saleManager.add(mySale).then((result) => {
       if(result == true){
         console.log('Successfully saved sale: ' + mySale.getId());
