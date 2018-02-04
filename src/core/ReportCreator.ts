@@ -67,7 +67,7 @@ export class ReportCreator{
         })
     }
 
-    public createExcelSpreadSheet(data: Array<Array<any>>): string{
+    public createExcelSpreadSheet(data: Array<Array<any>>): Promise<string>{
         this.ws = XLSX.utils.aoa_to_sheet(data);
 
         this.wb = XLSX.utils.book_new();
@@ -84,16 +84,21 @@ export class ReportCreator{
         if(this.platform.is('core') || this.platform.is('mobileweb')){
             console.log('Saving file in browser...');
             this.saveInBrowser(blob, filename);
+            return new Promise((resolve, reject) => {
+                resolve(filename);
+            })
         } 
         else{
             console.log('Saving file on device...');
-            this.saveOnDevice(blob, filename);
+            return this.saveOnDevice(blob, filename).then((result) => {
+                return filename;
+            }).catch((error) => {
+                return error;
+            });
         }
-
-        return filename;
     }
 
-    public saveOnDevice(blob: Blob, filename: string){
+    public saveOnDevice(blob: Blob, filename: string): Promise<boolean>{
         let toast = this.toastCtrl.create({
             message: 'File created',
             duration: 3000,
@@ -106,14 +111,26 @@ export class ReportCreator{
             position: 'top'
         });
 
-        this.file.createDir(this.file.externalRootDirectory, 'NewAgriExpense', true).then((entry) => {
-            this.file.writeFile(entry.toURL(), filename, blob, {replace: true}).then(() => {
+        let testToast = this.toastCtrl.create({
+            message: '',
+            duration: 5000,
+            position: 'bottom'
+        });
+
+        return this.file.createDir(this.file.externalRootDirectory, 'NewAgriExpense', true).then((entry) => {
+            return this.file.writeFile(entry.toURL(), filename, blob, {replace: true}).then(() => {
+                toast.setMessage(entry.toURL());
                 toast.present();
+                testToast.setMessage(this.file.externalRootDirectory);
+                testToast.present();
+                return true;
             }).catch((error) => {
                 errorToast.present();
+                return false;
             });
         }).catch((error) => {
             errorToast.present();
+            return false;
         })
 
 

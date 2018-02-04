@@ -15,4 +15,14 @@
 
 <ion-content padding>
 
+  <h4 *ngIf="displayMessage">File successfully created</h4>
+
+  <ion-list>
+    <ion-card *ngFor="let report of reportList">
+      <ion-card-content>
+        <p>{{report.name}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
 </ion-content>
