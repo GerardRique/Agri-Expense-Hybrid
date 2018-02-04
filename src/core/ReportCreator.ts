@@ -13,6 +13,8 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 import * as XLSX from 'xlsx';
 import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
 import { CycleManager } from './CycleManager';
+import { TaskManager } from './TaskManager';
+import { XHRBackend } from '@angular/http/src/backends/xhr_backend';
 
 @Injectable()
 export class ReportCreator{
@@ -24,20 +26,41 @@ export class ReportCreator{
 
     wbout: string;
 
-
-
     constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController, private cycleManager: CycleManager){
-
+        this.wb = XLSX.utils.book_new();
     }
 
-    public createCycleReport(){
-        this.getCycleSpreadsheetData(this.cycleManager);
+    public createNewWorkBook(){
+        this.wb = XLSX.utils.book_new();
+    }
+
+    public addWorkSheet(data: Array<Array<string>>, sheetName: string){
+        let ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(this.wb, ws, sheetName);
+    }
+
+    public saveSpreadsheet(){
+        let wbout: string = XLSX.write(this.wb, { bookType: 'xlsx', type: 'array' });
+        let date = new Date();
+        let blob = new Blob([wbout]);
+
+        let filename = date.toString();
+
+        if(this.platform.is('core') || this.platform.is('mobileweb')){
+            console.log('Saving file in browser...');
+            this.saveInBrowser(blob, filename);
+        } 
+        else{
+            console.log('Saving file on device...');
+            this.saveOnDevice(blob, filename);
+        }
     }
 
     public getCycleSpreadsheetData(cycleManager: DataManager): Promise<Array<Array<string>>>{
         let list = Array<Array<string>>();
         return cycleManager.getAll().then((cycleData) => {
             let titleList = ['ID Number', 'Cycle Name', 'Crop Planted', 'Land Quantity', 'Units of land', 'Date Planted', 'Open'];
+            this.colorHeading(titleList.length);
             list.push(titleList);
             for(let cycle of cycleData){
                 let currentCycle = Array<string>();
@@ -51,20 +74,27 @@ export class ReportCreator{
                 currentCycle.push(cycle['active']);
                 list.push(currentCycle);
             }
-
             return list;
         })
     }
 
-    public createExcelSheet(data: Array<Array<string>>): XLSX.WorkSheet{
-        return XLSX.utils.aoa_to_sheet(data);
-    }
+    public colorHeading(numberCols: number){
+        let range = {
+            s: {
+                c: 0,
+                r: 0
+            },
+            e: {
+                c: 0,
+                r: numberCols
+            }
+        };
 
-    createCycleSheet(): Promise<XLSX.WorkSheet>{
-        return this.getCycleSpreadsheetData(this.cycleManager).then((data) => {
-            let ws: XLSX.WorkSheet = this.createExcelSheet(data);
-            return ws;
-        })
+        for(let col = 0; col < numberCols; col++){
+            let cell_address = {c: col, r: 0};
+            let cell_ref = XLSX.utils.encode_cell(cell_address);
+            console.log(cell_ref);
+        }
     }
 
     public createExcelSpreadSheet(data: Array<Array<any>>): string{
@@ -115,20 +145,6 @@ export class ReportCreator{
         }).catch((error) => {
             errorToast.present();
         })
-
-
-        // this.file.writeFile(this.file.externalRootDirectory + '\ NewAgriExpense', filename, blob, {replace: true}).then(() => {
-        //     toast.present();
-        // }).catch((error) => {
-        //     this.file.writeExistingFile(this.file.externalRootDirectory + '\ NewAgrExpense', filename, blob).then(() => {
-        //         toast.setMessage('File created with replacement');
-        //         toast.present();
-        //     }).catch((error) => {
-        //         errorToast.present();
-        //     });
-        // }).catch((error) => {
-        //     errorToast.present();
-        // })
     }
 
     public createDirectory(directoryName: string){

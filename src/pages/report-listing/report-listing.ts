@@ -28,12 +28,22 @@ export class ReportListingPage {
   ionViewDidEnter(){
     let dataString = this.navParams.get('tableData');
 
-    this.dataList = JSON.parse(dataString);
-    console.log(this.dataList);
+    //this.reportCreator.createExcelSpreadSheet(this.dataList);
 
-    this.reportCreator.createExcelSpreadSheet(this.dataList);
-
+    this.generateSpreadsheet();
     
+  }
+
+  generateSpreadsheet(){
+
+    for(let key in this.navParams.data){
+
+      let dataString = this.navParams.get(key);
+
+      let data = JSON.parse(dataString);
+
+      this.reportCreator.addWorkSheet(data, key);
+    }
   }
 
 }
