@@ -38,9 +38,7 @@ export class ReportListingPage {
     this.dataList = JSON.parse(dataString);
     console.log(this.dataList);
 
-    this.reportCreator.createExcelSpreadSheet(this.dataList).then((result) => {
-      this.displayMessage = true;
-    });
+    this.reportCreator.createExcelSpreadSheet(this.dataList);
 
     
   }

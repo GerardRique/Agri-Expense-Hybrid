@@ -109,14 +109,18 @@ export class ReportCreator{
 
         let blob: Blob = new Blob([this.wbout]);
 
-        let filename = 'TestSheet.xlsx';
+        let filename = new Date().toDateString();
+
+        let expression = / /gi;
+
+        filename = filename.replace(expression, '-');
+
+        filename = filename + '.xlsx';
+        console.log(filename);
 
         if(this.platform.is('core') || this.platform.is('mobileweb')){
             console.log('Saving file in browser...');
             this.saveInBrowser(blob, filename);
-            return new Promise((resolve, reject) => {
-                resolve(filename);
-            })
         } 
         else{
             console.log('Saving file on device...');
@@ -141,46 +145,45 @@ export class ReportCreator{
             position: 'top'
         });
 
-        let testToast = this.toastCtrl.create({
-            message: '',
-            duration: 5000,
-            position: 'bottom'
-        });
-
-        return this.file.createDir(this.file.externalRootDirectory, 'NewAgriExpense', true).then((entry) => {
-            return this.file.writeFile(entry.toURL(), filename, blob, {replace: true}).then(() => {
-                toast.setMessage(entry.toURL());
+        return this.createDirectory('NewAgriExpense').then((url) => {
+            return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
                 toast.present();
-                testToast.setMessage(this.file.externalRootDirectory);
-                testToast.present();
                 return true;
             }).catch((error) => {
                 errorToast.present();
                 return false;
             });
-        }).catch((error) => {
-            errorToast.present();
-            return false;
         })
     }
 
-    public createDirectory(directoryName: string){
+    //The createDirectory function accepts a directory name. If a directory already exists with this name, the function will return a url to that directory. Otherwise the function will create a directory with the given name and return a url of the newly created directory.
+    public createDirectory(directoryName: string): Promise<string>{
         return this.file.checkDir(this.file.externalRootDirectory, directoryName).then((result) => {
             if(result === true){
-                return true;
+                console.log(directoryName + ' folder already created');
+                return this.file.externalRootDirectory + '' + directoryName + '/';
             } else{
-                this.file.createDir(this.file.externalRootDirectory, directoryName, true).then((entry) => {
-                    return true;
+                return this.file.createDir(this.file.externalRootDirectory, directoryName, true).then((entry) => {
+                    console.log('Created folder ' + directoryName);
+                    return entry.toURL();
                 }).catch((error) => {
-                    return false;
+                    return '';
                 });
             }
         }).catch((error) => {
-            return false;
-        })
+            return this.file.createDir(this.file.externalRootDirectory, directoryName, true).then((entry) => {
+                console.log('Created folder ' + directoryName);
+                return entry.toURL();
+            }).catch((error) => {
+                return '';
+            });
+        });
     }
 
     private saveInBrowser(blob: Blob, filename: string){
+        console.log('Save in browser function');
+        console.log(blob);
+
         let a = document.createElement("a");
         document.body.appendChild(a);
 
