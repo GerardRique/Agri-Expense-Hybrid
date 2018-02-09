@@ -51,6 +51,16 @@ import { SaleListingPage } from '../pages/sale-listing/sale-listing';
 import { HarvestListingPage } from '../pages/harvest-listing/harvest-listing';
 import { NewSalePage } from '../pages/new-sale/new-sale';
 import { SaleManager } from '../core/SaleManager';
+import { AngularFireModule } from 'angularfire2';
+import { firebaseConfig } from '../environments/environments';
+import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { SignInPage } from '../pages/sign-in/sign-in';
+import { AuthenticationService } from '../core/AunthenticationService';
+import { AngularFirestore } from 'angularfire2/firestore';
+
+import { GooglePlus } from '@ionic-native/google-plus';
+
 
 @NgModule({
   declarations: [
@@ -78,12 +88,16 @@ import { SaleManager } from '../core/SaleManager';
     NewHarvestPage,
     SaleListingPage,
     HarvestListingPage,
-    NewSalePage
+    NewSalePage,
+    SignInPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     IonicStorageModule.forRoot({
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
@@ -115,7 +129,8 @@ import { SaleManager } from '../core/SaleManager';
     NewHarvestPage,
     SaleListingPage,
     HarvestListingPage,
-    NewSalePage
+    NewSalePage,
+    SignInPage
   ],
   providers: [
     StatusBar,
@@ -140,6 +155,10 @@ import { SaleManager } from '../core/SaleManager';
     MaterialUseManager,
     HarvestManager,
     SaleManager,
+    AngularFireDatabase,
+    AuthenticationService,
+    AngularFirestore,
+    GooglePlus,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

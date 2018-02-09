@@ -27,6 +27,7 @@ import { ChemicalsManager } from '../core/ChemicalsManager';
 import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
 import { PlantingMaterial } from '../core/Models/Plantingmaterial';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
+import { SignInPage } from '../pages/sign-in/sign-in';
 
 @Component({
   templateUrl: 'app.html',
@@ -53,7 +54,8 @@ export class MyApp {
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage },
       { title: 'Hire Labour', component: LabourerListingPage },
-      { title: 'Reports ', component: ReportsPage }
+      { title: 'Reports ', component: ReportsPage },
+      { title: 'Sign In', component: SignInPage}
     ];
 
     // this.storage.clear().then(() => {
