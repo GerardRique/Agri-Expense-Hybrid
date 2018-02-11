@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ToastController, Platform } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 
@@ -10,17 +11,6 @@ export class AuthenticationService{
 
     constructor(db: AngularFirestore, public afAuth: AngularFireAuth, public toastCtrl: ToastController, private platform: Platform){
         
-    }
-
-    public checkAuthentication(){
-        this.afAuth.authState.subscribe((user : firebase.User) => {
-            if(!user){
-                this.signInWithGoogle();
-            }
-             else{
-                 console.log(user);
-             }
-        });
     }
 
     public signInWithGoogle(){
@@ -35,6 +25,12 @@ export class AuthenticationService{
     public signInWithGoogleOnBrowser(){
         this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((response) => {
             console.log(response);
+        })
+    }
+
+    public checkAuthentication(): Observable<firebase.User>{
+        return this.afAuth.authState.map((data) => {
+            return data;
         })
     }
 
@@ -55,5 +51,9 @@ export class AuthenticationService{
             });
             toast.present();
         })
+    }
+
+    public signOut(){
+        this.afAuth.auth.signOut();
     }
 }

@@ -15,4 +15,21 @@
 
 <ion-content padding>
 
+  <ng-template #alreadySignedInTemplate>
+    <p text-center>Currently logged in as {{displayName}}</p>
+    <button ion-button block (click)="signOut()">Log out</button>
+  </ng-template>
+
+  <ng-template #signInTemplate>
+    <p text-center>Log in with Google Account</p>
+
+    <button ion-button block (click)="signIn()">
+      <div>Sign in with Google</div>
+      <ion-icon ios="logo-google" md="logo-google"></ion-icon>
+    </button>
+  </ng-template>
+
+  <div *ngIf="displayAlreadySignedInTemplate === true;then alreadySignedInTemplate"></div>
+  <div *ngIf="displaySignInTemplate === true; then signInTemplate"></div>
+
 </ion-content>
