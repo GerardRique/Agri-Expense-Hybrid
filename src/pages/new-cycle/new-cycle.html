@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>New Cycle</ion-title>
   </ion-navbar>
 
@@ -47,7 +47,7 @@
       <ion-item>
         <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
       </ion-item>
-      <button ion-button block [disabled]="!newCycle.valid" (click)="submit()">Done</button>
+      <button ion-button block [disabled]="!newCycle.valid" (click)="submit()" color="myGreen">Done</button>
     </form>
   </ng-template>
 
@@ -58,5 +58,5 @@
 </ion-content>
 
 <ion-fab right bottom *ngIf="selectSeedTemplate === true">
-  <button ion-fab (click)="presentPromptForPlantMaterial()"><ion-icon name="add"></ion-icon></button>
+  <button ion-fab (click)="presentPromptForPlantMaterial()" color="myGreen"><ion-icon name="add"></ion-icon></button>
 </ion-fab>

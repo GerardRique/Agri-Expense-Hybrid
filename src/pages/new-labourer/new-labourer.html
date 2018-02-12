@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>newLabourer</ion-title>
+    <ion-title>New Labourer</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -30,7 +30,7 @@
         <ion-input type="tel" placeholder="Enter Labourer phone Number" name="contactNumber" formControlName="contactNumber"></ion-input>
     </ion-item>
 
-    <button ion-button block [disabled]="!newLabourer.valid" (click)="submit()">Done</button>
+    <button ion-button block [disabled]="!newLabourer.valid" (click)="submit()" color="myGreen">Done</button>
   </form>
 
 </ion-content>

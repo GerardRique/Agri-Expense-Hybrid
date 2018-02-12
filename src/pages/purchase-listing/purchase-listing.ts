@@ -41,7 +41,10 @@ export class PurchaseListingPage {
 
   ionViewDidEnter(){
     this.purchaseManager.getAll().then((list) => {
-      this.purchaseList = list;
+      console.log(list);
+      this.purchaseList = list.sort((a: Object, b: Object) => {
+        return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
+      });
       if(this.purchaseList.length === 0){
         this.displayEmptyListMessage = true;
       } else this.displayEmptyListMessage = false;

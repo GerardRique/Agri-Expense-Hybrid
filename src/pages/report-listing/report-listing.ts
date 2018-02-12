@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
-import { File, FileSaver } from '@ionic-native/file';
+import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 
 /**
@@ -22,9 +22,11 @@ export class ReportListingPage {
 
   reportList: Array<string>;
 
+  fileList: Array<Entry>;
+
   displayMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController) {
     this.displayMessage = false;
   }
 
@@ -40,14 +42,28 @@ export class ReportListingPage {
 
     this.reportCreator.createExcelSpreadSheet(this.dataList);
 
+    this.file.listDir(this.file.externalRootDirectory, 'NewAgriExpense').then((entries) => {
+      this.fileList = entries;
+    })
+
     
   }
 
   getReports(){
+
+    let toast = this.toastCtrl.create({
+      message: '',
+      duration: 5000,
+      position: 'top'
+    });
+
     this.file.listDir(this.file.externalRootDirectory, 'NewAgriExpense').then((entries) => {
-      for(let entry of entries){
-        this.reportList.push(entry.name);
-      }
+      
+      // let message = 'Number of files ' + entries.length;
+      // toast.setMessage(message);
+      // toast.present();
+
+      this.fileList = entries;
     })
   }
 

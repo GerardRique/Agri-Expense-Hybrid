@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>new-purchase</ion-title>
+  <ion-navbar color="myGreen">
+    <ion-title>New Purchase</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -51,7 +51,7 @@
       <ion-item>
         <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePurchased" formControlName="datePurchased"></ion-datetime>
       </ion-item>
-      <button ion-button block [disabled]="!newPurchase.valid" type="submit">Done</button>
+      <button ion-button block [disabled]="!newPurchase.valid" type="submit" color="myGreen">Done</button>
     </form>
   </ng-template>
 

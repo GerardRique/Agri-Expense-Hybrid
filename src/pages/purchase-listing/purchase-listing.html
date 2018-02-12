@@ -53,13 +53,13 @@
       <p>Cost: {{purchase.cost | currency}}</p>
       <p>{{purchase.datePurchased | date: 'fullDate'}}</p>
 
-      <button ion-button item-right clear icon-only>
+      <button ion-button item-right clear icon-only color="main">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-item>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab (click)="goToNewPurchasePage()" color="main"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="goToNewPurchasePage()" color="myGreen"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
 </ion-content>
