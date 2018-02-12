@@ -60,6 +60,9 @@ import { AuthenticationService } from '../core/AunthenticationService';
 import { AngularFirestore } from 'angularfire2/firestore';
 
 import { GooglePlus } from '@ionic-native/google-plus';
+import { FilterPipe } from '../pipes/filter/filter';
+import { DateFilterPipe } from '../pipes/date-filter/date-filter';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -98,6 +101,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    PipesModule,
     IonicStorageModule.forRoot({
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']

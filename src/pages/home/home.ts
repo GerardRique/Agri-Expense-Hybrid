@@ -9,6 +9,7 @@ import { App } from 'ionic-angular';
 import { CycleManager } from '../../core/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
 import { Content } from 'ionic-angular/components/content/content';
+import { DateFilterPipe } from '../../pipes/date-filter/date-filter';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -33,7 +34,14 @@ export class HomePage {
 
 
     this.cycleManager.getAll().then((list) => {
-      this.cycleListing = list;
+
+      //Sort cycles by date as they are retrieved from storage. 
+      this.cycleListing = list.sort((a: Object, b: Object) => {
+        return Date.parse(b['datePlanted']).valueOf() - Date.parse(a['datePlanted']).valueOf()
+      });
+
+      console.log(this.cycleListing);
+
       console.log("Successfully retrieved " + this.cycleListing.length + " cycles");
       if(this.cycleListing.length === 0){
         this.displayNoCyclesMadeMessage = true;
@@ -75,14 +83,14 @@ export class HomePage {
         'mdIcon': 'md-trash'
       },
       {
-        'title': 'Close',
-        'iosIcon': 'md-close',
-        'mdIcon': 'md-close'
-      },
-      {
         'title': 'Harvest',
         'iosIcons': 'md-basket',
         'mdIcon': 'md-basket'
+      },
+      {
+        'title': 'Close',
+        'iosIcon': 'md-close',
+        'mdIcon': 'md-close'
       }
     ];
 

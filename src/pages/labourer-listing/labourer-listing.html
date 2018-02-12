@@ -20,7 +20,7 @@
   <p text-center *ngIf="displayEmptyListMessage">No Labourers added</p>
 
   <ion-list>
-    <ion-item-sliding *ngFor="let labourer of labourerListing">
+    <ion-item-sliding *ngFor="let labourer of labourerListing | filter: searchLabourer">
       <ion-item (click)="assignTask(labourer)">
         <h2>{{labourer.firstName}} {{labourer.lastName}}</h2>
       </ion-item>

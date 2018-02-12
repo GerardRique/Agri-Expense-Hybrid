@@ -8,6 +8,7 @@ import { Labourer } from '../../core/Labourer';
 import { ListTemplate } from '../../core/ListTemplate';
 import { SelectCyclePage } from '../select-cycle/select-cycle';
 import { FormControl } from '@angular/forms';
+import { FilterPipe } from '../../pipes/filter/filter';
 
 /**
  * Generated class for the LabourerListingPage page.

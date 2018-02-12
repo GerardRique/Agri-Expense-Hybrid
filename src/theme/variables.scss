@@ -39,7 +39,8 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  main:       #30D104
+  main:       #4ED804,
+  myGreen: #9ACD32
 );
 
 
@@ -54,7 +55,12 @@ $colors: (
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
+$tabs-md-tab-icon-color-active: #30D104;
+$tabs-md-tab-text-color-active: white;
+$searchbar-md-input-background-color: #9ACD32;
+$searchbar-md-input-box-shadow: 0px 1px bold;
+$searchbar-md-input-search-icon-color: white;
+$searchbar-md-input-text-color: white;
 
 
 // App Windows Variables

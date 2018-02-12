@@ -36,7 +36,7 @@ export class Cycle implements Serializeable{
         return this.landQuantity;
     }
 
-    private getDatePlanted(): string{
+    public getDatePlanted(): string{
         return this.datePlanted;
     }
 
