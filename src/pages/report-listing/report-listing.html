@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>Report Listing</ion-title>
   </ion-navbar>
 
@@ -15,20 +15,22 @@
 
 <ion-content padding>
 
-  <!-- <h4 *ngIf="displayMessage">File successfully created</h4> -->
-
   <ion-list>
-    <ion-item *ngFor="let file of fileList">
+    <ion-item *ngFor="let file of fileList; let i = index">
       <ion-thumbnail item-start>
         <img src="assets/img/Excel-icon.png" alt="myImage">
       </ion-thumbnail>
-      <div>
+      <div (click)="openReport(file)">
         <h3>{{file.name}}</h3>
       </div>
-      <button ion-button item-right clear icon-only color="main">
+      <button ion-button item-right clear icon-only (click)="openReportOptionsMenu($event, file, i)" color="main">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-item>
   </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="goToNewReportPage()" color="myGreen"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 </ion-content>

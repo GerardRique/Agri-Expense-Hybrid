@@ -3,7 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Task } from '../../core/Task';
 import { TaskManager } from '../../core/TaskManager';
-import { CycleManager } from '../../core/CycleManager';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 
 /**
  * Generated class for the NewTaskPage page.

@@ -5,14 +5,14 @@ import { Nav, Platform, NavController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { DataManager } from './DataManager';
-import { File, FileSaver } from '@ionic-native/file';
+import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 import * as XLSX from 'xlsx';
 import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
-import { CycleManager } from './CycleManager';
+import { CycleManager } from './CyclesModule/CycleManager';
 import { TaskManager } from './TaskManager';
 import { XHRBackend } from '@angular/http/src/backends/xhr_backend';
 
@@ -97,7 +97,37 @@ export class ReportCreator{
         }
     }
 
-    public createExcelSpreadSheet(data: Array<Array<any>>): Promise<string>{
+    public deleteReport(path: string, filename: string): Promise<boolean>{
+        let filePath = this.file.externalRootDirectory + path.substr(1);
+        console.log('Deleting file: ' + filename + ' from path: ' + path);
+        return this.file.removeFile(filePath, filename).then((result) => {
+            if(result.success === true){
+                return true;
+            } else return false;
+        }).catch((error) => {
+            console.log('ERROR: ' + JSON.stringify(error));
+            return error;
+        });
+    }
+
+    public openReport(fileEntry: Entry): void{
+        let filepath = this.file.externalRootDirectory + fileEntry.fullPath.substr(1);
+        let toast = this.toastCtrl.create({
+            message: '',
+            duration: 5000,
+            position: 'middle'
+        });
+
+        this.fileOpener.open(filepath, 'application/vnd.ms-excel').then(() => {
+            console.log('Successfully opened file');
+        }).catch((error) => {
+            console.log('File open error: ' + JSON.stringify(error));
+            toast.setMessage('No applications available to open this file');
+            toast.present();
+        });
+    }
+
+    public createExcelSpreadSheet(data: Array<Array<any>>): Promise<boolean>{
         this.ws = XLSX.utils.aoa_to_sheet(data);
 
         this.wb = XLSX.utils.book_new();
@@ -120,14 +150,24 @@ export class ReportCreator{
 
         if(this.platform.is('core') || this.platform.is('mobileweb')){
             console.log('Saving file in browser...');
-            this.saveInBrowser(blob, filename);
+            var saved = new Promise<boolean>((resolve, reject) => {
+                    let result = this.saveInBrowser(blob, filename);
+                    if(result == true)
+                        resolve(true);
+                    else {
+                        let reason = new Error('Error creating file in browser');
+                        reject(reason);
+                    }
+                }
+            );
+            return saved;
         } 
         else{
             console.log('Saving file on device...');
             return this.saveOnDevice(blob, filename).then((result) => {
-                return filename;
+                return result;
             }).catch((error) => {
-                return error;
+                return false;
             });
         }
     }
@@ -180,7 +220,7 @@ export class ReportCreator{
         });
     }
 
-    private saveInBrowser(blob: Blob, filename: string){
+    private saveInBrowser(blob: Blob, filename: string): boolean{
         console.log('Save in browser function');
         console.log(blob);
 
@@ -191,7 +231,8 @@ export class ReportCreator{
         a.href = url;
         a.download = filename;
         a.click();
-        window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(url)
+        return true;;
     }
 
     private convertToCsv(manager: DataManager): Promise<string>{

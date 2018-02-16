@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Cycle } from '../../core/Models/Cycle';
+import { Cycle } from '../../core/CyclesModule/Cycle';
 
 /**
  * Generated class for the DateFilterPipe pipe.

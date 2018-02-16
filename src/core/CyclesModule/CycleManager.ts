@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DataManager } from "./DataManager";
+import { DataManager } from "../DataManager";
 import { UUID } from "angular2-uuid";
 import { Storage } from '@ionic/storage';
 

@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>Choose your Cycles</ion-title>
   </ion-navbar>
 
@@ -22,15 +22,15 @@
             <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
             <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
       </ion-label>
-      <ion-checkbox item-right (ionChange)="addCycle(i, cycle.id)"></ion-checkbox>
+      <ion-checkbox item-right (ionChange)="addCycle(i, cycle.id)" color="myGreen"></ion-checkbox>
       <ion-avatar item-start>
           <img src="{{cycle.cropImagePath}}">
         </ion-avatar>
     </ion-item>
   </ion-list>
 
-  <ion-fab right bottom *ngIf="showContinueButton">
-    <button ion-fab (click)="goToNewTaskDataPage()"><ion-icon name="arrow-round-forward"></ion-icon></button>
+  <ion-fab right bottom *ngIf="showContinueButton" >
+    <button ion-fab (click)="goToNewTaskDataPage()" color="myGreen"><ion-icon name="arrow-round-forward"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

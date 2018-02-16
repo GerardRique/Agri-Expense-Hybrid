@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NewTaskPage } from '../../pages/new-task/new-task';
-import { CycleManager } from '../../core/CycleManager';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 
 /**
  * Generated class for the SelectCyclePage page.
@@ -23,8 +23,15 @@ export class SelectCyclePage {
   labourerId: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager) {
+    this.cycleListing = new Array<Object>();
     this.cycleManager.getAll().then((list) => {
-      this.cycleListing = list;
+      //this.cycleListing = list;
+      //Traverse through the list of cycles retrieved from the cycle manager. If the cycle is active, it will be displayed in the cycle listing.
+      for(let cycle of list){
+        if(cycle['active'] === true){
+          this.cycleListing.push(cycle);
+        }
+      }
     })
 
     this.selectedCyclesMap = new Map<string, Object>();

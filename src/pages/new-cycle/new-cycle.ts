@@ -4,8 +4,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { AlertController } from 'ionic-angular';
 import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
-import { Cycle } from '../../core/Models/Cycle';
-import { CycleManager } from '../../core/CycleManager';
+import { Cycle } from '../../core/CyclesModule/Cycle';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the NewCyclePage page.

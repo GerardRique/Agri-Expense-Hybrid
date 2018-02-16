@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
 import { LabourManager } from '../../core/LabourManager';
-import { CycleManager } from '../../core/CycleManager';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { ReportListingPage } from '../report-listing/report-listing';
 
 /**

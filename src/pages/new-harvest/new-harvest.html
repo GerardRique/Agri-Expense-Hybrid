@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>New Harvest</ion-title>
   </ion-navbar>
 
@@ -34,7 +34,7 @@
     </ion-item>
 
     <ion-fab right bottom>
-      <button ion-fab [disabled]="!newHarvest.valid" (click)="submitNewHarvested()"><ion-icon ios="md-basket" md="md-basket"></ion-icon></button>
+      <button ion-fab [disabled]="!newHarvest.valid" (click)="submitNewHarvested()" color="myGreen"><ion-icon ios="md-basket" md="md-basket"></ion-icon></button>
     </ion-fab>
   </form>
 

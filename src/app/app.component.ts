@@ -7,7 +7,7 @@ import { CycleHandler } from '../core/CycleHandler';
 import { PurchaseHandler } from '../core/PurchaseHandler';
 import { NewCyclePage } from '../pages/new-cycle/new-cycle';
 import { TabsPage } from '../pages/tabs/tabs';
-
+import * as firebase from 'firebase/app';
 import { HomePage } from '../pages/home/home';
 import { NewPurchasePage } from '../pages/new-purchase/new-purchase';
 import { LabourerListingPage } from '../pages/labourer-listing/labourer-listing';
@@ -28,6 +28,8 @@ import { SoilAmendmentsManager } from '../core/SoilAmendmentsManager';
 import { PlantingMaterial } from '../core/Models/Plantingmaterial';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { SignInPage } from '../pages/sign-in/sign-in';
+import { ReportListingPage } from '../pages/report-listing/report-listing';
+import { AuthenticationService } from '../core/AunthenticationService';
 
 @Component({
   templateUrl: 'app.html',
@@ -45,7 +47,7 @@ export class MyApp {
 
   m: MeasurableDataManager
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storage: Storage, private materialManager: MaterialManager, private labourManager: LabourManager, private harvestManager: HarvestManager, private fertilizerManager: FertilizerManager, private chemicalManager: ChemicalsManager, private soilAmmendmentManager: SoilAmendmentsManager, private plantMaterialManager: PlantMaterialManager){
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storage: Storage, private materialManager: MaterialManager, private labourManager: LabourManager, private harvestManager: HarvestManager, private fertilizerManager: FertilizerManager, private chemicalManager: ChemicalsManager, private soilAmmendmentManager: SoilAmendmentsManager, private plantMaterialManager: PlantMaterialManager, private authenticationService: AuthenticationService){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -54,9 +56,35 @@ export class MyApp {
       { title: 'New Cycle', component: NewCyclePage },
       { title: 'New Purchase', component: NewPurchasePage },
       { title: 'Hire Labour', component: LabourerListingPage },
-      { title: 'Reports ', component: ReportsPage },
-      { title: 'Sign In', component: SignInPage}
+      { title: 'Reports ', component: ReportListingPage }
     ];
+
+    let signInPage = { title: 'Sign In', component: SignInPage };
+
+    let manageAccountPage = { title: 'Manage Account', component: SignInPage};
+
+    //We must determine if the user is signed in so that, in the side menu, we can either display a button to navigate to the sign in page if the user is not signed in or a button to navigate to the manage accounts page if the user has signed in.
+    //Using the authentication service, we can check if the user is signed in.
+    this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
+      if(!user){
+        //If the user is not signed in, we must display a button to naviagte to the sign in page.
+        //We must first check if the manage accounts page is already in  the menu. If it is we must remove it because the user is not logged in.
+        let index = this.pages.indexOf(manageAccountPage);
+        if(index > -1){
+          //Remove the manage accounts page from the menu if it existed yet. 
+          this.pages.splice(index, 1);
+        }
+        //Add the sign in page to the menu listing. 
+        this.pages.push(signInPage);
+      } 
+      else{
+        let index = this.pages.indexOf(signInPage);
+        if(index > -1){
+          this.pages.splice(index, 1);
+        }
+        this.pages.push(manageAccountPage);
+      }
+    })
 
     // this.storage.clear().then(() => {
     //   console.log("Cleared");

@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>New Task</ion-title>
   </ion-navbar>
 
@@ -57,7 +57,7 @@
   </ion-list>
 
   <ion-fab right bottom *ngIf="newTask.valid">
-    <button ion-fab (click)="saveTasks()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab (click)="saveTasks()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
-import { CycleManager } from '../../core/CycleManager';
+import { CycleManager } from '../..//core/CyclesModule/CycleManager';
 /**
  * Generated class for the EditCyclePage page.
  *

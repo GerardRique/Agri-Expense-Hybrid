@@ -6,7 +6,7 @@ import { PopoverPage } from './PopoverPage';
 import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';
-import { CycleManager } from '../../core/CycleManager';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
 import { Content } from 'ionic-angular/components/content/content';
 import { DateFilterPipe } from '../../pipes/date-filter/date-filter';
@@ -32,6 +32,8 @@ export class HomePage {
   //The ionViewWillEnter will run when the page is fully entered and is now the active page. The event will fire whether it was the first load or a cached page. 
   ionViewDidEnter(){
 
+    this.content.resize();
+
 
     this.cycleManager.getAll().then((list) => {
 
@@ -49,11 +51,11 @@ export class HomePage {
   }
 
   ionViewWillEnter(){
-    this.content.resize();
+    
   }
 
   public editCycle(cycle): void{
-    this.navCtrl.push(EditCyclePage, cycle);
+    this.newNav.push(EditCyclePage, cycle);
   }
 
   public displayClosedCycleConfirmAlert(cycleId: string, index: number){
@@ -185,7 +187,7 @@ export class HomePage {
     let data = {
       'cycleData': cycle
     };
-    this.navCtrl.push(NewHarvestPage, data);
+    this.newNav.push(NewHarvestPage, data);
   }
 
   public deleteCycle(cycleId, index): void{

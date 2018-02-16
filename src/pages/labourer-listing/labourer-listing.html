@@ -6,16 +6,15 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Labourers</ion-title>
+  <ion-navbar color="myGreen">
+    <!-- <ion-title>Labourers</ion-title> -->
+    <ion-searchbar right no-border [(ngModel)]="searchLabourer" [formControl]="searchControl"></ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
-  <ion-searchbar [(ngModel)]="searchLabourer" [formControl]="searchControl"></ion-searchbar>
 
   <p text-center *ngIf="displayEmptyListMessage">No Labourers added</p>
 

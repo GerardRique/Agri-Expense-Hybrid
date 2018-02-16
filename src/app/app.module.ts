@@ -37,7 +37,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { ReportCreator } from '../core/ReportCreator';
 import { CycleDataPage } from '../pages/cycle-data/cycle-data';
 import { TaskListingPage } from '../pages/task-listing/task-listing';
-import { CycleManager } from '../core/CycleManager';
+import { CycleManager } from '../core/CyclesModule/CycleManager';
 import { CycleHandler } from '../core/CycleHandler';
 import { PurchaseManager } from '../core/PurchaseManager';
 import { SelectPurchasePage } from '../pages/select-purchase/select-purchase';
