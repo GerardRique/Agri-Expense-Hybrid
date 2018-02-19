@@ -37,13 +37,30 @@ export class SaleListingPage {
 
   ionViewDidEnter(){
     this.saleManager.getAll().then((list) => {
-      this.saleListing = list;
+      this.saleListing = list.sort((a: Object, b: Object) => {
+        return Date.parse(b['dateSold']).valueOf() - Date.parse(a['dateSold']).valueOf();
+      });
       if(this.saleListing.length === 0){
         this.displayEmptyListMessage = true;
       }else{
         this.displayEmptyListMessage = false;
       }
       console.log("Successfully retrieved " + this.saleListing.length + " sales");
+      console.log(this.saleListing);
+      this.getCropImagePaths();
+    })
+  }
+
+  public getCropImagePaths(): Promise<void>{
+    let promises = [];
+    for(let sale of this.saleListing){
+      promises.push(this.saleManager.get(sale['cropId']).then((crop) => {
+        sale['cropImagePath'] = crop['imagePath'];
+      }));
+    }
+
+    return Promise.all(promises).then(() => {
+      console.log('Retrieved Data');
     })
   }
 

@@ -20,7 +20,7 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
     <p text-center *ngIf="displayNoCyclesMadeMessage">No Cycles made</p>
 
@@ -28,7 +28,7 @@
     <ion-item *ngFor="let cycle of cycleListing; let i = index">
       <button item-start (click)="goToCycleDataPage(cycle.id)">
         <ion-thumbnail>
-          <img src="{{cycle.cropImagePath}}">
+          <img src="{{cycle.cropImagePath}}" width="100%">
         </ion-thumbnail>
       </button>
       <div (click)="goToCycleDataPage(cycle.id)">

@@ -32,9 +32,13 @@ export class HomePage {
   //The ionViewWillEnter will run when the page is fully entered and is now the active page. The event will fire whether it was the first load or a cached page. 
   ionViewDidEnter(){
 
+    console.log('IonViewDidEnter Home page');
+
+    this.loadPageData();
+  }
+
+  public loadPageData(){
     this.content.resize();
-
-
     this.cycleManager.getAll().then((list) => {
 
       //Sort cycles by date as they are retrieved from storage. 
@@ -51,6 +55,7 @@ export class HomePage {
   }
 
   ionViewWillEnter(){
+    console.log('IonViewWillEnter Home page');
     
   }
 
@@ -120,7 +125,9 @@ export class HomePage {
   }
 
   public newCycle(): void{
-    this.newNav.push(NewCyclePage);
+    this.newNav.push(NewCyclePage, {
+      callback: this.loadPageData.bind(this)
+    });
   }
 
   public goToCycleDataPage(cycleId): void{

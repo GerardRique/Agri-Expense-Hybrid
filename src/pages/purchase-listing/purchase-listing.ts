@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { PurchaseHandler } from '../../core/PurchaseHandler';
 import { EditPurchasePage } from '../../pages/edit-purchase/edit-purchase';
@@ -6,6 +6,7 @@ import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialManager } from '../../core/MaterialManager';
 import { App } from 'ionic-angular';
 import { NewPurchasePage } from '../new-purchase/new-purchase';
+import { Content } from 'ionic-angular/components/content/content';
 
 /**
  * Generated class for the PurchaseListingPage page.
@@ -29,6 +30,8 @@ export class PurchaseListingPage {
 
   rootNav: any;
 
+  @ViewChild(Content) content: Content;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App) {
     this.displayEmptyListMessage = false;
     this.rootNav = this.app.getRootNav();
@@ -40,8 +43,14 @@ export class PurchaseListingPage {
   }
 
   ionViewDidEnter(){
+    this.loadData();
+  }
+
+  public loadData(){
+
+    this.content.resize();
+
     this.purchaseManager.getAll().then((list) => {
-      console.log(list);
       this.purchaseList = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
       });
@@ -75,7 +84,9 @@ export class PurchaseListingPage {
   }
 
   public goToNewPurchasePage(){
-    this.rootNav.push(NewPurchasePage);
+    this.rootNav.push(NewPurchasePage, {
+      callback: this.loadData.bind(this)
+    });
   }
 
   public deletePurchase(purchaseId, index): void{

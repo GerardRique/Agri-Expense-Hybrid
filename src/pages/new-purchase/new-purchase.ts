@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ListTemplate } from '../../core/ListTemplate';
 import { Template } from '../../core/Template';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -42,8 +42,10 @@ export class NewPurchasePage {
 
   private measurableDataManager: MeasurableDataManager;
 
+  callback: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController) {
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list.slice();
@@ -73,6 +75,10 @@ export class NewPurchasePage {
       datePurchased: [new Date().toISOString(), Validators.required]
     });
 
+  }
+
+  ionViewWillEnter(){
+    this.callback = this.navParams.get('callback');
   }
 
   ionViewDidLoad() {
@@ -118,9 +124,17 @@ export class NewPurchasePage {
 
     let purchase = new Purchase(this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, this.newPurchase.get('cost').value, this.newPurchase.get('datePurchased').value);
 
+    let toast = this.toastCtrl.create({
+      message: 'Purchase Successully saved',
+      duration: 2000,
+      position: 'middle'
+    });
+
     this.purchaseManager.add(purchase).then((response) => {
       if(response === true){
         console.log('(TEST) Successfully served new purchase: ' + purchase.getId());
+        this.callback();
+        toast.present();
         this.navCtrl.popToRoot();
       } else{
         console.log('Error saving purchase');
@@ -129,11 +143,6 @@ export class NewPurchasePage {
       console.log('Error saving purchase: ' + JSON.stringify(error));
     });
 
-
-    // this.purchaseHandler.add(this.newPurchase.value).then((response) => {
-    //   console.log(response);
-    //   this.navCtrl.pop();
-    // });
   }
 
 }

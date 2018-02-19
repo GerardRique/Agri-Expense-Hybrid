@@ -26,6 +26,8 @@ export class CycleDataPage {
 
   cycleId: string;
 
+  selectedCycle: Object;
+
   materialList: Array<Object>;
 
   materialUseList: Array<Object>;
@@ -38,7 +40,7 @@ export class CycleDataPage {
   totalSpentOnLabour: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager) {
-
+    this.selectedCycle = new Object();
   }
 
   ionViewDidLoad() {
@@ -54,6 +56,9 @@ export class CycleDataPage {
     //Retrieve the selected cycle's unique id provided by the previos page. 
     this.cycleId = this.navParams.get('cycleId');
     console.log('Cycle ID: ' + this.cycleId);
+    this.materialManager.get(this.cycleId).then((cycle) => {
+      this.selectedCycle = cycle;
+    })
 
     //Retrieve list of materials from ionic storage using the material manager.
     this.materialManager.getAll().then((materialList) => {

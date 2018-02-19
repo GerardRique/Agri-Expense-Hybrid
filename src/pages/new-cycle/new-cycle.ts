@@ -27,6 +27,8 @@ export class NewCyclePage {
   selectLandTypeTemplatePage = false;
   selectLandQuantityTemplatePage = false;
 
+  callback: any;
+
   private newCycle: FormGroup;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager, public toastCtrl: ToastController) {
@@ -45,6 +47,15 @@ export class NewCyclePage {
       harvested: [0.0, Validators.required],
       ongoing: [true, Validators.required]
     })
+  }
+
+  ionViewWillEnter(){
+    this.callback = this.navParams.get('callback');
+  }
+
+  ionViewWillLeave(){
+    
+
   }
 
   ionViewDidLoad() {
@@ -109,12 +120,13 @@ export class NewCyclePage {
     this.cycleManager.add(cycle).then((response) => {
       let toast = this.toastCtrl.create({
         message: 'Cycle Successfully created',
-        duration: 3000,
-        position: 'top'
+        duration: 2000,
+        position: 'middle'
       });
 
       toast.present();
       console.log('Cycle Manager test successfull');
+      this.callback();
       this.navCtrl.popToRoot();
     })
   }
