@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, Content } from 'ionic-angular';
 import { HarvestManager } from '../../core/HarvestManager';
 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -27,8 +27,12 @@ export class NewHarvestPage {
 
   private unitList: Array<string>;
 
+  @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public harvestManager: HarvestManager) {
+  callback: any;
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public harvestManager: HarvestManager, public toastCtrl: ToastController) {
 
     this.harvestManager.getUnitsList().then((unitList) => {
       this.unitList =unitList;
@@ -36,6 +40,7 @@ export class NewHarvestPage {
     })
 
     this.selectedCycle = this.navParams.get('cycleData');
+    this.callback = this.navParams.get('callback');
     console.log(this.selectedCycle);
 
     this.selectedCycleId = this.selectedCycle['id'];
@@ -64,6 +69,12 @@ export class NewHarvestPage {
 
   submitNewHarvested(){
 
+    let toast = this.toastCtrl.create({
+      message: 'Harvest successfully saved',
+      duration: 2000,
+      position: 'middle'
+    })
+
     let myHarvest = new Harvest(this.newHarvest.get('cycleId').value, this.newHarvest.get('cropId').value, this.newHarvest.get('crop').value, this.newHarvest.get('quantityHarvested').value, this.newHarvest.get('unitsHarvested').value, this.newHarvest.get('dateHarvested').value);
     console.log(myHarvest);
 
@@ -72,6 +83,9 @@ export class NewHarvestPage {
         console.log('Successfully saved new harvest: ' + myHarvest.getId());
       }
       else console.log('Error saving harvest');
+
+      toast.present();
+      this.callback();
       this.navCtrl.pop();
     }).catch((error) => {
       console.log('Error saving harvest');

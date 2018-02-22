@@ -20,32 +20,6 @@ export class LabourManager extends DataManager{
         this.dataList = [];
     }
 
-    // public remove(labourer: Labourer): Promise<boolean>{
-    //     let promises = [];
-    //     return this.labourStorage.ready().then(() => {
-    //         return this.labourStorage.get(this.DATA_ID).then((idListString) => {
-    //             let idList = JSON.parse(idListString);
-    //             let index = idList.indexOf(labourer.getId());
-    //             if(index > -1){
-    //                 idList.splice(index, 1);
-    //                 let updatedIdListString = JSON.stringify(idList);
-    //                 promises.push(this.labourStorage.remove(labourer.getId()));
-    //                 promises.push(this.labourStorage.set(this.DATA_ID, updatedIdListString));
-    //                 return Promise.all(promises).then(() => {
-    //                     return true;
-    //                 }).catch((error) => {
-    //                     return false;
-    //                 });
-    //             }
-    //             return false;
-    //         }).catch((error) => {
-    //             return false;
-    //         });
-    //     }).catch((error) => {
-    //         return false;
-    //     });
-    // }
-
     public get(id: string): Promise<Labourer>{
         return super.get(id).then((data) => {
             let labourer = <Labourer> data;

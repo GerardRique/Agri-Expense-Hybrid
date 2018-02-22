@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, ToastController } from 'ionic-angular';
 import { Task } from '../../core/Task';
 import { TaskManager } from '../../core/TaskManager';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
@@ -30,7 +30,9 @@ export class NewTaskPage {
   private quantityLabel: string;
   private salaryLabel: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private cycleManager: CycleManager, private taskManager: TaskManager) {
+  @ViewChild(Content) content: Content;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, private cycleManager: CycleManager, private taskManager: TaskManager, private toastCtrl: ToastController) {
     this.newTask = this.formBuilder.group({
       dateStarted: [new Date().toISOString(), Validators.required],
       rateOfPay: ['', Validators.required],
@@ -88,8 +90,16 @@ export class NewTaskPage {
       
     }
 
+    let toast = this.toastCtrl.create({
+      message: 'Taks successfully saved',
+      duration: 2000,
+      position: 'middle'
+    });
+
     Promise.all(promises).then(() => {
       console.log("Tasks have been saved");
+      toast.present();
+      this.content.resize();
       this.navCtrl.popToRoot();
     }).catch((error) => {
       console.log("Error: " + error);

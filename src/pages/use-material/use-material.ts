@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialUse } from '../../core/MaterialUse';
@@ -37,7 +37,7 @@ export class UseMaterialPage {
 
   rootNav: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private materialUseManager: MaterialUseManager, private app: App) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private materialUseManager: MaterialUseManager, private app: App, public toastCtrl: ToastController) {
 
     this.displayConfirmButton = false;
     this.displayInsufficientStockMessage = false;
@@ -86,6 +86,12 @@ export class UseMaterialPage {
   }
 
   useMaterial(){
+
+    let toast = this.toastCtrl.create({
+      message: 'Successully used material',
+      duration: 2000,
+      position: 'middle'
+    });
     this.materialId = this.selectedPurchase['materialId'];
     let myDate = new Date();
     let dateString = myDate.toISOString();
@@ -98,6 +104,7 @@ export class UseMaterialPage {
           if(editResult === true){
             console.log('Purchase Successfully updated');
             //this.navCtrl.popToRoot();
+            toast.present();
             this.rootNav.popToRoot();
           }
         })

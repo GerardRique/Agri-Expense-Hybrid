@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>Use Material</ion-title>
   </ion-navbar>
 
@@ -27,7 +27,7 @@
   <p ion-text color="danger" *ngIf="displayInsufficientStockMessage === true">Not enough in stock</p>
 
   <ion-fab right bottom *ngIf="displayConfirmButton === true">
-    <button ion-fab (click)="useMaterial()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab (click)="useMaterial()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

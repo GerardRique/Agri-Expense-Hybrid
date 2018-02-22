@@ -192,7 +192,8 @@ export class HomePage {
 
   public goToNewHarvestPage(cycle: Object){
     let data = {
-      'cycleData': cycle
+      'cycleData': cycle,
+      callback: this.loadPageData.bind(this)
     };
     this.newNav.push(NewHarvestPage, data);
   }

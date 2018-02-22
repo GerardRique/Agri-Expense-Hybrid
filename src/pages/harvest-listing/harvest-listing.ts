@@ -36,7 +36,8 @@ export class HarvestListingPage {
 
   goToNewSalePage(harvest: Object){
     let data = {
-      'harvestData': harvest
+      'harvestData': harvest,
+      callback: this.navParams.get('callback')
     }
 
     this.navCtrl.push(NewSalePage, data);

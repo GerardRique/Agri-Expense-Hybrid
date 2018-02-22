@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>New Sale</ion-title>
   </ion-navbar>
 
@@ -42,7 +42,7 @@
   
 
   <ion-fab right bottom *ngIf="displayConfirmButton === true">
-    <button ion-fab (click)="submitNewSale()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab (click)="submitNewSale()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

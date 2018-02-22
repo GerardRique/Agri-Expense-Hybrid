@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Sale } from '../../core/Sale';
 import { SaleManager } from '../../core/SaleManager';
 import { HarvestManager } from '../../core/HarvestManager';
@@ -27,8 +27,11 @@ export class NewSalePage {
   dateSold: string;
   unitsSoldBy: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public saleManager: SaleManager, public harvestManager: HarvestManager) {
+  callback: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public saleManager: SaleManager, public harvestManager: HarvestManager, public toastCtrl: ToastController) {
     this.selectedHarvest = this.navParams.get('harvestData');
+    this.callback = this.navParams.get('callback');
     console.log(this.selectedHarvest);
 
     this.unitsSoldBy = this.selectedHarvest['unitsHarvested'];
@@ -51,7 +54,7 @@ export class NewSalePage {
   }
 
   ionViewDidEnter(){
-    
+    this.callback = this.navParams.get('callback');
   }
 
   updateTotalMadeFromSale(){
@@ -80,6 +83,12 @@ export class NewSalePage {
   }
 
   submitNewSale(){
+
+    let toast = this.toastCtrl.create({
+      message: 'Successully saved new sale',
+      duration: 2000,
+      position: 'middle'
+    })
     let mySale = new Sale(this.selectedHarvest['crop'], this.selectedHarvest['cropId'], this.selectedHarvest['id'], this.selectedHarvest['cycleId'], this.unitsSoldBy, this.quantityOfUnitsSold, this.costPerUnitSold, this.dateSold);
     let selectedHarvestId = this.selectedHarvest['id'];
     console.log(mySale);
@@ -92,6 +101,9 @@ export class NewSalePage {
         this.harvestManager.edit(selectedHarvestId, this.selectedHarvest).then((result) => {
           if(result === true){
             console.log('Harvest quantity remaining successfully updated');
+            toast.present();
+            this.callback();
+            this.navCtrl.popToRoot();
           }
           else {
             console.log('Error editing harvest quantity remaining');

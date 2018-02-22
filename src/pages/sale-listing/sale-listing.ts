@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { HarvestListingPage } from '../harvest-listing/harvest-listing';
 import { App } from 'ionic-angular';
 import { SaleManager } from '../../core/SaleManager';
@@ -24,6 +24,8 @@ export class SaleListingPage {
 
   displayEmptyListMessage: boolean;
 
+  @ViewChild(Content) content: Content;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager) {
 
     this.rootNav = this.app.getRootNav();
@@ -36,6 +38,14 @@ export class SaleListingPage {
   }
 
   ionViewDidEnter(){
+
+    this.loadData();
+    
+  }
+
+  public loadData(){
+    this.content.resize();
+
     this.saleManager.getAll().then((list) => {
       this.saleListing = list.sort((a: Object, b: Object) => {
         return Date.parse(b['dateSold']).valueOf() - Date.parse(a['dateSold']).valueOf();
@@ -48,7 +58,7 @@ export class SaleListingPage {
       console.log("Successfully retrieved " + this.saleListing.length + " sales");
       console.log(this.saleListing);
       this.getCropImagePaths();
-    })
+    });
   }
 
   public getCropImagePaths(): Promise<void>{
@@ -65,7 +75,9 @@ export class SaleListingPage {
   }
 
   goToHarvestListingPage(){
-    this.rootNav.push(HarvestListingPage);
+    this.rootNav.push(HarvestListingPage, {
+      callback: this.loadData.bind(this)
+    });
   }
 
 }

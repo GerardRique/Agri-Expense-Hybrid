@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { NewLabourerPage } from '../new-labourer/new-labourer';
 import { LabourManager } from '../../core/LabourManager';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
@@ -34,6 +34,8 @@ export class LabourerListingPage {
 
   searchLabourer: string;
 
+  @ViewChild(Content) content: Content;
+
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataManagerFactory: DataManagerFactory){
@@ -51,6 +53,7 @@ export class LabourerListingPage {
     this.labourManager.getAll().then((list) => {
       this.labourerListing = list;
       console.log('Successfully retrieved ' + list.length + ' labourers');
+      this.content.resize();
       if(this.labourerListing.length === 0){
         this.displayEmptyListMessage = true;
       } else this.displayEmptyListMessage = false;
