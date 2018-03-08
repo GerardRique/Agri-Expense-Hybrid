@@ -47,7 +47,10 @@
       <ion-item>
         <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePlanted" formControlName="datePlanted"></ion-datetime>
       </ion-item>
-      <button ion-button block [disabled]="!newCycle.valid" (click)="submit()" color="myGreen">Done</button>
+      <!-- <button ion-button block [disabled]="!newCycle.valid" (click)="submit()" color="myGreen">Done</button> -->
+      <ion-fab right bottom >
+        <button ion-fab [disabled]="!newCycle.valid" (click)="submit()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
+      </ion-fab>
     </form>
   </ng-template>
 

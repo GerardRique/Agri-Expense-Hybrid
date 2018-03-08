@@ -39,19 +39,22 @@
 
   <ng-template #submitDataTemplate>
     <h4>Select Quantity of product to be purchased</h4>
-    <form [formGroup]="newPurchase" (ngSubmit)="savePurchase()">
+    <form [formGroup]="newPurchase">
       <ion-item>
         <ion-label color="primary" stacked>Quantity</ion-label>
-        <ion-input type="number" placeholder="Quantity" name="quantity" formControlName="quantity"></ion-input>
+        <ion-input type="number" placeholder="Quantity of purchased" name="quantity" formControlName="quantity"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" stacked>Cost</ion-label>
-        <ion-input type="number" placeholder="Cost" name="cost" formControlName="cost"></ion-input>
+        <ion-input type="number" placeholder="Enter total cost of purchase" name="cost" formControlName="cost"></ion-input>
       </ion-item>
       <ion-item>
         <ion-datetime displayFormat="DDDD, DD MMMM, YYYY" name="datePurchased" formControlName="datePurchased"></ion-datetime>
       </ion-item>
-      <button ion-button block [disabled]="!newPurchase.valid" type="submit" color="myGreen">Done</button>
+      <!-- <button ion-button block [disabled]="!newPurchase.valid" type="submit" color="myGreen">Done</button> -->
+      <ion-fab right bottom >
+        <button ion-fab [disabled]="!newPurchase.valid" (click)="savePurchase()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
+      </ion-fab>
     </form>
   </ng-template>
 

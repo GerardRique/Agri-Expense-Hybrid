@@ -120,8 +120,8 @@ export class NewCyclePage {
     this.cycleManager.add(cycle).then((response) => {
       let toast = this.toastCtrl.create({
         message: 'Cycle Successfully created',
-        duration: 2000,
-        position: 'middle'
+        duration: 1000,
+        position: 'bottom'
       });
 
       toast.present();

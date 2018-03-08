@@ -16,9 +16,9 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-  <p text-center *ngIf="displayEmptyListMessage">No purchases made</p>
+  <p text-center *ngIf="displayEmptyListMessage">Create New Purchase to beging</p>
   <ion-list>
 
     <ion-item *ngFor="let purchase of purchaseList; let i = index">
@@ -26,7 +26,8 @@
         <img src="{{purchase.materialImagePath}}" alt="myImage">
       </ion-thumbnail>
       <p>{{purchase.typeName}}</p>
-      <p>{{purchase.quantityPurchased}} {{purchase.units}}s</p>
+      <p>Purchased: {{purchase.quantityPurchased}} {{purchase.units}}s</p>
+      <p>Remaining: {{purchase.quantityRemaining}} {{purchase.units}}s</p>
       <p>Cost: ${{purchase.cost | number: '.2-2'}}</p>
       <p>{{purchase.datePurchased | date: 'fullDate'}}</p>
 

@@ -40,6 +40,8 @@ export class NewPurchasePage {
 
   private dataManager: DataManager;
 
+  private unitsOfPurchase: string;
+
   private measurableDataManager: MeasurableDataManager;
 
   callback: any;
@@ -53,6 +55,8 @@ export class NewPurchasePage {
       this.materialListTemplate.setList(this.materialList);
       console.log(this.materialList);
     })
+
+    this.unitsOfPurchase = '';
 
     
     this.materialListTemplate = new ListTemplate('Material List', 'selectMaterialTypeTemplate');
@@ -70,8 +74,8 @@ export class NewPurchasePage {
       typeName: ['', Validators.required],
       typeID: ['', Validators.required],
       units: ['', Validators.required],
-      quantity: [0, Validators.required],
-      cost: [0.0, Validators.required],
+      quantity: ['', Validators.required],
+      cost: ['', Validators.required],
       datePurchased: [new Date().toISOString(), Validators.required]
     });
 
@@ -86,7 +90,6 @@ export class NewPurchasePage {
   }
 
   selectMaterial(material){
-    console.log(material)
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material.name);
@@ -117,12 +120,14 @@ export class NewPurchasePage {
     this.newPurchase.controls['cost'].setValue
     this.submitTemplate.activate();
     this.newPurchase.controls['units'].setValue(unit);
+    this.unitsOfPurchase = unit;
   }
 
   savePurchase(){
-    console.log(this.newPurchase.value);
 
-    let purchase = new Purchase(this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, this.newPurchase.get('cost').value, this.newPurchase.get('datePurchased').value);
+    let costPerUnit = this.newPurchase.get('cost').value / this.newPurchase.get('quantity').value;
+
+    let purchase = new Purchase(this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, costPerUnit, this.newPurchase.get('datePurchased').value);
 
     let toast = this.toastCtrl.create({
       message: 'Purchase Successully saved',

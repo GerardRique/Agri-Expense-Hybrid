@@ -22,16 +22,17 @@
 
 <ion-content>
 
-    <p text-center *ngIf="displayNoCyclesMadeMessage">No Cycles made</p>
+    <p text-center *ngIf="displayNoCyclesMadeMessage">Create new cycle to begin</p>
 
   <ion-list>
     <ion-item *ngFor="let cycle of cycleListing; let i = index">
       <button item-start (click)="goToCycleDataPage(cycle.id)">
         <ion-thumbnail>
-          <img src="{{cycle.cropImagePath}}" width="100%">
+          <img src="{{cycle.cropImagePath}}">
         </ion-thumbnail>
       </button>
       <div (click)="goToCycleDataPage(cycle.id)">
+        <p>Name: {{cycle.name}}</p>
         <p>Crop: {{cycle.crop}}</p>
         <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
         <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
