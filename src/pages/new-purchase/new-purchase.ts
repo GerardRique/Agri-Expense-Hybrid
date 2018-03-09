@@ -53,7 +53,6 @@ export class NewPurchasePage {
       this.materialList = list.slice();
       this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
       this.materialListTemplate.setList(this.materialList);
-      console.log(this.materialList);
     })
 
     this.unitsOfPurchase = '';

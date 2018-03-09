@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, NavController, AlertController, ToastController } from 'ionic-angular';
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
-import { PopoverPage } from './PopoverPage';
+import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';

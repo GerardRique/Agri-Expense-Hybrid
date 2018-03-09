@@ -59,7 +59,6 @@ export class UseMaterialPage {
 
     this.purchaseManager.get(this.purchaseId).then((purchase) => {
       this.selectedPurchase = purchase;
-      console.log(this.selectedPurchase);
     })
   }
 
@@ -90,7 +89,7 @@ export class UseMaterialPage {
     let toast = this.toastCtrl.create({
       message: 'Successully used material',
       duration: 2000,
-      position: 'middle'
+      position: 'bottom'
     });
     this.materialId = this.selectedPurchase['materialId'];
     let myDate = new Date();
@@ -100,6 +99,7 @@ export class UseMaterialPage {
       if(result === true){
         console.log('Use successfully saved');
         this.selectedPurchase['quantityRemaining'] = this.selectedPurchase['quantityRemaining'] - this.quantityUsed;
+        this.selectedPurchase['used'] = true;
         this.purchaseManager.edit(this.purchaseId, this.selectedPurchase).then((editResult) => {
           if(editResult === true){
             console.log('Purchase Successfully updated');

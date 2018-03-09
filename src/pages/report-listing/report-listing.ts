@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, PopoverController
 import { ReportCreator } from '../../core/ReportCreator';
 import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-import { PopoverPage } from '../home/PopoverPage';
+import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 import { ReportsPage } from '../reports/reports';
 
 /**

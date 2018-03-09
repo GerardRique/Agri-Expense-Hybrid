@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, AlertController } from 'ionic-angular';
 import { HarvestListingPage } from '../harvest-listing/harvest-listing';
 import { App } from 'ionic-angular';
 import { SaleManager } from '../../core/SaleManager';
+import { HarvestManager } from '../../core/HarvestManager';
 
 /**
  * Generated class for the SaleListingPage page.
@@ -26,7 +27,7 @@ export class SaleListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager, private harvestManager: HarvestManager, private alertCtrl: AlertController) {
 
     this.rootNav = this.app.getRootNav();
 
@@ -75,9 +76,22 @@ export class SaleListingPage {
   }
 
   goToHarvestListingPage(){
-    this.rootNav.push(HarvestListingPage, {
-      callback: this.loadData.bind(this)
+    let noHarvestAlert = this.alertCtrl.create({
+      title: 'No Harvests',
+      subTitle: 'Make a harvest before you can make a sale.',
+      buttons: ['Ok']
     });
+    this.harvestManager.getAll().then((harvestList) => {
+      if(harvestList.length === 0){
+        console.log('No harvest made');
+        noHarvestAlert.present();
+      }
+      else{
+        this.rootNav.push(HarvestListingPage, {
+          callback: this.loadData.bind(this)
+        });
+      }
+    })
   }
 
 }

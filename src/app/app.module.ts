@@ -19,7 +19,7 @@ import { NewLabourerPage } from '../pages/new-labourer/new-labourer';
 import { SelectCyclePage } from '../pages/select-cycle/select-cycle';
 import { NewTaskPage } from '../pages/new-task/new-task';
 import { ReportsPage } from '../pages/reports/reports';
-import { PopoverPage } from '../pages/home/PopoverPage';
+import { PopoverPage } from '../core/UIComponents/PopoverPage';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';

@@ -5,10 +5,12 @@ export class Purchase implements Serializeable{
     
     private id: string;
     private quantityRemaining: number;
+    private used: boolean
 
     constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string){
         this.id = UUID.UUID();
         this.quantityRemaining = this.quantityPurchased;
+        this.used = false;
     }
 
     public static deserialize(data: Object){
