@@ -18,7 +18,7 @@
   <form>
     <ion-item>
       <ion-label color="primary" stacked>Number of {{selectedPurchase.units}} to be used</ion-label>
-      <ion-input type="number" name="quantityUsed" [(ngModel)]="quantityUsed" (ionChange)="quantityChange()"></ion-input>
+      <ion-input type="number" placeholder="Quantity of material used" name="quantityUsed" [(ngModel)]="quantityUsed" (ionChange)="quantityChange()"></ion-input>
     </ion-item>
   </form>
   <p>Quantity Remaining: {{selectedPurchase.quantityRemaining}} {{selectedPurchase.units}}</p>

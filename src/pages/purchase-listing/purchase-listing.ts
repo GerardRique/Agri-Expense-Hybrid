@@ -95,6 +95,7 @@ export class PurchaseListingPage {
     this.content.resize();
 
     this.purchaseManager.getAll().then((list) => {
+      console.log(list);
       this.purchaseList = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
       });

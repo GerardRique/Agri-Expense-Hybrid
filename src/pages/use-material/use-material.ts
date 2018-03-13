@@ -47,7 +47,7 @@ export class UseMaterialPage {
     this.selectedPurchase = new Object;
 
     this.costOfUse = 0;
-    this.quantityUsed = 0;
+    //this.quantityUsed = 0;
   }
 
   ionViewDidEnter(){

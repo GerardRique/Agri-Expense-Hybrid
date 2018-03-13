@@ -15,7 +15,20 @@
 
 <ion-content padding>
 
-  <ion-list>
+  
+  <ion-list> 
+    <ion-card>
+      <ion-card-title padding>Cycle Expenses</ion-card-title>
+      <ion-list inset>
+        <ion-item *ngFor="let material of materialList">
+            <ion-avatar item-start>
+                <img src="{{material.imagePath}}">
+              </ion-avatar>
+          <h2>{{material.name}}: ${{ material.total | number: '.2-2'}}</h2>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+    
     <ion-card *ngFor="let material of materialList">
       <ion-card-title padding>{{material.name}}</ion-card-title>
       <ion-card-content>

@@ -15,6 +15,8 @@
 
 <ion-content padding>
 
+  <p text-center *ngIf="displayNoPurchaseMessage">No purchases available for use.</p>
+
   <ion-card *ngFor="let purchase of avaialblePurchaseListing">
     <ion-card-title padding>
       {{purchase.typeName}}
@@ -29,7 +31,7 @@
     </ion-row>
   </ion-card>
 
-
-  
-
+  <ion-fab right bottom>
+    <button ion-fab color="myGreen"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

@@ -22,6 +22,8 @@ export class SelectPurchasePage {
   cycleId: string;
   avaialblePurchaseListing: Array<Object>;
 
+  displayNoPurchaseMessage: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public purchaseManager: PurchaseManager, public materialManager: MaterialManager){
     
   }
@@ -37,11 +39,57 @@ export class SelectPurchasePage {
     console.log('Material ID: ' + this.materialId);
     console.log('Cycle ID: ' + this.cycleId);
 
+    this.displayNoPurchaseMessage = false;
+
     this.purchaseManager.getOfMaterialType(this.materialId).then((list) => {
-      this.avaialblePurchaseListing = list;
-      this.getData().then(() => {
-      });
+      this.purchaseManager.get(this.materialId).then((materialData) => {
+        console.log(materialData);
+        //Determine if plant material was selected. If so, the purchases should be filtered to only display purchases that contain planting materials of the selected crop.
+        if(MaterialManager.PLANT_MATERIAL.localeCompare(materialData['name']) === 0){
+          console.log('Displaying plant material purchases.');
+          console.log('Filtering by the selected cycle.');
+          this.filterPlantMaterial(list).then((filteredList) => {
+            
+            this.avaialblePurchaseListing = filteredList;
+            if(this.avaialblePurchaseListing.length === 0){
+              this.displayNoPurchaseMessage = true;
+            }
+            this.getData().then(() => {
+            });
+          });
+        }
+        else {
+          console.log('Plant material not selected. No filtering of purchases required');
+          this.avaialblePurchaseListing = list;
+          if(this.avaialblePurchaseListing.length === 0){
+            this.displayNoPurchaseMessage = true;
+          }
+          this.getData().then(() => {
+
+          })
+        }
+      })
+      
     })
+  }
+
+  private filterPlantMaterial(list): Promise<Array<Object>>{
+
+    let newList = [];
+
+    return this.materialManager.get(this.cycleId).then((cycle) => {
+      let cropId = cycle['cropId'];
+
+      for(let purchase of list){
+        console.log('Comparing: ' + cropId + ' and ' + purchase['typeId']);
+        if(cropId.localeCompare(purchase['typeId']) ===0 ){
+          newList.push(purchase);
+        }
+      }
+      console.log(newList);
+      return newList;
+    })
+    
   }
 
   getData(): Promise<void>{
@@ -54,7 +102,6 @@ export class SelectPurchasePage {
 
     return Promise.all(promises).then(() => {
       console.log('Successfully retrieved ' + this.avaialblePurchaseListing.length + ' purchases');
-      console.log(this.avaialblePurchaseListing);
     });
   }
 
