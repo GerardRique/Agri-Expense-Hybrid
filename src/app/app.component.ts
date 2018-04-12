@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController } from 'ionic-angular';
+import { Nav, Platform, NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,6 +30,10 @@ import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { ReportListingPage } from '../pages/report-listing/report-listing';
 import { AuthenticationService } from '../core/AunthenticationService';
+import { ManageDataPage } from '../pages/manage-data/manage-data';
+import { Observable } from '@firebase/util';
+import { InitializeData } from '../core/InitializationModule/InitializeData';
+import { InitializePage } from '../pages/initialize/initialize';
 
 @Component({
   templateUrl: 'app.html',
@@ -45,9 +49,11 @@ export class MyApp {
 
   labourer: Labourer;
 
-  m: MeasurableDataManager
+  m: MeasurableDataManager;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storage: Storage, private materialManager: MaterialManager, private labourManager: LabourManager, private harvestManager: HarvestManager, private fertilizerManager: FertilizerManager, private chemicalManager: ChemicalsManager, private soilAmmendmentManager: SoilAmendmentsManager, private plantMaterialManager: PlantMaterialManager, private authenticationService: AuthenticationService){
+  public static USER_ACCOUNT_CHECK: string = "user_account";
+
+  constructor(public platform: Platform, public statusBar: StatusBar,public storage: Storage, public splashScreen: SplashScreen, private initializeData: InitializeData, private authenticationService: AuthenticationService, private alertCtrl: AlertController){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -60,6 +66,8 @@ export class MyApp {
     let signInPage = { title: 'Sign In', component: SignInPage };
 
     let manageAccountPage = { title: 'Manage Account', component: SignInPage};
+
+    let dataManagePage = { title: 'Manage Data', component: ManageDataPage };
 
     //We must determine if the user is signed in so that, in the side menu, we can either display a button to navigate to the sign in page if the user is not signed in or a button to navigate to the manage accounts page if the user has signed in.
     //Using the authentication service, we can check if the user is signed in.
@@ -81,63 +89,35 @@ export class MyApp {
           this.pages.splice(index, 1);
         }
         this.pages.push(manageAccountPage);
+        //Provide the user with the option to manage online data if they are signed in
+        this.pages.push(dataManagePage);
       }
     })
 
-    // this.storage.clear().then(() => {
-    //   console.log("Cleared");
-    // })
+    
 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
 
-      this.materialManager.checkInitialization().then((response) => {
-        if(response === true){
-          console.log('Plant material manager already initialized');
+      // this.storage.clear().then(() => {
+      //   console.log('Cleared');
+      // });
+    
+      this.initializeData.checkAppInitialization().then((result) => {
+        if(result === true){
+          console.log("Appication already initialized");
         }
-        else {
-          this.materialManager.initialize();
+        else{
+          this.navCtrl.push(InitializePage);
         }
-
-        this.fertilizerManager.checkInitialization().then((response) => {
-          if(response === true) console.log('Fertilizer manager already initialized');
-
-          else this.fertilizerManager.initialize();
-        });
-
-        this.plantMaterialManager.checkInitialization().then((reponse) => {
-          if(response === true)console.log('Plant material manager already initialized');
-
-          else this.plantMaterialManager.initialize();
-        })
-
-        this.chemicalManager.checkInitialization().then((response) => {
-          if(response === true)console.log('Chemical manager already initialized');
-
-          else this.chemicalManager.initialize();
-        })
-
-        this.soilAmmendmentManager.checkInitialization().then((response) => {
-          if(response === true)console.log('Soil Ammendment manager already initialized');
-
-          else this.soilAmmendmentManager.initialize();
-        })
       })
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
-
-    this.harvestManager.checkInitialization().then((result) => {
-      if(result === true){
-        console.log('Harvest Manager already initialized');
-      }
-      else{
-        this.harvestManager.initialize();
-      }
     });
   }
 
@@ -149,4 +129,28 @@ export class MyApp {
     //this.nav.setRoot(page.component);
     this.navCtrl.push(page.component);
   }
+
+  public presentSignInOffer(acceptFunction?, declineFunction?){
+    let alert = this.alertCtrl.create({
+      title: "Sign In to Agri Expense",
+      message: "Would you like to sign in to Agri Expense? ",
+      buttons: [
+        {
+          text: 'Sign me in',
+          handler: () => {
+            console.log('Signin In');
+          }
+        },
+        {
+          text: "No Thank You",
+          handler: () => {
+            console.log('Sign In cancelled');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+    
 }

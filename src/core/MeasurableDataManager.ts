@@ -27,7 +27,7 @@ export abstract class MeasurableDataManager extends DataManager {
         })
     }
 
-    private initializeUnits(): Promise<boolean>{
+    public initializeUnits(): Promise<boolean>{
         console.log("Initializing units...");
         return this.dataStorage.ready().then(() => {
             let unitListString = JSON.stringify(this.unitList);

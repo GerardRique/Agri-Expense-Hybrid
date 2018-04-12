@@ -18,8 +18,9 @@
   
   <ion-list> 
     <ion-card>
-      <ion-card-title padding>Cycle Expenses</ion-card-title>
-      <ion-list inset>
+      <!-- <ion-card-title padding>Total expenses for {{selectedCycle.name}}</ion-card-title> -->
+      <h2 padding>Total expenses for {{selectedCycle.name}}</h2>
+      <ion-list>
         <ion-item *ngFor="let material of materialList">
             <ion-avatar item-start>
                 <img src="{{material.imagePath}}">

@@ -63,6 +63,12 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { FilterPipe } from '../pipes/filter/filter';
 import { DateFilterPipe } from '../pipes/date-filter/date-filter';
 import { PipesModule } from '../pipes/pipes.module';
+import { ManageDataPage } from '../pages/manage-data/manage-data';
+import { DataSynchronization } from '../core/Backened/DataSynchronization';
+import { InitializeData } from '../core/InitializationModule/InitializeData';
+import { InitializePage } from '../pages/initialize/initialize';
+import { CountryManager } from '../core/CountryModule/CountryManager';
+import { GeneralDataManager } from '../core/GeneralDataManager';
 
 
 @NgModule({
@@ -92,7 +98,9 @@ import { PipesModule } from '../pipes/pipes.module';
     SaleListingPage,
     HarvestListingPage,
     NewSalePage,
-    SignInPage
+    SignInPage,
+    ManageDataPage,
+    InitializePage
   ],
   imports: [
     BrowserModule,
@@ -134,7 +142,9 @@ import { PipesModule } from '../pipes/pipes.module';
     SaleListingPage,
     HarvestListingPage,
     NewSalePage,
-    SignInPage
+    SignInPage,
+    ManageDataPage,
+    InitializePage
   ],
   providers: [
     StatusBar,
@@ -152,6 +162,7 @@ import { PipesModule } from '../pipes/pipes.module';
     TaskManager,
     DataManagerFactory,
     MeasurableDataManagerFactory,
+    DataSynchronization,
     UUID,
     File,
     FileOpener,
@@ -163,6 +174,9 @@ import { PipesModule } from '../pipes/pipes.module';
     AuthenticationService,
     AngularFirestore,
     GooglePlus,
+    InitializeData,
+    CountryManager,
+    GeneralDataManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -26,8 +26,8 @@
 
   <p ion-text color="danger" *ngIf="displayInsufficientStockMessage === true">Not enough in stock</p>
 
-  <ion-fab right bottom *ngIf="displayConfirmButton === true">
-    <button ion-fab (click)="useMaterial()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
+  <ion-fab right bottom>
+    <button ion-fab [disabled]= "displayConfirmButton === false" (click)="useMaterial()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

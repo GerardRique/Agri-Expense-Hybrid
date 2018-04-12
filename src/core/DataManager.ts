@@ -187,16 +187,22 @@ export abstract class DataManager{
     }
 
     public add(data: Serializeable): Promise<boolean>{
+        
         return this.storage.ready().then(() => {
+            
             let id = data.getId();
+            console.log("FOUND ID");
+            console.log('CALLING ADD METHOD STORAGE READY');
             let dataString = JSON.stringify(data);
             let promises = [];
             return this.storage.get(this.DATA_ID).then((result) => {
-                if(result === null)
+                if(result === null){
                     result = [];
+                }
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(id);
-                promises.push(this.storage.set(this.DATA_ID, result));
+                let resultString = JSON.stringify(result);
+                promises.push(this.storage.set(this.DATA_ID, resultString));
                 promises.push(this.storage.set(id, dataString));
                 return Promise.all(promises).then(() => {
                     return true;
@@ -209,6 +215,38 @@ export abstract class DataManager{
                 return false;
             });
         }).catch((error) => {
+            console.log('ERRORRRR: ' + error);
+            return false;
+        });
+    }
+
+    public addById(data: Object, id: string): Promise<boolean>{
+        return this.storage.ready().then(() => {
+            let dataString = JSON.stringify(data);
+            let promises = [];
+            return this.storage.get(this.DATA_ID).then((result) => {
+                if(result === null){
+                    console.log('List is empty');
+                    result = [];
+                }
+                if(!isObject(result))result = JSON.parse(result);
+                result.push(id);
+                let resultString = JSON.stringify(result);
+                console.log(resultString);
+                promises.push(this.storage.set(this.DATA_ID, resultString));
+                promises.push(this.storage.set(id, dataString));
+                return Promise.all(promises).then(() => {
+                    return true;
+                }).catch((error) => {
+                    console.log("Error: " + error);
+                    return false;
+                });
+            }).catch((error) => {
+                console.log("Error: " + error);
+                return false;
+            });
+        }).catch((error) => {
+            console.log('ERRORRRR: ' + error);
             return false;
         });
     }
