@@ -9,6 +9,8 @@ import { LabourManager } from '../../core/LabourManager';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
 
+import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification';
+
 /**
  * Generated class for the ManageDataPage page.
  *
@@ -23,7 +25,24 @@ import { DataManager } from '../../core/DataManager';
 })
 export class ManageDataPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataSynchronization: DataSynchronization, public authenticationService: AuthenticationService, public dataManagerFactory: DataManagerFactory , public cycleManager: CycleManager, public purchaseManager: PurchaseManager, public labourManager: LabourManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataSynchronization: DataSynchronization, public authenticationService: AuthenticationService, public dataManagerFactory: DataManagerFactory , public cycleManager: CycleManager, public purchaseManager: PurchaseManager, public labourManager: LabourManager, private notification: PhonegapLocalNotification) {
+
+    this.notification.requestPermission().then(
+      (permission) => {
+        if (permission === 'granted') {
+
+          console.log('Permission granted');
+    
+          // Create the notification
+          this.notification.create('Agri Expense', {
+            tag: 'AgriExpense',
+            body: 'Agri Expense Reminder',
+            icon: 'assets/icon/icon.png',
+          });
+    
+        }
+      }
+    );
   
   }
 

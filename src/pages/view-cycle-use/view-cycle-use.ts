@@ -19,13 +19,26 @@ export class ViewCycleUsePage {
 
   materialUseList: Array<Object>;
 
+  materialName: string;
+
+  displayNoMaterialUseMessage: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public materialUseManager: MaterialUseManager) {
+
+    this.displayNoMaterialUseMessage = false;
+
+    this.materialName = "Materials";
   }
 
   ionViewDidEnter(){
     let materialUseListString = this.navParams.get('materialUseString');
 
+    this.materialName = this.navParams.get('materialName');
+
     this.materialUseList = JSON.parse(materialUseListString);
+    if(this.materialUseList.length === 0){
+      this.displayNoMaterialUseMessage = true;
+    }
     console.log(this.materialUseList);
     this.getMaterialNames();
     

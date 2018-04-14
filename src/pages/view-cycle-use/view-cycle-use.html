@@ -6,14 +6,16 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>View Material Use</ion-title>
+  <ion-navbar color="myGreen">
+    <ion-title>View {{materialName}} Use</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+    <p text-center *ngIf="displayNoMaterialUseMessage">No {{materialName}} used on this cycle.</p>
 
   <ion-list>
     <ion-card *ngFor="let materialUse of materialUseList">

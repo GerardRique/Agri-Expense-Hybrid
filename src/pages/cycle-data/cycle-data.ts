@@ -143,11 +143,13 @@ export class CycleDataPage {
     this.navCtrl.push(SelectPurchasePage, data);
   }
 
-  goToViewCycleUsePage(materialId: string){
+  goToViewCycleUsePage(materialId: string, materialName: string){
+    console.log(materialName);
     let materialUseList = Array<Object>();
     materialUseList = this.materialUseMap.get(materialId);
     let materialUseListString = JSON.stringify(materialUseList);
     let data = {
+      'materialName': materialName,
       'materialUseString': materialUseListString
     };
     this.navCtrl.push(ViewCycleUsePage, data);

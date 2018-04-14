@@ -76,7 +76,7 @@ export class PurchaseListingPage {
       if(data === null)
         return 
       if(data.options.localeCompare('Delete') === 0){
-        this.deletePurchase(purchase['id'], index);
+        this.deletePurchase(purchase['id'], index, purchase['used']);
       }
       else if(data.options.localeCompare('Edit') === 0){
         toast.setMessage('Editing...');
@@ -134,13 +134,28 @@ export class PurchaseListingPage {
     });
   }
 
-  public deletePurchase(purchaseId, index): void{
+  public deletePurchase(purchaseId, index, hasBeenUsed: boolean): void{
     console.log("Deleting Purchase: " + purchaseId);
     let toast = this.toastCtrl.create({
       message: '',
       duration: 2000,
       position: 'bottom'
     });
+
+    let cantDeletePurchaseAlert = this.alertCtrl.create({
+      title: 'Delete Purchase',
+      message: 'This purchase has already been used and cannot be deleted',
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    });
+
+    if(hasBeenUsed === true){
+      cantDeletePurchaseAlert.present();
+      return;
+    }
     let alert = this.alertCtrl.create({
       title: 'Confirm Delete',
       message: 'Are you sure you want to delete this purchase',

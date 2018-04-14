@@ -70,6 +70,8 @@ import { InitializePage } from '../pages/initialize/initialize';
 import { CountryManager } from '../core/CountryModule/CountryManager';
 import { GeneralDataManager } from '../core/GeneralDataManager';
 
+import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification';
+
 
 @NgModule({
   declarations: [
@@ -177,6 +179,7 @@ import { GeneralDataManager } from '../core/GeneralDataManager';
     InitializeData,
     CountryManager,
     GeneralDataManager,
+    PhonegapLocalNotification,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

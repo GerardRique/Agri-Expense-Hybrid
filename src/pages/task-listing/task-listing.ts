@@ -23,7 +23,11 @@ export class TaskListingPage {
   taskListingData: Array<Task>;
   labourerListingMap = {};
 
+  displayNoLabourerMessage: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public taskManager: TaskManager, public labourManager :LabourManager) {
+
+    this.displayNoLabourerMessage = false;
 
 
     if('cycleId' in this.navParams.data){
@@ -31,6 +35,9 @@ export class TaskListingPage {
       this.cycleId = this.navParams.get('cycleId');
       this.taskManager.getByCycleId(this.cycleId).then((data)=>{
         this.taskListingData = data;
+        if(this.taskListingData.length === 0){
+          this.displayNoLabourerMessage = true;
+        }
         console.log(this.taskListingData);
         this.getLabourers();
       });

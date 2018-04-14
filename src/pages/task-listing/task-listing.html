@@ -6,14 +6,16 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Task Listing</ion-title>
+  <ion-navbar color="myGreen">
+    <ion-title>Assigned Labour</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+    <p text-center *ngIf="displayNoLabourerMessage">No Labourers Assigned to this Crop Cycle.</p>
 
   <ion-list>
     <ion-card *ngFor="let task of taskListingData">
