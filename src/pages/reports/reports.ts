@@ -41,4 +41,10 @@ export class ReportsPage {
 
   }
 
+  generateADBReport(){
+    this.reportCreator.generateADBOutflowReport(this.cycleManager).then((data) => {
+      console.log(data);
+    })
+  }
+
 }

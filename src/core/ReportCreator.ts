@@ -15,6 +15,8 @@ import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
 import { CycleManager } from './CyclesModule/CycleManager';
 import { TaskManager } from './TaskManager';
 import { XHRBackend } from '@angular/http/src/backends/xhr_backend';
+import { DataManagerFactory } from './DataManagerFactory';
+import { MaterialUseManager } from './MaterialUseManager';
 
 @Injectable()
 export class ReportCreator{
@@ -26,7 +28,7 @@ export class ReportCreator{
 
     wbout: string;
 
-    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController, private cycleManager: CycleManager){
+    constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager){
         this.wb = XLSX.utils.book_new();
     }
 
@@ -75,6 +77,49 @@ export class ReportCreator{
                 list.push(currentCycle);
             }
             return list;
+        })
+    }
+
+    public generateADBOutflowReport(cycleManager: CycleManager): Promise<Array<Array<string>>>{
+        let list = Array<Array<string>>();
+
+        let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
+
+        return this.cycleManager.getAll().then((cycleListing) => {
+            let headings = ['No.', 'Crop', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Monthy Expenses (In Soles) (1x2x3=4)', 'Beginning Month', 'Beginning Year'];
+            let subHeadings = ['No.', 'Crop', 'Input Description', 'QtyPerArea', 'Area', 'UnitCPrice', 'Outflows', 'Beginning Month', 'Beginning Year'];
+            let count = 1;
+            list.push(headings);
+            list.push(subHeadings);
+
+            cycleListing.forEach(async (cycle) => {
+                // let spreadsheetRow = Array<string>();
+                let materialUseList = await this.materialUseManager.getByCycleId(cycle['id']);
+                
+                console.log(cycle);
+
+                let purchaseList = await this.getPurchases(materialUseList);
+            })
+
+            return list;
+        })
+    }
+
+    public getPurchases(materialList: Array<Object>): Promise<Array<Object>>{
+        let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
+        let purchaseListing = [];
+        let promises = [];
+
+        for(let materialUse of materialList){
+            promises.push(purchaseManager.get(materialUse['purchaseId']).then((purchase) => {
+                purchaseListing.push(purchase);
+            }));
+        }
+
+        return Promise.all(promises).then(() => {
+            return purchaseListing;
+        }).catch((error) => {
+            return error;
         })
     }
 
@@ -185,14 +230,73 @@ export class ReportCreator{
             position: 'top'
         });
 
-        return this.createDirectory('NewAgriExpense').then((url) => {
-            return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
-                toast.present();
-                return true;
+        if(this.platform.is('android')){
+            return this.createDirectory('NewAgriExpense').then((url) => {
+                return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
+                    toast.present();
+                    return true;
+                }).catch((error) => {
+                    let errorString = JSON.stringify(error);
+                    errorToast.setMessage("er: " + errorString);
+                    errorToast.present();
+                    return false;
+                });
+            })
+        }
+        else if(this.platform.is('ios')){
+            return this.createDirectoryIOS('NewAgriExpense').then((url) => {
+                return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
+                    toast.present();
+                    return true;
+                })
             }).catch((error) => {
+                let errorString = JSON.stringify(error);
+                errorToast.setMessage("ios5: " + errorString);
                 errorToast.present();
                 return false;
-            });
+            })
+        }
+
+        
+    }
+
+    public retrieveFiles(folderName: string): Promise<Array<Entry>>{
+        if(this.platform.is('ios')){
+            return this.file.listDir(this.file.dataDirectory, folderName).then((entries) => {
+                return entries;
+            }).catch((error) => {
+                console.log(error);
+                return error;
+            })
+        }
+        else if(this.platform.is('android')){
+            this.file.listDir(this.file.externalRootDirectory, folderName).then((entries) => {
+                return entries;
+            }).catch((error) => {
+                console.log(error);
+                return error;
+            })
+        }
+    }
+
+    public createDirectoryIOS(directoryName: string): Promise<string>{
+        return this.file.checkDir(this.file.dataDirectory, directoryName).then((result) => {
+            if(result === true){
+                console.log(directoryName + ' folder already created');
+                return this.file.dataDirectory + '' + directoryName + '/';
+            } else {
+                return this.file.createDir(this.file.dataDirectory, directoryName, true).then((entry) => {
+                    console.log('Created folder ' + directoryName);
+                    return entry.toURL();
+                }).catch((error) => {
+                    return '';
+                });
+            }
+        }).catch((error) => {
+            return this.file.createDir(this.file.dataDirectory, directoryName, true).then((entry) => {
+                console.log('Created folder ' + directoryName);
+                return entry.toURL();
+            })
         })
     }
 

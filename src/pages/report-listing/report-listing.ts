@@ -55,12 +55,18 @@ export class ReportListingPage {
 
   public updateFileList(){
     //After the report creator creates the report, a list of all reports in the application folder is retrived from device storage.
-    this.file.listDir(this.file.externalRootDirectory, 'NewAgriExpense').then((entries) => {
-      //The list of reports will be displayed to the user.
+    // this.file.listDir(this.file.externalRootDirectory, 'NewAgriExpense').then((entries) => {
+    //   //The list of reports will be displayed to the user.
+    //   this.fileList = entries;
+    // }).catch((error) => {
+    //   console.log('Error retrieving files');
+    // });
+
+    this.reportCreator.retrieveFiles('NewAgriExpense').then((entries) => {
       this.fileList = entries;
     }).catch((error) => {
       console.log('Error retrieving files');
-    });
+    })
   }
 
   public openReportOptionsMenu(myEvent, entry: Entry, index: number){

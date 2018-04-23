@@ -158,7 +158,16 @@ export class InitializePage {
 
 
   saveData(){
-    this.navCtrl.pop();
+    this.initializeData.checkAppInitialization().then((result) => {
+      if(result === true){
+        this.navCtrl.pop();
+      }
+      else{
+        this.runInitialization();
+        this.navCtrl.pop();
+      }
+    })
+    
   }
 
 }

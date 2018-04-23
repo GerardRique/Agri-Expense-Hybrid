@@ -10,6 +10,10 @@ import { Content } from 'ionic-angular/components/content/content';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 
+//Included to display currencies and dates on ios devices. 
+import 'intl';
+import 'intl/locale-data/jsonp/en.js';
+
 /**
  * Generated class for the PurchaseListingPage page.
  *

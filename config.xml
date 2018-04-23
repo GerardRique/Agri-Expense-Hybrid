@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.agriexpense" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="uwi.dcit.AgriExpenseTT" version="7.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>AgriExpense</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <description>AgriExpense</description>
+    <author email="kyle.e.defreitas@gmail.com" href="http://sta.uwi.edu/rdifund/projects/agrinett/">Kyle E.deFreitas</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -20,6 +20,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="AndroidLaunchMode" value="singleTask" />
+    <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="loadUrlTimeoutValue" value="700000" />
     <universal-links>
         <host name="https://fcv9p.app.goo.gl" scheme="https" />
@@ -82,6 +83,7 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
+        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
     </platform>
     <allow-navigation href="http://192.168.1.11:8101" />
     <allow-navigation href="http://10.0.14.24:8100" />
@@ -104,7 +106,7 @@
     <plugin name="cordova-plugin-file" spec="^4.3.3" />
     <plugin name="cordova-plugin-file-opener2" spec="^2.0.19" />
     <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
-        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.1005667092717-gumimataigu5kn5ji6cpdif8cgeua2f3" />
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.1005667092717-9geuk1e3ocrtob9mfu2tbd68emobe0ud" />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.15" />

@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "1005667092717",
+    "firebase_url": "https://uwi-agriexpense.firebaseio.com",
+    "project_id": "uwi-agriexpense",
+    "storage_bucket": "uwi-agriexpense.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005667092717:android:ee227acf83264321",
+        "android_client_info": {
+          "package_name": "io.ionic.agriexpense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005667092717-hdt07b86is8up7da81djnnp6upu4dcva.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.agriexpense",
+            "certificate_hash": "c8866c81a03bb9a457eaa1865c897abaf5ba7c14"
+          }
+        },
+        {
+          "client_id": "1005667092717-6grjpvgotjk567fs6ra8qr97njntmhpu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCLz9s-m8DZ6SV2VsCuDEVKSkyNFCv1ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005667092717-gumimataigu5kn5ji6cpdif8cgeua2f3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.ionic.agriexpense"
+              }
+            },
+            {
+              "client_id": "1005667092717-6grjpvgotjk567fs6ra8qr97njntmhpu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005667092717:android:8a92be1f808c8e1d",
+        "android_client_info": {
+          "package_name": "uwi.dcit.AgriExpenseTT"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005667092717-6grjpvgotjk567fs6ra8qr97njntmhpu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCLz9s-m8DZ6SV2VsCuDEVKSkyNFCv1ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

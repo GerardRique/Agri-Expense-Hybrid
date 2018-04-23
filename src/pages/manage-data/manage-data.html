@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>manageData</ion-title>
+  <ion-navbar color="myGreen">
+    <ion-title>Manage Data</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,7 +15,5 @@
 
 <ion-content padding>
 
-    <ion-fab right bottom>
-      <button ion-fab (click)="upload()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
-    </ion-fab>
+  <button class="center" (click)="upload()" block ion-button outline color="myGreen" padding> <p> Upload</p><ion-icon ios="md-cloud-upload" md="md-cloud-upload"></ion-icon> </button>
 </ion-content>

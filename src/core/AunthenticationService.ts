@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Subject } from 'rxjs';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 @Injectable()
 
@@ -14,13 +15,21 @@ export class AuthenticationService{
 
     private VERIFY_FIRST_ACCOUNT_CHECK: string = "first_sign_in_request";
 
-    constructor(private afDB: AngularFireDatabase, db: AngularFirestore, public afAuth: AngularFireAuth, public toastCtrl: ToastController, private platform: Platform, private storage: Storage){
+    user: Observable<firebase.User>;
+
+    constructor(private afDB: AngularFireDatabase, db: AngularFirestore, public afAuth: AngularFireAuth, private googlePlus: GooglePlus, public toastCtrl: ToastController, private platform: Platform, private storage: Storage){
+        this.user = this.afAuth.authState;
         
     }
 
     public signInWithGoogle(): Promise<boolean>{
         if(this.platform.is('cordova')){
-            return this.signInWithGoogleOnDevice();
+            if(this.platform.is('android')){
+                return this.signInWithGoogleOnDevice();
+            }
+            else if(this.platform.is('ios')){
+                return this.nativeIOSGoogleSignIn();
+            } 
         }
         else {
             return this.signInWithGoogleOnBrowser();
@@ -81,6 +90,23 @@ export class AuthenticationService{
             toast.present();
             return false;
         })
+    }
+
+    public nativeIOSGoogleSignIn(): Promise<boolean>{
+        return this.googlePlus.login({
+            'webClientId': '1005667092717-6grjpvgotjk567fs6ra8qr97njntmhpu.apps.googleusercontent.com',
+            'offline': true,
+            'scopes': 'profile email'
+        }).then((res) => {
+            return this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken)).then((result) => {
+                let uuid = result.uid;
+                return true;
+            }).catch((error) => {
+                return false;
+            });
+        }).catch((error) => {
+            return false;
+        });
     }
 
     public signOut(){

@@ -26,16 +26,15 @@ export class DataSynchronization{
         return dataManager.getAll().then((list) => {
 
             console.log("Syncing");
-            return true;
-            // for(let item of list){
-            //     promises.push(ref.set(item['id'], item))
-            // }
+            for(let item of list){
+                promises.push(ref.set(item['id'], item))
+            }
 
-            // return Promise.all(promises).then(() => {
-            //     return true;
-            // }).catch((error) => {
-            //     return false;
-            // });
+            return Promise.all(promises).then(() => {
+                return true;
+            }).catch((error) => {
+                return false;
+            });
         }).catch((error) => {
             return false;
         })

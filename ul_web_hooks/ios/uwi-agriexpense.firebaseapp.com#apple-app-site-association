@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "<YOUR_TEAM_ID_FROM_MEMBER_CENTER>.io.ionic.agriexpense",
+        "appID": "<YOUR_TEAM_ID_FROM_MEMBER_CENTER>.uwi.dcit.AgriExpenseTT",
         "paths": [
           "/__/auth/callback"
         ]

@@ -53,26 +53,27 @@ export class ManageDataPage {
 
   upload(){
 
+    let dataManagerList: Array<string> = [
+      DataManagerFactory.CYCLE,
+      DataManagerFactory.PURCHASE,
+      DataManagerFactory.SALE,
+      DataManagerFactory.LABOUR,
+      DataManagerFactory.MATERIAL,
+      DataManagerFactory.TASK,
+      DataManagerFactory.HARVEST,
+      DataManagerFactory.MATERIAL_USE,
+      DataManagerFactory.PLANT_MATERIAL,
+      DataManagerFactory.FERTILIZER,
+      DataManagerFactory.CHEMICAL,
+      DataManagerFactory.SOIL_AMMENDMENT
+    ];
+
     let dataManagers = Array<DataManager>();
 
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.CYCLE));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.SALE));
+    for(let id of dataManagerList){
+      dataManagers.push(this.dataManagerFactory.getManager(id));
+    }
 
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.LABOUR));
-
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.MATERIAL));
-
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.TASK));
-
-
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.HARVEST));
-
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.MATERIAL_USE));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.PLANT_MATERIAL));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.FERTILIZER));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.CHEMICAL));
-    dataManagers.push(this.dataManagerFactory.getManager(DataManagerFactory.SOIL_AMMENDMENT));
 
     this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
       if(!user){

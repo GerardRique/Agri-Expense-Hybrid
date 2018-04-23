@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="myGreen">
     <ion-title>Sign In</ion-title>
   </ion-navbar>
 
@@ -17,16 +17,20 @@
 
   <ng-template #alreadySignedInTemplate>
     <p text-center>Currently logged in as {{displayName}}</p>
-    <button ion-button block (click)="signOut()">Log out</button>
+    <!-- <button ion-button block (click)="signOut()">Log out</button> -->
+
+    <button class="center" block ion-button outline color="danger" padding (click)="signOut()"> <ion-icon ios="logo-googleplus" md="logo-googleplus"></ion-icon> <span>Sign Out</span></button>
   </ng-template>
 
   <ng-template #signInTemplate>
     <p text-center>Log in with Google Account</p>
 
-    <button ion-button block (click)="signIn()">
+    <!-- <button ion-button block (click)="signIn()">
       <div>Sign in with Google</div>
       <ion-icon ios="logo-google" md="logo-google"></ion-icon>
-    </button>
+    </button> -->
+
+    <button class="center" block ion-button outline color="danger" padding (click)="signIn()"> <ion-icon ios="logo-googleplus" md="logo-googleplus"></ion-icon> <span>Google Sign In</span></button>
   </ng-template>
 
   <div *ngIf="displayAlreadySignedInTemplate === true;then alreadySignedInTemplate"></div>
