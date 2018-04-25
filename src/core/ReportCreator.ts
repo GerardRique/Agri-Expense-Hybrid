@@ -270,7 +270,7 @@ export class ReportCreator{
             })
         }
         else if(this.platform.is('android')){
-            this.file.listDir(this.file.externalRootDirectory, folderName).then((entries) => {
+            return this.file.listDir(this.file.externalRootDirectory, folderName).then((entries) => {
                 return entries;
             }).catch((error) => {
                 console.log(error);

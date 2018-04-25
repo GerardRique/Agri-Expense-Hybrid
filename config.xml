@@ -23,7 +23,7 @@
     <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="loadUrlTimeoutValue" value="700000" />
     <universal-links>
-        <host name="https://fcv9p.app.goo.gl" scheme="https" />
+        <host name="fcv9p.app.goo.gl" scheme="https" />
         <host name="uwi-agriexpense.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
