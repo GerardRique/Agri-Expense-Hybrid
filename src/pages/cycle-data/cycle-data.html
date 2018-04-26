@@ -30,7 +30,7 @@
       </ion-list>
     </ion-card>
     
-    <ion-card *ngFor="let material of materialList">
+    <ion-card *ngFor="let material of materialList" [ngStyle]="{'background':blue}">
       <ion-card-title padding>{{material.name}}</ion-card-title>
       <ion-card-content>
         <p>Total spent: ${{material.total | number: '.2-2'}}</p>

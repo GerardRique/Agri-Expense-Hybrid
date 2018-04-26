@@ -105,13 +105,20 @@ export class UseMaterialPage {
             console.log('Purchase Successfully updated');
             //this.navCtrl.popToRoot();
             toast.present();
-            this.rootNav.popToRoot();
+            //this.rootNav.popToRoot();
+            this.returnToCycleDetails();
           }
         })
       }
       else console.log('Error saving use');
     })
     console.log(materialUse);
+  }
+
+
+  private returnToCycleDetails(){
+    let startIndex = this.navCtrl.getActive().index - 1;
+    this.navCtrl.remove(startIndex, 2);
   }
 
 }

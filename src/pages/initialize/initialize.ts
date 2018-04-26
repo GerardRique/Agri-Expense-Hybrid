@@ -32,6 +32,8 @@ export class InitializePage {
   private userSignedIn: boolean;
   private userDataSyncTime: string;
 
+  private displaySignInButton: boolean;
+
   constructor(public storage: Storage, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private countryManager: CountryManager, private authenticationService: AuthenticationService, private measurableDataManagerFactory: MeasurableDataManagerFactory, private dataManagerFactory: DataManagerFactory, private initializeData: InitializeData, private toastCtrl: ToastController, private alertCtrl: AlertController, private dataSync :DataSynchronization) {
     console.log("Running first initialization...");
 
@@ -39,6 +41,7 @@ export class InitializePage {
         this.alarmTime = new Date().toISOString();
         this.userDataSyncTime = new Date().toISOString();
         this.userSignedIn = false;
+        this.displaySignInButton = true;
 
         this.counties = Array<string>();
 
@@ -75,6 +78,7 @@ export class InitializePage {
       });
       toast.present();
       this.userSignedIn = true;
+      this.displaySignInButton = false;
       this.authenticationService.checkForExistingData().subscribe((result: boolean) => {
         if(result === true){
           console.log("Exists");
@@ -86,6 +90,14 @@ export class InitializePage {
           this.runInitialization();
         }
       })
+    }).catch((error) => {
+      let errorToast = this.toastCtrl.create({
+        message: "Error signing in.",
+        duration: 5000,
+        position: "bottom"
+      });
+      errorToast.present();
+      console.log(error);
     })
   }
 

@@ -159,6 +159,12 @@ export abstract class DataManager{
                 for(let id of uuidListString){
                     promises.push(this.storage.get(id).then((dataString) => {
                         let data = JSON.parse(dataString);
+                        if('name' in data){
+                            // let formatedName = data.name;
+                            // formatedName = formatedName.toLowerCase();
+                            // formatedName = formatedName.charAt(0).toUpperCase() + formatedName.slice(1);
+                            // data.name = formatedName;
+                        }
                         list.push(data);
                     }))
                 }

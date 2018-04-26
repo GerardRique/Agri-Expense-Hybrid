@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, Navbar } from 'ionic-angular';
 import { ListTemplate } from '../../core/ListTemplate';
 import { Template } from '../../core/Template';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -46,11 +46,13 @@ export class NewPurchasePage {
 
   callback: any;
 
+  @ViewChild(Navbar) navbar: Navbar;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController) {
 
     materialManager.retrieveAll().then((list) => {
-      this.materialList = list.slice();
+      this.materialList = list;
       this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
       this.materialListTemplate.setList(this.materialList);
     })
@@ -86,6 +88,24 @@ export class NewPurchasePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewPurchasePage');
+
+    this.navbar.backButtonClick = () => {
+      if(this.submitTemplate.isActive() === true){
+        this.submitTemplate.deactivate();
+        this.materialUnitsTemplate.activate();
+      }
+      else if(this.materialUnitsTemplate.isActive() === true){
+        this.materialUnitsTemplate.deactivate();
+        this.materialTypeTemplate.activate();
+      }
+      else if(this.materialTypeTemplate.isActive() === true){
+        this.materialTypeTemplate.deactivate();
+        this.materialListTemplate.activate();
+      }
+      else if(this.materialListTemplate.isActive() === true){
+        this.navCtrl.pop();
+      }
+    }
   }
 
   selectMaterial(material){
@@ -99,7 +119,7 @@ export class NewPurchasePage {
     this.measurableDataManager = this.materialManager.getManager(material.name);
     this.measurableDataManager.getAll().then((list) => {
       console.log('Successfully retrieved ' + list.length + ' materials');
-      this.materialTypeTemplate.setList(list.slice());
+      this.materialTypeTemplate.setList(list);
     });
     this.measurableDataManager.getUnitsList().then((units) => {
       this.materialUnitsTemplate.setList(units.slice());

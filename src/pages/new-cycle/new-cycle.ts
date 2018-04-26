@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { AlertController } from 'ionic-angular';
@@ -31,6 +31,8 @@ export class NewCyclePage {
 
   private newCycle: FormGroup;
 
+  @ViewChild(Navbar) navbar: Navbar;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager, public toastCtrl: ToastController) {
 
     this.plantMaterialManager.getAll().then((data) => {
@@ -51,6 +53,7 @@ export class NewCyclePage {
 
   ionViewWillEnter(){
     this.callback = this.navParams.get('callback');
+    
   }
 
   ionViewWillLeave(){
@@ -59,6 +62,20 @@ export class NewCyclePage {
   }
 
   ionViewDidLoad() {
+    //Set functionality for when the back button is pressed
+    this.navbar.backButtonClick = () => {
+      if(this.selectLandQuantityTemplatePage === true){
+        this.selectLandQuantityTemplatePage = false;
+        this.selectLandTypeTemplatePage = true;
+      }
+      else if(this.selectLandTypeTemplatePage === true){
+        this.selectLandTypeTemplatePage = false;
+        this.selectSeedTemplate = true;
+      }
+      else if(this.selectSeedTemplate === true){
+        this.navCtrl.pop();
+      }
+    }
     console.log('ionViewDidLoad NewCyclePage');
   }
 

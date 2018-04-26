@@ -34,19 +34,23 @@ export class MaterialManager extends DataManager{
         this.dataList = [
             {
                 "name": MaterialManager.PLANT_MATERIAL,
-                "imagePath": "assets/img/plant_material.jpg"
+                "imagePath": "assets/img/plant_material.jpg",
+                "color": "#459506"
             },
             {
                 "name": MaterialManager.CHEMICALS,
-                "imagePath": "assets/img/chemical.jpg"
+                "imagePath": "assets/img/chemical.jpg",
+                "color": "#9345EC"
             },
             {
                 "name": MaterialManager.FERTILIZER,
-                "imagePath": "assets/img/fertilizer.jpg"
+                "imagePath": "assets/img/fertilizer.jpg",
+                "color": "#2958EA"
             },
             {
                 "name": MaterialManager.SOIL_AMMENDMENTS,
-                "imagePath": "assets/img/soil_ammendment.jpg"
+                "imagePath": "assets/img/soil_ammendment.jpg",
+                "color": "#DC7633"
             }
         ];
     }
