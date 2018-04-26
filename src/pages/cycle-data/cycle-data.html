@@ -25,7 +25,14 @@
             <ion-avatar item-start>
                 <img src="{{material.imagePath}}">
               </ion-avatar>
-          <h2>{{material.name}}: ${{ material.total | number: '.2-2'}}</h2>
+          <h4>{{material.name}}: ${{ material.total | number: '.2-2'}}</h4>
+        </ion-item>
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/img/labour_icon.png">
+          </ion-avatar>
+          <h4>Labour: ${{totalSpentOnLabour | number: '.2-2'}}</h4>
         </ion-item>
       </ion-list>
     </ion-card>

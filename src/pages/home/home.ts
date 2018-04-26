@@ -60,7 +60,12 @@ export class HomePage {
   }
 
   public editCycle(cycle): void{
-    this.newNav.push(EditCyclePage, cycle);
+    //this.newNav.push(EditCyclePage, cycle);
+
+    this.navCtrl.push(EditCyclePage, {
+      'cycle': cycle,
+      'callback': this.loadPageData.bind(this)
+    })
   }
 
   public displayClosedCycleConfirmAlert(cycleId: string, index: number){
@@ -100,6 +105,10 @@ export class HomePage {
       ]
     });
     alert.present();
+  }
+
+  public updateListing(cycle, index){
+    this.cycleListing.splice(index, 0, cycle);
   }
 
   public closeCycle(cycleId: string, index: number){

@@ -23,29 +23,36 @@ export class EditCyclePage {
   //TODO: Create class for units. 
   private landUnitList = ['Acre', 'Bed', 'Hectare'];
 
+  private selectedCycle: Object;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private cycleManager: CycleManager) {
 
     this.plantMaterialManager.getAll().then((data) => {
       this.plantMaterialList = data.slice();
     });
 
+    this.selectedCycle = this.navParams.get('cycle');
+
+
 
     this.editedCycle = this.formBuilder.group({
-      id: [this.navParams.get('id')],
-      name: [this.navParams.get('name'), Validators.required],
+      id: [this.selectedCycle['id']],
+      name: [this.selectedCycle['name'], Validators.required],
       crop: [''],
-      cropId: [this.navParams.get('cropId'), Validators.required],
+      cropId: [this.selectedCycle['cropId'], Validators.required],
       cropImagePath: [''],
-      landUnit: [this.navParams.get('landUnit'), Validators.required],
-      landQuantity: [this.navParams.get('landQuantity'), Validators.required],
-      datePlanted: [this.navParams.get('datePlanted'), Validators.required],
-      harvested: [this.navParams.get('harvested')],
-      ongoing: [this.navParams.get('ongoing'),]
+      landUnit: [this.selectedCycle['landUnit'], Validators.required],
+      landQuantity: [this.selectedCycle['landQuantity'], Validators.required],
+      datePlanted: [this.selectedCycle['datePlanted'], Validators.required],
+      harvested: [this.selectedCycle['harvested']],
+      ongoing: [this.selectedCycle['ongoing']]
     })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditCyclePage');
+
+    
   }
 
   updateCropName(){
@@ -59,9 +66,9 @@ export class EditCyclePage {
 
       console.log(this.editedCycle.value);
 
-      this.cycleManager.edit(this.navParams.get('id'), this.editedCycle.value).then((response) => {
+      this.cycleManager.edit(this.selectedCycle['id'], this.editedCycle.value).then((response) => {
         if(response === true){
-          console.log('Successfully edited cycle: ' + this.navParams.get('id'));
+          console.log('Successfully edited cycle: ' + this.selectedCycle['id']);
           this.navCtrl.pop();
         }
         else console.log('Error editing cycle');
