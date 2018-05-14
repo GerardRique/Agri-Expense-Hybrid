@@ -37,6 +37,7 @@ export class InitializePage {
   constructor(public storage: Storage, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private countryManager: CountryManager, private authenticationService: AuthenticationService, private measurableDataManagerFactory: MeasurableDataManagerFactory, private dataManagerFactory: DataManagerFactory, private initializeData: InitializeData, private toastCtrl: ToastController, private alertCtrl: AlertController, private dataSync :DataSynchronization) {
     console.log("Running first initialization...");
 
+
     this.countryManager.initialize().then((result) => {
         this.alarmTime = new Date().toISOString();
         this.userDataSyncTime = new Date().toISOString();

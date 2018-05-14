@@ -156,7 +156,13 @@ export class ReportCreator{
     }
 
     public openReport(fileEntry: Entry): void{
-        let filepath = this.file.externalRootDirectory + fileEntry.fullPath.substr(1);
+        let filepath: string = "";
+        if(this.platform.is('ios')){
+            filepath = this.file.dataDirectory + fileEntry.fullPath.substr(1);
+        }
+        else if(this.platform.is('android')){
+            filepath = this.file.externalRootDirectory + fileEntry.fullPath.substr(1);
+        }
         let toast = this.toastCtrl.create({
             message: '',
             duration: 5000,
@@ -167,7 +173,8 @@ export class ReportCreator{
             console.log('Successfully opened file');
         }).catch((error) => {
             console.log('File open error: ' + JSON.stringify(error));
-            toast.setMessage('No applications available to open this file');
+            let errorString = JSON.stringify(error);
+            toast.setMessage('Error: ' + errorString);
             toast.present();
         });
     }

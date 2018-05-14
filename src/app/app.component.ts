@@ -34,6 +34,7 @@ import { ManageDataPage } from '../pages/manage-data/manage-data';
 import { Observable } from '@firebase/util';
 import { InitializeData } from '../core/InitializationModule/InitializeData';
 import { InitializePage } from '../pages/initialize/initialize';
+import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
 
 @Component({
   templateUrl: 'app.html',
@@ -110,7 +111,8 @@ export class MyApp {
           console.log("Appication already initialized");
         }
         else{
-          this.navCtrl.push(InitializePage);
+          this.navCtrl.push(StartUpScreenPage);
+          //this.navCtrl.push(InitializePage);
         }
       })
 

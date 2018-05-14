@@ -71,6 +71,7 @@ import { CountryManager } from '../core/CountryModule/CountryManager';
 import { GeneralDataManager } from '../core/GeneralDataManager';
 
 import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification';
+import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notifica
     NewSalePage,
     SignInPage,
     ManageDataPage,
-    InitializePage
+    InitializePage,
+    StartUpScreenPage
   ],
   imports: [
     BrowserModule,
@@ -146,7 +148,8 @@ import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notifica
     NewSalePage,
     SignInPage,
     ManageDataPage,
-    InitializePage
+    InitializePage,
+    StartUpScreenPage
   ],
   providers: [
     StatusBar,

@@ -139,7 +139,9 @@ export class CountryManager extends DataManager{
 
             return this.countryStorage.get(countiesId).then((countyString) => {
                 let countyList = JSON.parse(countyString);
-                return countyList;
+
+                let sortedList = countyList.sort();
+                return sortedList;
             })
         }).catch((error) => {
             return [];
