@@ -132,7 +132,6 @@ export class NewCyclePage {
 
   submit(){
     let cycle = new Cycle(this.newCycle.get('name').value, this.newCycle.get('crop').value, this.newCycle.get('cropId').value, this.newCycle.get('cropImagePath').value, this.newCycle.get('landUnit').value, this.newCycle.get('landQuantity').value, this.newCycle.get('datePlanted').value, this.newCycle.get('harvested').value, this.newCycle.get('ongoing').value);
-    console.log(cycle);
 
     this.cycleManager.add(cycle).then((response) => {
       let toast = this.toastCtrl.create({

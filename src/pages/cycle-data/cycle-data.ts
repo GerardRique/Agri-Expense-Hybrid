@@ -7,6 +7,8 @@ import { SelectPurchasePage } from '../select-purchase/select-purchase';
 import { MaterialUseManager } from '../../core/MaterialUseManager';
 import { ViewCycleUsePage } from '../view-cycle-use/view-cycle-use';
 import { TaskManager } from '../../core/TaskManager';
+import { HarvestManager } from '../../core/HarvestManager';
+import { HarvestListingPage } from '../harvest-listing/harvest-listing';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -34,12 +36,14 @@ export class CycleDataPage {
 
   taskList: Array<Object>;
 
+  numHarvests: number;
+
   //The material use map represents a one that maps material id's to a list of corresponding material use objects that have the same material id.
   materialUseMap: Map<string, Array<Object>>;
 
   totalSpentOnLabour: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager) {
     this.selectedCycle = new Object();
   }
 
@@ -58,6 +62,11 @@ export class CycleDataPage {
     console.log('Cycle ID: ' + this.cycleId);
     this.materialManager.get(this.cycleId).then((cycle) => {
       this.selectedCycle = cycle;
+    })
+
+    this.harvestManager.getByCycleId(this.cycleId).then((harvestList) => {
+      this.numHarvests = harvestList.length;
+      console.log("Successfully retrieved " + harvestList.length + " harvests.");
     })
 
     //Retrieve list of materials from ionic storage using the material manager.
@@ -153,6 +162,16 @@ export class CycleDataPage {
       'materialUseString': materialUseListString
     };
     this.navCtrl.push(ViewCycleUsePage, data);
+  }
+
+  goToHarvestListingPage(){
+    let bundle = {
+      "options": {
+        "cycleId": this.cycleId,
+        "displayMakeSaleButton": false
+      }
+    }
+    this.navCtrl.push(HarvestListingPage, bundle);
   }
 
 }

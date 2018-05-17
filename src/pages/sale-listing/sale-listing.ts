@@ -57,7 +57,6 @@ export class SaleListingPage {
         this.displayEmptyListMessage = false;
       }
       console.log("Successfully retrieved " + this.saleListing.length + " sales");
-      console.log(this.saleListing);
       this.getCropImagePaths();
     });
   }

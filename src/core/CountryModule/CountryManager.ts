@@ -24,79 +24,98 @@ export class CountryManager extends DataManager{
         this.dataList = [
             {
                 "name": "Anguilla",
-                "counties": ["Blowing Point","East End","George Hill","Island Harbour","North Hill","North Side","Sandy Ground","Sandy Hill","South Hill","Stoney Ground","The Farrington","The Quarter","The Valley","West End"]
+                "subDivisionTitle": "district",
+                "subDivisions": ["Blowing Point","East End","George Hill","Island Harbour","North Hill","North Side","Sandy Ground","Sandy Hill","South Hill","Stoney Ground","The Farrington","The Quarter","The Valley","West End"]
             },
             {
                 "name": "Antigua & Barbuda",
-                "counties": ["St George", "St John", "St Mary", "St Paul", "St Peter", "St Phillip", "Barbuda", "Redonda"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["St George", "St John", "St Mary", "St Paul", "St Peter", "St Phillip", "Barbuda", "Redonda"]
             },
             {
                 "name": "Bahamas",
-                "counties": ["Bimini", "New Providence", "Grand Bahama", "Andros", "Spanish Wells"]
+                "subDivisionTitle": "island",
+                "subDivisions": ["Bimini", "New Providence", "Grand Bahama", "Andros", "Spanish Wells"]
             },
             {
                 "name": "Barbados",
-                "counties": ["Christ Church","St James","St Lucy","St Michael","St Peter","St Thomas","St Andrew","St George","St Joseph","St Phillip","St John"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["Christ Church","St James","St Lucy","St Michael","St Peter","St Thomas","St Andrew","St George","St Joseph","St Phillip","St John"]
             },
             {
                 "name": "Belize",
-                "counties": ["Belize","Cayo","Orange Walk","Corozal","Stan Creek","Toledo"]
+                "subDivisionTitle": "district",
+                "subDivisions": ["Belize","Cayo","Orange Walk","Corozal","Stan Creek","Toledo"]
             },
             {
                 "name": "British Virgin Islands",
-                "counties": [ "Tortola", "Virgin Gorda", "Anegada", "Jost Van Dyke"]
+                "subDivisionTitle": "island",
+                "subDivisions": [ "Tortola", "Virgin Gorda", "Anegada", "Jost Van Dyke"]
             },
             {
                 "name": "Cayman Islands",
-                "counties": ["Grand Cayman", "Little Cayman", "Cayman Brac"]
+                "subDivisionTitle": "island",
+                "subDivisions": ["Grand Cayman", "Little Cayman", "Cayman Brac"]
             },
             {
                 "name": "Dominica",
-                "counties": ["St George", "St John", "St Peter", "St Joseph", "St Paul", "St Luke", "St Mark", "St Patrick", "St David", "St Andrew"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["St George", "St John", "St Peter", "St Joseph", "St Paul", "St Luke", "St Mark", "St Patrick", "St David", "St Andrew"]
             },
             {
                 "name": "Grenada",
-                "counties": ["St Andrew", "St David", "St George", "St John", "St Mark", "St Patrick", "Carriacou", "Petite Martinuque"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["St Andrew", "St David", "St George", "St John", "St Mark", "St Patrick", "Carriacou", "Petite Martinuque"]
             },
             {
                 "name": "Guyana",
-                "counties": ["Barima-Waini", "Pomeroon-Supenaam", "Essequibo Islands-West Demerara", "Demerara-Mahaica", "Mahaica-Berbice", "East Berbice-Corentyne", "Cuyuni-Mazaruni", "Potaro-Siparuni", "Upper Takutu-Upper Essequibo", "Upper Demerara-Berbice"]
+                "subDivisionTitle": "region",
+                "subDivisions": ["Barima-Waini", "Pomeroon-Supenaam", "Essequibo Islands-West Demerara", "Demerara-Mahaica", "Mahaica-Berbice", "East Berbice-Corentyne", "Cuyuni-Mazaruni", "Potaro-Siparuni", "Upper Takutu-Upper Essequibo", "Upper Demerara-Berbice"]
             },
             {
                 "name": "Haiti",
-                "counties": ["Nord", "Nord Quest", "Nord Est", "Artibontie", "Centre", "Quest", "Sud Est", "Grand Anse", "Sud"]
+                "subDivisionTitle": "district",
+                "subDivisions": ["Nord", "Nord Quest", "Nord Est", "Artibontie", "Centre", "Quest", "Sud Est", "Grand Anse", "Sud"]
             },
             {
                 "name": "Jamaica",
-                "counties": ["Clarendon", "Hanover", "Kingston", "Manchester", "Portland", "St Ann", "St Andrew", "St Catherine", "St Elizabeth", "St James", "St Mary", "St Thomas", "Trelawny", "Westmoreland"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["Clarendon", "Hanover", "Kingston", "Manchester", "Portland", "St Ann", "St Andrew", "St Catherine", "St Elizabeth", "St James", "St Mary", "St Thomas", "Trelawny", "Westmoreland"]
             },
             {
                 "name": "Monsterrat",
-                "counties": ["St Peter", "St Anthony", "St Georges"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["St Peter", "St Anthony", "St Georges"]
             },
             {
                 "name": "St Kitts & Nevis",
-                "counties": ["Nevis", "St George", "St Thomas", "St Anne", "St Paul", "St John", "Christ Church", "St Mary", "St Peter"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["Nevis", "St George", "St Thomas", "St Anne", "St Paul", "St John", "Christ Church", "St Mary", "St Peter"]
             },
             {
                 "name": "St Lucia",
-                "counties": ["Anse la Raye", "Castries", "Choiseul", "Dauphin", "Dennery", "Gros Islet", "Laborie", "Micoud", "Praslin", "Soufriere", "Vieux Fort"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["Anse la Raye", "Castries", "Choiseul", "Dauphin", "Dennery", "Gros Islet", "Laborie", "Micoud", "Praslin", "Soufriere", "Vieux Fort"]
             },
             {
                 "name": "St. Vincent and the Genadines",
-                "counties": ["Charlotte", "Northern Grenadines", "Southern Grenadines", "St Andrew", "St David", "St George", "St Patrick"]
+                "subDivisionTitle": "parish",
+                "subDivisions": ["Charlotte", "Northern Grenadines", "Southern Grenadines", "St Andrew", "St David", "St George", "St Patrick"]
             },
             {
                 "name": "Suriname",
-                "counties": ["Brokopondo", "Commewijne", "Coronie", "Marowijne", "Nickerie", "Para", "Paramaribo", "Saramacca", "Sipaliwini", "Wanica"]
+                "subDivisionTitle": "district",
+                "subDivisions": ["Brokopondo", "Commewijne", "Coronie", "Marowijne", "Nickerie", "Para", "Paramaribo", "Saramacca", "Sipaliwini", "Wanica"]
             },
             {
                 "name": "Trinidad and Tobago",
-                "counties": ["St George", "St David", "Caroni", "St Andrew", "Victoria", "Nariva", "St Patrick", "Mayaro"]
+                "subDivisionTitle": "county",
+                "subDivisions": ["St George", "St David", "Caroni", "St Andrew", "Victoria", "Nariva", "St Patrick", "Mayaro"]
             },
             {
                 "name": "Turks & Caicos Islands",
-                "counties": ["Providenciales", "Grand Turk Island", "Caicos Islands"]
+                "subDivisionTitle": "island",
+                "subDivisions": ["Providenciales", "Grand Turk Island", "Caicos Islands"]
             }
         ]
     }
@@ -107,16 +126,16 @@ export class CountryManager extends DataManager{
 
         return this.countryStorage.ready().then(() => {
             for(let country of this.dataList){
-                let myCountry = new Country(country['name']);
+                let myCountry = new Country(country['name'], country['subDivisionTitle']);
                 uniqueIDs.push(myCountry.getId());
 
                 let countryString = JSON.stringify(myCountry);
                 promises.push(this.countryStorage.set(myCountry.getId(), countryString));
 
-                let counties = country['counties'];
-                let countiesId = myCountry.getId() + "_" + this.province_key;
-                let countyString = JSON.stringify(counties);
-                promises.push(this.countryStorage.set(countiesId, countyString));  
+                let subDivisions = country['subDivisions'];
+                let subDivisionsId = myCountry.getId() + "_" + this.province_key;
+                let subdivisionsString = JSON.stringify(subDivisions);
+                promises.push(this.countryStorage.set(subDivisionsId, subdivisionsString));  
             }
 
             let uuidListString = JSON.stringify(uniqueIDs);

@@ -64,7 +64,6 @@ export class NewHarvestPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewHarvestPage');
-
   }
 
   submitNewHarvested(){

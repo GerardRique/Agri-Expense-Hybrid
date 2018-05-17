@@ -15,6 +15,8 @@
 
 <ion-content padding>
 
+  <p text-center *ngIf="displayNoHarvestMessage">No Harvests to be displayed</p>
+
   <ion-list>
     <ion-card *ngFor="let harvest of harvestListing">
       <ion-card-title padding>{{harvest.crop}}</ion-card-title>
@@ -24,10 +26,14 @@
         <p>Date harvested: {{harvest.dateHarvested | date: 'fullDate'}}</p>
       </ion-card-content>
 
-      <ion-row padding >
+      <ion-row padding *ngIf="displayMakeSaleButton">
           <button ion-button block (click)="goToNewSalePage(harvest)" color="myGreen">Make Sale <ion-icon name="pricetags"></ion-icon></button>
       </ion-row>
     </ion-card>
   </ion-list>
+
+  <ion-fab right bottom *ngIf="receivedCycleId" (click)="goToNewHarvestPage()"> 
+    <button ion-fab color="myGreen"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 </ion-content>

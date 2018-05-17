@@ -4,7 +4,7 @@ import { UUID } from 'angular2-uuid';
 export class Country implements Serializeable{
     private id: string;
 
-    constructor(private name: string){
+    constructor(private name: string, private subDivisionTitle: string){
         this.id = UUID.UUID();
     }
 

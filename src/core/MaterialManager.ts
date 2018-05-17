@@ -21,7 +21,7 @@ export class MaterialManager extends DataManager{
 
     public static PLANT_MATERIAL = "Plant Material";
 
-    public static CHEMICALS = "Chemicals";
+    public static CHEMICALS = "Chemical";
 
     public static FERTILIZER = "Fertilizer";
 

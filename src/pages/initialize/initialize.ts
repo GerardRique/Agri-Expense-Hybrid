@@ -34,6 +34,8 @@ export class InitializePage {
 
   private displaySignInButton: boolean;
 
+  private subDivisionTitle: string;
+
   constructor(public storage: Storage, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private countryManager: CountryManager, private authenticationService: AuthenticationService, private measurableDataManagerFactory: MeasurableDataManagerFactory, private dataManagerFactory: DataManagerFactory, private initializeData: InitializeData, private toastCtrl: ToastController, private alertCtrl: AlertController, private dataSync :DataSynchronization) {
     console.log("Running first initialization...");
 
@@ -45,6 +47,8 @@ export class InitializePage {
         this.displaySignInButton = true;
 
         this.counties = Array<string>();
+
+        this.subDivisionTitle = "county";
 
         this.countryManager.getAll().then((list) => {
           this.countries = list;
@@ -161,7 +165,11 @@ export class InitializePage {
     this.userCounty = "";
     let countryId = this.userCountry['id'];
     let countryName = this.userCountry['name'];
+    let subDivisionTitle = this.userCountry['subDivisionTitle'];
+    this.subDivisionTitle = subDivisionTitle;
     console.log("Selected Country: " + countryName);
+
+    console.log(subDivisionTitle);
 
     this.countryManager.getCounties(countryId).then((list) => {
       this.counties = list;

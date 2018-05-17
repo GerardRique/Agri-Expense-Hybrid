@@ -72,6 +72,8 @@ import { GeneralDataManager } from '../core/GeneralDataManager';
 
 import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification';
 import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
+import { ShareManager } from '../core/ShareManager';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 @NgModule({
@@ -182,6 +184,8 @@ import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
     InitializeData,
     CountryManager,
     GeneralDataManager,
+    SocialSharing,
+    ShareManager,
     PhonegapLocalNotification,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

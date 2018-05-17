@@ -17,6 +17,7 @@ import { TaskManager } from './TaskManager';
 import { XHRBackend } from '@angular/http/src/backends/xhr_backend';
 import { DataManagerFactory } from './DataManagerFactory';
 import { MaterialUseManager } from './MaterialUseManager';
+import { messaging } from 'firebase/app';
 
 @Injectable()
 export class ReportCreator{
@@ -153,6 +154,23 @@ export class ReportCreator{
             console.log('ERROR: ' + JSON.stringify(error));
             return error;
         });
+    }
+
+    public deleteFile(entry: Entry): Promise<boolean>{
+        let filepath = "";
+        let directoryName = 'NewAgriExpense';
+        if(this.platform.is('ios')){
+            filepath = this.file.dataDirectory + '' + directoryName + '/';
+        }
+        else if(this.platform.is('android')){
+            filepath = this.file.externalRootDirectory + '' + directoryName + '/';
+        }
+        return this.file.removeFile(filepath, entry.name).then((result) => {
+            return true;
+        }).catch((error) => {
+            return false;
+        });
+
     }
 
     public openReport(fileEntry: Entry): void{

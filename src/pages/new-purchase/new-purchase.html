@@ -24,7 +24,7 @@
   </ng-template>
 
   <ng-template #selectMaterialTypeTemplate>
-    <h5>Select Type of material</h5>
+    <h5>Select {{selectedMaterial}}</h5>
     <ion-list>
       <button ion-item *ngFor="let materialType of materialTypeTemplate.listData" (click)="goToSelectMaterialUnits(materialType)">{{materialType.name}}</button>
     </ion-list>

@@ -38,9 +38,6 @@ export class StartUpScreenPage {
 
     this.slideColor = "#9B18E7";
 
-    this.countryManager.getAll().then((data) => {
-      console.log(JSON.stringify(data));
-    })
   }
 
   ionViewDidLoad() {

@@ -37,20 +37,20 @@
       </ion-list>
     </ion-card>
     
-    <ion-card *ngFor="let material of materialList" [ngStyle]="{'background':blue}">
-      <ion-card-title padding>{{material.name}}</ion-card-title>
+    <ion-card *ngFor="let material of materialList" [ngStyle]="{'background-color': material.color}">
+      <ion-card-title ion-text color="light" padding>{{material.name}}</ion-card-title>
       <ion-card-content>
-        <p>Total spent: ${{material.total | number: '.2-2'}}</p>
+        <p ion-text color="light">Total spent: ${{material.total | number: '.2-2'}}</p>
       </ion-card-content>
       <ion-row>
           <ion-col>
-            <button ion-button icon-left clear small color="myGreen" (click)="goToViewCycleUsePage(material.id, material.name)">
+            <button ion-button icon-left clear small color="light" (click)="goToViewCycleUsePage(material.id, material.name)">
               <ion-icon name="eye"></ion-icon>
               <div>View</div>
             </button>
           </ion-col>
           <ion-col>
-              <button ion-button icon-left clear small color="myGreen" (click)="goToSelectPurchasePage(material.id)">
+              <button ion-button icon-left clear small color="light" (click)="goToSelectPurchasePage(material.id)">
                 <ion-icon name="add-circle"></ion-icon>
                 <div>Use material</div>
               </button>
@@ -77,6 +77,21 @@
                 </button>
               </ion-col>
           </ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-title padding>Harvests</ion-card-title>
+        <ion-card-content>
+          {{numHarvests}} harvests.
+        </ion-card-content>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small color="myGreen" (click)="goToHarvestListingPage()">
+              <ion-icon name="eye"></ion-icon>
+              <div>View</div>
+            </button>
+          </ion-col>
+        </ion-row>
       </ion-card>
 
   </ion-list>

@@ -44,6 +44,8 @@ export class NewPurchasePage {
 
   private measurableDataManager: MeasurableDataManager;
 
+  selectedMaterial: string;
+
   callback: any;
 
   @ViewChild(Navbar) navbar: Navbar;
@@ -56,6 +58,8 @@ export class NewPurchasePage {
       this.materialListTemplate.activate();//We activate this template because this will be the first displayed when the page loads.
       this.materialListTemplate.setList(this.materialList);
     })
+
+    this.selectedMaterial = "type of material";
 
     this.unitsOfPurchase = '';
 
@@ -112,6 +116,7 @@ export class NewPurchasePage {
     this.materialListTemplate.deactivate();
     this.materialTypeTemplate.activate();
     this.newPurchase.controls['material'].setValue(material.name);
+    this.selectedMaterial = material.name;
     this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
     this.newPurchase.controls['materialId'].setValue(material.id);
     console.log(material.name);

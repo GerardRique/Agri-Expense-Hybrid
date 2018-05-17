@@ -5,6 +5,7 @@ import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 import { ReportsPage } from '../reports/reports';
+import { ShareManager } from '../../core/ShareManager';
 
 /**
  * Generated class for the ReportListingPage page.
@@ -28,7 +29,7 @@ export class ReportListingPage {
 
   displayMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController, public popOverCtrl: PopoverController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController, public popOverCtrl: PopoverController, public alertCtrl: AlertController, public shareManager: ShareManager) {
     this.displayMessage = false;
   }
 
@@ -105,8 +106,9 @@ export class ReportListingPage {
         this.displayDeleteConfirmation(entry, index);
       }
       else if(data.options.localeCompare('Share') === 0){
-        toast.setMessage('Share');
-        toast.present();
+        // toast.setMessage('Share');
+        // toast.present();
+        this.shareManager.share("Agri Expense Report", "Share Test", entry.nativeURL, "");
       }
       else{
         return;
@@ -147,8 +149,7 @@ export class ReportListingPage {
       duration: 5000,
       position: 'middle'
     });
-    //console.log('Deleting File: ' + fileEntry.name + ' from path: ' + fileEntry.fullPath);
-    this.reportCreator.deleteReport(fileEntry.fullPath, fileEntry.name).then((result) => {
+    this.reportCreator.deleteFile(fileEntry).then((result) => {
       
       if(result === true){
         toast.setMessage('File successfully deleted');
@@ -160,7 +161,7 @@ export class ReportListingPage {
         toast.present();
       }
     }).catch((error) => {
-        toast.setMessage('Error deleting file myError: ' + JSON.stringify(error));
+        toast.setMessage('Error deleting this file');
         toast.present();
     });
   }

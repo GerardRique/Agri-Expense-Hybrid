@@ -16,7 +16,7 @@ export class ChemicalsManager extends MeasurableDataManager{
 
     constructor(private chemicalStorage: Storage, private chemicalsUUID: UUID){
         super(chemicalStorage, chemicalsUUID);
-        this.unitList = ['grams(g)', 'Kilograms(kg)', 'Litres(L)', 'millitires(ml)', 'ounces(oz)'];
+        this.unitList = ['grams(g)', 'Kilograms(kg)', 'Litres(L)', 'millilitires(ml)', 'ounces(oz)'];
         this.DATA_ID = "Chemical";
         this.dataList = [
             {
