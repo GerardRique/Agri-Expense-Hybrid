@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
-import { PurchaseHandler } from '../../core/PurchaseHandler';
 import { EditPurchasePage } from '../../pages/edit-purchase/edit-purchase';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialManager } from '../../core/MaterialManager';
@@ -38,7 +37,7 @@ export class PurchaseListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App, private popOverCtrl: PopoverController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App, private popOverCtrl: PopoverController, private toastCtrl: ToastController) {
     this.displayEmptyListMessage = false;
     this.rootNav = this.app.getRootNav();
 
@@ -83,8 +82,7 @@ export class PurchaseListingPage {
         this.deletePurchase(purchase['id'], index, purchase['used']);
       }
       else if(data.options.localeCompare('Edit') === 0){
-        toast.setMessage('Editing...');
-        toast.present();
+        this.editPurchase(purchase);
       }
       else return;
     });
@@ -99,7 +97,6 @@ export class PurchaseListingPage {
     this.content.resize();
 
     this.purchaseManager.getAll().then((list) => {
-      console.log(list);
       this.purchaseList = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
       });
@@ -127,9 +124,12 @@ export class PurchaseListingPage {
     });
   }
 
-  public editPurchase(purchase, purchaseID): void{
+  public editPurchase(purchase): void{
     console.log("Editing Cycle: " + purchase);
-    this.navCtrl.push(EditPurchasePage, purchase);
+    let data = {
+      'purchase': purchase
+    };
+    this.navCtrl.push(EditPurchasePage, data);
   }
 
   public goToNewPurchasePage(){

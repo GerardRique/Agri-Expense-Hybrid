@@ -11,10 +11,12 @@ import { Serializeable } from '../Serializeable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { CycleManager } from '../CyclesModule/CycleManager';
 import { Storage } from '@ionic/storage';
+import { DataManagerFactory } from '../DataManagerFactory';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 @Injectable()
 export class DataSynchronization{
-    constructor(private storage: Storage, public afDB: AngularFireDatabase, public aft: AngularFirestore, public authenticationService: AuthenticationService, private afAuth: AngularFireAuth, private generalDataManager: GeneralDataManager, private cycleManager: CycleManager){
+    constructor(private storage: Storage, public afDB: AngularFireDatabase, public aft: AngularFirestore, public authenticationService: AuthenticationService, private afAuth: AngularFireAuth, private generalDataManager: GeneralDataManager, private cycleManager: CycleManager, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController){
 
     }
 
@@ -108,5 +110,55 @@ export class DataSynchronization{
             return false;
         })
 
+    }
+
+    public uploadData(){
+
+        let toast = this.toastCtrl.create({
+            message: 'success',
+            position: 'middle',
+            duration: 5000
+        });
+
+        let dataManagerList: Array<string> = [
+            DataManagerFactory.CYCLE,
+            DataManagerFactory.PURCHASE,
+            DataManagerFactory.SALE,
+            DataManagerFactory.LABOUR,
+            DataManagerFactory.MATERIAL,
+            DataManagerFactory.TASK,
+            DataManagerFactory.HARVEST,
+            DataManagerFactory.MATERIAL_USE,
+            DataManagerFactory.PLANT_MATERIAL,
+            DataManagerFactory.FERTILIZER,
+            DataManagerFactory.CHEMICAL,
+            DataManagerFactory.SOIL_AMMENDMENT
+          ];
+
+          let dataManagers = Array<DataManager>();
+
+    for(let id of dataManagerList){
+      dataManagers.push(this.dataManagerFactory.getManager(id));
+    }
+
+
+    this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
+      if(!user){
+        console.log('Error');
+      }
+      else {
+        console.log(user);
+        this.syncAll(dataManagers, user.uid).subscribe((result: boolean) => {
+          if(result === true){
+            console.log('Success');
+            toast.present();
+          }
+          else{
+            console.log('Error');
+          }
+        })
+        
+      }
+    })
     }
 }

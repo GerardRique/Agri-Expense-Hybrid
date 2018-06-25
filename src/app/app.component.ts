@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController, AlertController } from 'ionic-angular';
+import { Nav, Platform, NavController, AlertController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,6 +35,10 @@ import { Observable } from '@firebase/util';
 import { InitializeData } from '../core/InitializationModule/InitializeData';
 import { InitializePage } from '../pages/initialize/initialize';
 import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
+import { LocalNotifications, ILocalNotificationActionType, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications';
+
+
+declare let cordova: any;
 
 @Component({
   templateUrl: 'app.html',
@@ -52,9 +56,11 @@ export class MyApp {
 
   m: MeasurableDataManager;
 
+  
+
   public static USER_ACCOUNT_CHECK: string = "user_account";
 
-  constructor(public platform: Platform, public statusBar: StatusBar,public storage: Storage, public splashScreen: SplashScreen, private initializeData: InitializeData, private authenticationService: AuthenticationService, private alertCtrl: AlertController){
+  constructor(public platform: Platform, public statusBar: StatusBar,public storage: Storage, public splashScreen: SplashScreen, private initializeData: InitializeData, private authenticationService: AuthenticationService, private alertCtrl: AlertController, private localNotification: LocalNotifications, private toastCtrl: ToastController){
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -69,6 +75,8 @@ export class MyApp {
     let manageAccountPage = { title: 'Manage Account', component: SignInPage};
 
     let dataManagePage = { title: 'Manage Data', component: ManageDataPage };
+
+    
 
     //We must determine if the user is signed in so that, in the side menu, we can either display a button to navigate to the sign in page if the user is not signed in or a button to navigate to the manage accounts page if the user has signed in.
     //Using the authentication service, we can check if the user is signed in.

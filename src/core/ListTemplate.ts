@@ -5,13 +5,13 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ListTemplate extends Template{
-    listData: Array<any>;
+    listData: Array<Object>;
 
     constructor(templateTitle: string, templateName: string){
         super(templateTitle, templateName);
     }
 
-    public setList(data: Array<any>): void{
-        this.listData = data.slice();
+    public setList(data: Array<Object>): void{
+        this.listData = data;
     }
 }

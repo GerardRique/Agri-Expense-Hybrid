@@ -64,3 +64,7 @@
   <div *ngIf="submitTemplate.isActive() === true;then submitDataTemplate"></div>
   
 </ion-content>
+
+<ion-fab right bottom *ngIf="materialTypeTemplate.isActive() === true" (click)="presentPromptForMaterialType()">
+  <button ion-fab  color="myGreen"><ion-icon name="add"></ion-icon></button>
+</ion-fab>

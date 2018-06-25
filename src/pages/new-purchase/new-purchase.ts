@@ -1,13 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Navbar } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Navbar, AlertController } from 'ionic-angular';
 import { ListTemplate } from '../../core/ListTemplate';
 import { Template } from '../../core/Template';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseHandler } from '../../core/PurchaseHandler';
-import { PlantMaterialManager } from '../../core/PlantMaterialManager';
-import { ChemicalsManager } from '../../core/ChemicalsManager';
-import { FertilizerManager } from '../../core/FertilizerManager';
-import { SoilAmendmentsManager } from '../../core/SoilAmendmentsManager';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
 import { MeasurableDataManager } from '../../core/MeasurableDataManager';
@@ -15,6 +11,7 @@ import { MeasurableDataManagerFactory } from '../../core/MeasurableDataManagerFa
 import { MaterialManager } from '../../core/MaterialManager';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { Purchase } from '../../core/Purchase';
+import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -51,7 +48,7 @@ export class NewPurchasePage {
   @ViewChild(Navbar) navbar: Navbar;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController, public alertCtrl: AlertController) {
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list;
@@ -119,16 +116,53 @@ export class NewPurchasePage {
     this.selectedMaterial = material.name;
     this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
     this.newPurchase.controls['materialId'].setValue(material.id);
-    console.log(material.name);
-    //this.measurableDataManager = this.measurableDataManagerFactory.getManager(material.name);
+
+  
     this.measurableDataManager = this.materialManager.getManager(material.name);
     this.measurableDataManager.getAll().then((list) => {
       console.log('Successfully retrieved ' + list.length + ' materials');
-      this.materialTypeTemplate.setList(list);
+      this.materialTypeTemplate.listData = list;
     });
     this.measurableDataManager.getUnitsList().then((units) => {
       this.materialUnitsTemplate.setList(units.slice());
     })
+  }
+
+  presentPromptForMaterialType(){
+    let alert = this.alertCtrl.create({
+      title: 'New ' + this.selectedMaterial,
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Enter new ' + this.selectedMaterial
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel Clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log(data);
+            if(data.name.localeCompare("") === 0){
+              console.log("Invalid Name");
+            }else {
+              let path = "assets/img/open_box.png";
+              let newMaterial = new PlantingMaterial(data.name, path);
+              this.measurableDataManager.add(newMaterial);
+              this.materialTypeTemplate.listData.push(newMaterial);
+            }
+            console.log(data);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   goToSelectMaterialUnits(materialType){

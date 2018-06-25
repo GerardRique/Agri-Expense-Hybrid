@@ -22,17 +22,31 @@
       <h2 padding>Total expenses for {{selectedCycle.name}}</h2>
       <ion-list>
         <ion-item *ngFor="let material of materialList">
-            <ion-avatar item-start>
-                <img src="{{material.imagePath}}">
-              </ion-avatar>
-          <h4>{{material.name}}: ${{ material.total | number: '.2-2'}}</h4>
+          <ion-avatar item-start>
+              <img src="{{material.imagePath}}">
+          </ion-avatar>
+          <h4>{{material.name}}:</h4><h4 item-end>${{ material.total | number: '.2-2'}}</h4>
         </ion-item>
 
         <ion-item>
           <ion-avatar item-start>
             <img src="assets/img/labour_icon.png">
           </ion-avatar>
-          <h4>Labour: ${{totalSpentOnLabour | number: '.2-2'}}</h4>
+          <h4>Labour:</h4><h4 item-end>${{totalSpentOnLabour | number: '.2-2'}}</h4>
+        </ion-item>
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/img/expenses_icon.png">
+          </ion-avatar>
+          <h4>Total expenses: </h4><h4 item-end>${{totalAmountSpent | number: '.2-2'}}</h4>
+        </ion-item>
+
+        <ion-item>
+          <ion-avatar item-start>
+              <img src="assets/img/sale_icon.jpg">
+          </ion-avatar>
+          <h4>Total made from sales:</h4><h4 item-end>${{totalMadeFromSales | number: '.2-2'}}</h4>
         </ion-item>
       </ion-list>
     </ion-card>
@@ -58,20 +72,20 @@
         </ion-row>
     </ion-card>
 
-    <ion-card>
-        <ion-card-title padding>Labour</ion-card-title>
+    <ion-card [ngStyle]="{'background-color': '#ffcc00'}">
+        <ion-card-title ion-text color="light" padding>Labour</ion-card-title>
         <ion-card-content>
-          <p>${{totalSpentOnLabour | number: '.2-2'}}</p>
+          <p ion-text color="light">${{totalSpentOnLabour | number: '.2-2'}}</p>
         </ion-card-content>
         <ion-row>
             <ion-col>
-              <button ion-button icon-left clear small color="myGreen" (click)="goToTaskListingPage()">
+              <button ion-button icon-left clear small color="light" (click)="goToTaskListingPage()">
                 <ion-icon name="eye"></ion-icon>
                 <div>View</div>
               </button>
             </ion-col>
             <ion-col>
-                <button ion-button icon-left clear small color="myGreen" (click)="goToLabourListingPage()">
+                <button ion-button icon-left clear small color="light" (click)="goToLabourListingPage()">
                   <ion-icon name="add-circle"></ion-icon>
                   <div>Assign Labour</div>
                 </button>
@@ -79,14 +93,14 @@
           </ion-row>
       </ion-card>
 
-      <ion-card>
-        <ion-card-title padding>Harvests</ion-card-title>
+      <ion-card [ngStyle]="{'background-color': '#F7190E'}">
+        <ion-card-title ion-text color="light" padding>Harvests</ion-card-title>
         <ion-card-content>
-          {{numHarvests}} harvests.
+          <p ion-text color="light" >{{numHarvests}} harvests.</p>
         </ion-card-content>
         <ion-row>
           <ion-col>
-            <button ion-button icon-left clear small color="myGreen" (click)="goToHarvestListingPage()">
+            <button ion-button icon-left clear small color="light" (click)="goToHarvestListingPage()">
               <ion-icon name="eye"></ion-icon>
               <div>View</div>
             </button>
@@ -98,11 +112,11 @@
 
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-card>
     <ion-card-content>
-      <p>Total spent on crop cycle: ${{totalAmountSpent | number: '.2-2'}}</p>
+      <p>Total spent: ${{totalAmountSpent | number: '.2-2'}}</p>
     </ion-card-content>
   </ion-card>
 
-</ion-footer>
+</ion-footer> -->

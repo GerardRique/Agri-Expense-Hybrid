@@ -44,6 +44,14 @@ export class ReportsPage {
   generateADBReport(){
     this.reportCreator.generateADBOutflowReport(this.cycleManager).then((data) => {
       console.log(data);
+
+      let dataString = JSON.stringify(data);
+
+      let adbData = {
+        'tableData': dataString
+      }
+
+      this.navCtrl.push(ReportListingPage, adbData);
     })
   }
 

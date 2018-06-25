@@ -86,6 +86,12 @@ export class ReportCreator{
 
         let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
 
+        let cycleDataMap = new Map<string, Array<Object>>();
+
+        let purchaseDataMap = new Map<string, Object>();
+
+        let promises = [];
+
         return this.cycleManager.getAll().then((cycleListing) => {
             let headings = ['No.', 'Crop', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Monthy Expenses (In Soles) (1x2x3=4)', 'Beginning Month', 'Beginning Year'];
             let subHeadings = ['No.', 'Crop', 'Input Description', 'QtyPerArea', 'Area', 'UnitCPrice', 'Outflows', 'Beginning Month', 'Beginning Year'];
@@ -93,16 +99,43 @@ export class ReportCreator{
             list.push(headings);
             list.push(subHeadings);
 
-            cycleListing.forEach(async (cycle) => {
-                // let spreadsheetRow = Array<string>();
-                let materialUseList = await this.materialUseManager.getByCycleId(cycle['id']);
-                
-                console.log(cycle);
-
-                let purchaseList = await this.getPurchases(materialUseList);
+            cycleListing.forEach((cycle) => {
+                promises.push(this.materialUseManager.getByCycleId(cycle['id']).then((materialUseList) => {
+                    cycleDataMap.set(cycle['id'], materialUseList);    
+                }))
             })
 
-            return list;
+            return Promise.all(promises).then(() => {
+                let newPromises = [];
+                cycleListing.forEach((cycle) => {
+                    let materialUseListing = cycleDataMap.get(cycle['id']);
+                    materialUseListing.forEach((materialUse) => {
+                        
+                        let noString = "" + count + "";
+                        count = count + 1;
+                        let areaOfLand = cycle['landQuantity'];
+                        if(cycle['landUnit'].localeCompare('Acre') === 0){
+                            areaOfLand = areaOfLand * 0.404686;
+                        }
+                        areaOfLand = Number.parseFloat(areaOfLand).toFixed(2);
+                        let areaOfLandString = "" + areaOfLand + "";
+                        console.log(materialUse);
+                        let quantityUsed = materialUse['quantityUsed'];
+                        let quantityPerArea = Number.parseInt(quantityUsed) / areaOfLand;
+                        let quantityPerAreaString = "" + quantityPerArea.toFixed(2) + "";
+                        newPromises.push(this.materialUseManager.get(materialUse['materialId']).then((material) => {
+                            let newRow = [noString, cycle['crop'], material['name'], quantityPerAreaString, areaOfLandString, materialUse['costPerMaterial'], materialUse['totalCost']];
+                            list.push(newRow);
+                            console.log(newRow);
+                        }));
+                        
+                    })
+                })
+                return Promise.all(newPromises).then(() => {
+                    return list;
+                })
+            })
+            
         })
     }
 

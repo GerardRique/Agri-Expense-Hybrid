@@ -9,6 +9,7 @@ import { ViewCycleUsePage } from '../view-cycle-use/view-cycle-use';
 import { TaskManager } from '../../core/TaskManager';
 import { HarvestManager } from '../../core/HarvestManager';
 import { HarvestListingPage } from '../harvest-listing/harvest-listing';
+import { SaleManager } from '../../core/SaleManager';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -38,12 +39,14 @@ export class CycleDataPage {
 
   numHarvests: number;
 
+  totalMadeFromSales: number;
+
   //The material use map represents a one that maps material id's to a list of corresponding material use objects that have the same material id.
   materialUseMap: Map<string, Array<Object>>;
 
   totalSpentOnLabour: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager, private saleManager: SaleManager) {
     this.selectedCycle = new Object();
   }
 
@@ -57,6 +60,8 @@ export class CycleDataPage {
 
     this.totalSpentOnLabour = 0.0;
 
+    this.totalMadeFromSales = 0.0;
+
     //Retrieve the selected cycle's unique id provided by the previos page. 
     this.cycleId = this.navParams.get('cycleId');
     console.log('Cycle ID: ' + this.cycleId);
@@ -68,6 +73,11 @@ export class CycleDataPage {
       this.numHarvests = harvestList.length;
       console.log("Successfully retrieved " + harvestList.length + " harvests.");
     })
+
+
+    this.calculateTotalMadeFromSales();
+
+    
 
     //Retrieve list of materials from ionic storage using the material manager.
     this.materialManager.getAll().then((materialList) => {
@@ -108,6 +118,16 @@ export class CycleDataPage {
     for(let material of this.materialList){
       material['total'] = 0.0;
     }
+  }
+
+  private calculateTotalMadeFromSales(){
+    this.totalMadeFromSales = 0.0;
+    this.saleManager.getByCycleId(this.cycleId).then((saleListing) => {
+      for(let sale of saleListing){
+        let currentAmount = sale['costPerunit'] * sale['quantityOfUnitsSold'];
+        this.totalMadeFromSales += currentAmount;
+      }
+    })
   }
 
   //The function below accepts a material object and calculates the total spent on the given material for the selected crop cycle.

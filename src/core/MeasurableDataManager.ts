@@ -68,6 +68,8 @@ export abstract class MeasurableDataManager extends DataManager {
             let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;
             return this.dataStorage.get(unitListStringKey).then((resultString) => {
                 let data = JSON.parse(resultString);
+                if(data === null)
+                    return [];
                 return data;
             }).catch((error) => {
                 return error;

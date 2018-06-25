@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { DataSynchronization } from '../../core/Backened/DataSynchronization';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import * as firebase from 'firebase/app';
@@ -25,7 +25,7 @@ import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notifica
 })
 export class ManageDataPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataSynchronization: DataSynchronization, public authenticationService: AuthenticationService, public dataManagerFactory: DataManagerFactory , public cycleManager: CycleManager, public purchaseManager: PurchaseManager, public labourManager: LabourManager, private notification: PhonegapLocalNotification) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataSynchronization: DataSynchronization, public authenticationService: AuthenticationService, public dataManagerFactory: DataManagerFactory , public cycleManager: CycleManager, public purchaseManager: PurchaseManager, public labourManager: LabourManager, private notification: PhonegapLocalNotification, private toastCtrl: ToastController) {
 
     this.notification.requestPermission().then(
       (permission) => {
@@ -53,45 +53,54 @@ export class ManageDataPage {
 
   upload(){
 
-    let dataManagerList: Array<string> = [
-      DataManagerFactory.CYCLE,
-      DataManagerFactory.PURCHASE,
-      DataManagerFactory.SALE,
-      DataManagerFactory.LABOUR,
-      DataManagerFactory.MATERIAL,
-      DataManagerFactory.TASK,
-      DataManagerFactory.HARVEST,
-      DataManagerFactory.MATERIAL_USE,
-      DataManagerFactory.PLANT_MATERIAL,
-      DataManagerFactory.FERTILIZER,
-      DataManagerFactory.CHEMICAL,
-      DataManagerFactory.SOIL_AMMENDMENT
-    ];
+    let toast = this.toastCtrl.create({
+      message: 'success',
+      position: 'middle',
+      duration: 5000
+    });
 
-    let dataManagers = Array<DataManager>();
+    this.dataSynchronization.uploadData();
 
-    for(let id of dataManagerList){
-      dataManagers.push(this.dataManagerFactory.getManager(id));
-    }
+    // let dataManagerList: Array<string> = [
+    //   DataManagerFactory.CYCLE,
+    //   DataManagerFactory.PURCHASE,
+    //   DataManagerFactory.SALE,
+    //   DataManagerFactory.LABOUR,
+    //   DataManagerFactory.MATERIAL,
+    //   DataManagerFactory.TASK,
+    //   DataManagerFactory.HARVEST,
+    //   DataManagerFactory.MATERIAL_USE,
+    //   DataManagerFactory.PLANT_MATERIAL,
+    //   DataManagerFactory.FERTILIZER,
+    //   DataManagerFactory.CHEMICAL,
+    //   DataManagerFactory.SOIL_AMMENDMENT
+    // ];
+
+    // let dataManagers = Array<DataManager>();
+
+    // for(let id of dataManagerList){
+    //   dataManagers.push(this.dataManagerFactory.getManager(id));
+    // }
 
 
-    this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
-      if(!user){
-        console.log('Error');
-      }
-      else {
-        console.log(user);
-        this.dataSynchronization.syncAll(dataManagers, user.uid).subscribe((result: boolean) => {
-          if(result === true){
-            console.log('Success');
-          }
-          else{
-            console.log('Error');
-          }
-        })
+    // this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
+    //   if(!user){
+    //     console.log('Error');
+    //   }
+    //   else {
+    //     console.log(user);
+    //     this.dataSynchronization.syncAll(dataManagers, user.uid).subscribe((result: boolean) => {
+    //       if(result === true){
+    //         console.log('Success');
+    //         toast.present();
+    //       }
+    //       else{
+    //         console.log('Error');
+    //       }
+    //     })
         
-      }
-    })
+    //   }
+    // })
   }
 
 }

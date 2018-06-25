@@ -18,6 +18,44 @@ export class SaleManager extends DataManager{
         this.dataList = [];
     }
 
+    public getByCycleId(cycleId: string): Promise<Array<Sale>>{
+        return this.saleStorage.ready().then(() => {
+            let cycleSaleId = this.DATA_ID + "_" + cycleId;
+
+            let promises = [];
+
+            let saleListing = new Array<Object>();
+
+            return this.saleStorage.get(cycleSaleId).then((saleIdList) => {
+                if(saleIdList === null)
+                    return [];
+                if(!isObject(saleIdList))
+                    saleIdList = JSON.parse(saleIdList);
+                
+                
+                for(let id of saleIdList){
+                    promises.push(this.saleStorage.get(id).then((sale) => {
+                        let data = JSON.parse(sale);
+
+                        let saleData = <Sale>data;
+
+                        saleListing.push(saleData);
+                    }));
+                }
+
+                return Promise.all(promises).then(() => {
+                    return saleListing;
+                }).catch((error) => {
+                    return error;
+                });
+            }).catch((error) => {
+                return error;
+            })
+        }).catch((error) => {
+            return error;
+        })
+    }
+
     public add(data: Sale): Promise<boolean>{
         let promises = [];
 

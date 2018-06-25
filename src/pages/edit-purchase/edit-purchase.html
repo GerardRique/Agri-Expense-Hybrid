@@ -14,13 +14,41 @@
 
 
 <ion-content padding>
-  <form [formGroup]="editedPurchase">
+  <form>
     <ion-item>
-      <ion-label color="primary" stacked></ion-label>
-      <ion-select formControlName="material">
-        <ion-option *ngFor="let material of materialList" [value]="material.name">{{material}}</ion-option>
+      <ion-label color="primary" stacked>Select Material</ion-label>
+      <ion-select [(ngModel)]="selectedMaterial" name="materialName" (ionChange)="materialChange()">
+        <ion-option *ngFor="let material of materialListing" [value]="material.name">{{material.name}}</ion-option>
       </ion-select>
     </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Select</ion-label>
+      <ion-select [(ngModel)]="selectedMaterialType" name="materialType">
+        <ion-option *ngFor="let materialType of materialTypeList" [value]="materialType.name">{{materialType.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Units</ion-label>
+      <ion-select [(ngModel)]="selectedMaterialUnits" name="units">
+        <ion-option *ngFor="let unit of materialUnitsList" [value]="unit">{{unit}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Quantity purchases</ion-label>
+      <ion-input  [(ngModel)]="quantityPurchased" type="number" placeholder="Quantity purchased" name="quantity" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Total cost of Purchase</ion-label>
+      <ion-input [(ngModel)]="totalCostOfPurchase" type="number" placeholder="Total cost of purchase" name="cost" ></ion-input>
+    </ion-item>
   </form>
+
+  <ion-fab right bottom >
+    <button ion-fab  color="myGreen" (click)="submit()"><ion-icon name="checkmark"></ion-icon></button>
+  </ion-fab>
 
 </ion-content>

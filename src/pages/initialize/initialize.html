@@ -33,17 +33,17 @@
 
     <ion-item padding>
       <ion-label color="primary" stacked>Alarm Time</ion-label>
-      <ion-datetime displayFormat="hh: mm A" name="alarmTime" [(ngModel)]="alarmTime"></ion-datetime>
+      <ion-datetime displayFormat="hh: mm A" name="alarmTime" [(ngModel)]="alarmTime" (ionChange)="changeTime($event)"></ion-datetime>
     </ion-item>
 
     <button class="center" block ion-button outline color="danger" *ngIf="displaySignInButton" padding (click)="signInWithGoogle()"> <ion-icon ios="logo-googleplus" md="logo-googleplus"></ion-icon> <span>Google Sign In</span></button>
 
     <button class="center" block ion-button outline color="danger" *ngIf="!displaySignInButton" padding><span>Signed In with Google</span></button>
 
-    <ion-item padding>
+    <!-- <ion-item padding>
       <ion-label color="primary" stacked>Data Sync Time</ion-label>
       <ion-datetime displayFormat="hh: mm A" name="dataSyncTime" [(ngModel)]="userDataSyncTime"></ion-datetime>
-    </ion-item>
+    </ion-item> -->
 
     <ion-fab right bottom >
       <button ion-fab color="myGreen" (click)="saveData()"><ion-icon name="checkmark"></ion-icon></button>

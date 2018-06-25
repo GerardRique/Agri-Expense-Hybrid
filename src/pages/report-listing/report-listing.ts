@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, PopoverController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, PopoverController, AlertController, Platform } from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
 import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
@@ -29,7 +29,7 @@ export class ReportListingPage {
 
   displayMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController, public popOverCtrl: PopoverController, public alertCtrl: AlertController, public shareManager: ShareManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController, public popOverCtrl: PopoverController, public alertCtrl: AlertController, public shareManager: ShareManager, private platform: Platform) {
     this.displayMessage = false;
   }
 
@@ -63,6 +63,9 @@ export class ReportListingPage {
     this.reportCreator.retrieveFiles('NewAgriExpense').then((entries) => {
       let message = "Count: " + entries.length;
       this.fileList = entries;
+      if(this.platform.is('core') || this.platform.is('mobileweb')){
+        this.fileList = [];
+      }
     }).catch((error) => {
       toast.present();
       console.log('Error retrieving files');

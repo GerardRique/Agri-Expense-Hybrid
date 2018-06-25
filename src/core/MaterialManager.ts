@@ -12,6 +12,7 @@ import { ChemicalsManager } from './ChemicalsManager';
 import { SoilAmendmentsManager } from './SoilAmendmentsManager';
 import { GeneralDataManager } from './GeneralDataManager';
 import { MeasurableDataManager } from './MeasurableDataManager';
+import { OtherMaterialManager } from './OtherMaterialManager';
 
 @Injectable()
 export class MaterialManager extends DataManager{
@@ -26,6 +27,8 @@ export class MaterialManager extends DataManager{
     public static FERTILIZER = "Fertilizer";
 
     public static SOIL_AMMENDMENTS = "Soil Amendment";
+
+    public static OTHER_MATERIAL = "Other Material"
 
     constructor(private materialStorage: Storage, private materialUUID: UUID){
         super(materialStorage, materialUUID);
@@ -51,6 +54,11 @@ export class MaterialManager extends DataManager{
                 "name": MaterialManager.SOIL_AMMENDMENTS,
                 "imagePath": "assets/img/soil_ammendment.jpg",
                 "color": "#DC7633"
+            },
+            {
+                "name": MaterialManager.OTHER_MATERIAL,
+                "imagePath": "assets/img/open_box.png",
+                "color": "#2ECC71"
             }
         ];
     }
@@ -58,20 +66,24 @@ export class MaterialManager extends DataManager{
     public getManager(type: string): MeasurableDataManager{
         if(type === null)
             return null;
-        if(type.localeCompare(MaterialManager.PLANT_MATERIAL) === 0){
+        let typeModified = type.toUpperCase();
+        if(typeModified.localeCompare(MaterialManager.PLANT_MATERIAL.toUpperCase()) === 0){
             return new PlantMaterialManager(this.materialStorage, this.materialUUID);
         }
 
-        if(type.localeCompare(MaterialManager.CHEMICALS) === 0){
+        if(typeModified.localeCompare(MaterialManager.CHEMICALS.toUpperCase()) === 0){
             return new ChemicalsManager(this.materialStorage, this.materialUUID);
         }
 
-        if(type.localeCompare(MaterialManager.FERTILIZER) === 0){
+        if(typeModified.localeCompare(MaterialManager.FERTILIZER.toUpperCase()) === 0){
             return new FertilizerManager(this.materialStorage, this.materialUUID);
         }
 
-        if(type.localeCompare(MaterialManager.SOIL_AMMENDMENTS) === 0){
+        if(typeModified.localeCompare(MaterialManager.SOIL_AMMENDMENTS.toUpperCase()) === 0){
             return new SoilAmendmentsManager(this.materialStorage, this.materialUUID);
+        }
+        if(typeModified.localeCompare(MaterialManager.OTHER_MATERIAL.toUpperCase()) === 0){
+            return new OtherMaterialManager(this.materialStorage, this.materialUUID);
         }
 
         else {
