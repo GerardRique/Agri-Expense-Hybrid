@@ -24,6 +24,7 @@
         "@ionic-native/file": "^4.5.2",
         "@ionic-native/file-opener": "^4.5.3",
         "@ionic-native/file-path": "^4.5.3",
+        "@ionic-native/firebase": "^4.8.0",
         "@ionic-native/google-plus": "^4.7.0",
         "@ionic-native/local-notifications": "^4.7.0",
         "@ionic-native/phonegap-local-notification": "^4.7.0",
@@ -45,6 +46,7 @@
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-file-opener2": "^2.0.19",
+        "cordova-plugin-firebase": "^1.0.5",
         "cordova-plugin-googleplus": "^5.2.1",
         "cordova-plugin-inappbrowser": "^2.0.2",
         "cordova-plugin-ionic-webview": "^1.1.15",
@@ -109,7 +111,8 @@
             "cordova-android-support-gradle-release": {
                 "ANDROID_SUPPORT_VERSION": "27.+"
             },
-            "cordova-plugin-local-notification": {}
+            "cordova-plugin-local-notification": {},
+            "cordova-plugin-firebase": {}
         }
     }
 }

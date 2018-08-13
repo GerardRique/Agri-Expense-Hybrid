@@ -10,6 +10,7 @@ import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
 import { Content } from 'ionic-angular/components/content/content';
 import { DateFilterPipe } from '../../pipes/date-filter/date-filter';
+import { Firebase } from '@ionic-native/firebase';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -24,7 +25,7 @@ export class HomePage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager, private toastCtrl: ToastController) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager, private toastCtrl: ToastController, private firebase: Firebase) {
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
@@ -33,6 +34,8 @@ export class HomePage {
   ionViewDidEnter(){
 
     console.log('IonViewDidEnter Home page');
+
+    this.firebase.logEvent("cycle_listing", {content_type: "page_view", item_id: "cycle_listing_page"});
 
     this.loadPageData();
   }

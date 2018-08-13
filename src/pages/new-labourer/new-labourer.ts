@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
 import { Labourer } from '../../core/Labourer';
+import { Firebase } from '@ionic-native/firebase';
 
 /**
  * Generated class for the NewLabourerPage page.
@@ -22,7 +23,7 @@ export class NewLabourerPage {
   private newLabourer: FormGroup;
   private labourManager: DataManager;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private dataManagerFactory: DataManagerFactory) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private dataManagerFactory: DataManagerFactory, private firebase: Firebase) {
     this.labourManager = this.dataManagerFactory.getManager(DataManagerFactory.LABOUR);
 
     this.newLabourer = this.formBuilder.group({
@@ -37,6 +38,7 @@ export class NewLabourerPage {
   }
 
   submit(){
+    this.firebase.logEvent("save_labourer", {content_type: "function_call", item_id: "new_labourer"});
     let myLabourer = new Labourer(this.newLabourer.get('firstName').value, this.newLabourer.get('lastName').value, this.newLabourer.get('contactNumber').value);
     console.log(JSON.stringify(myLabourer));
     this.labourManager.add(myLabourer).then((result) => {

@@ -4,6 +4,7 @@ import { HarvestListingPage } from '../harvest-listing/harvest-listing';
 import { App } from 'ionic-angular';
 import { SaleManager } from '../../core/SaleManager';
 import { HarvestManager } from '../../core/HarvestManager';
+import { Firebase } from '@ionic-native/firebase';
 
 /**
  * Generated class for the SaleListingPage page.
@@ -27,7 +28,7 @@ export class SaleListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager, private harvestManager: HarvestManager, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager, private harvestManager: HarvestManager, private alertCtrl: AlertController, private firebase: Firebase) {
 
     this.rootNav = this.app.getRootNav();
 
@@ -41,6 +42,8 @@ export class SaleListingPage {
   ionViewDidEnter(){
 
     this.loadData();
+
+    this.firebase.logEvent("sale_listing", {content_type: "page_view", item_id: "sale_listing_page"});
     
   }
 

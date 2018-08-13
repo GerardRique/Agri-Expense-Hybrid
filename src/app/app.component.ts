@@ -36,6 +36,7 @@ import { InitializeData } from '../core/InitializationModule/InitializeData';
 import { InitializePage } from '../pages/initialize/initialize';
 import { StartUpScreenPage } from '../pages/start-up-screen/start-up-screen';
 import { LocalNotifications, ILocalNotificationActionType, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications';
+import { Firebase } from '@ionic-native/firebase';
 
 
 declare let cordova: any;
@@ -60,8 +61,10 @@ export class MyApp {
 
   public static USER_ACCOUNT_CHECK: string = "user_account";
 
-  constructor(public platform: Platform, public statusBar: StatusBar,public storage: Storage, public splashScreen: SplashScreen, private initializeData: InitializeData, private authenticationService: AuthenticationService, private alertCtrl: AlertController, private localNotification: LocalNotifications, private toastCtrl: ToastController){
+  constructor(public platform: Platform, public statusBar: StatusBar,public storage: Storage, public splashScreen: SplashScreen, private initializeData: InitializeData, private authenticationService: AuthenticationService, private alertCtrl: AlertController, private localNotification: LocalNotifications, private toastCtrl: ToastController, private firebase: Firebase){
     this.initializeApp();
+
+    this.firebase.setAnalyticsCollectionEnabled(true);
 
     // used for an example of ngFor and navigation
     this.pages = [

@@ -4,6 +4,7 @@ import { HarvestManager } from '../../core/HarvestManager';
 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Harvest } from '../../core/Harvest';
+import { Firebase } from '@ionic-native/firebase';
 
 /**
  * Generated class for the NewHarvestPage page.
@@ -32,7 +33,7 @@ export class NewHarvestPage {
   callback: any;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public harvestManager: HarvestManager, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public harvestManager: HarvestManager, public toastCtrl: ToastController, private firebase: Firebase) {
 
     this.harvestManager.getUnitsList().then((unitList) => {
       this.unitList =unitList;
@@ -67,6 +68,8 @@ export class NewHarvestPage {
   }
 
   submitNewHarvested(){
+
+    this.firebase.logEvent("create_harvest", {content_type: "function_call", item_id: "new_harvest"});
 
     let toast = this.toastCtrl.create({
       message: 'Harvest successfully saved',

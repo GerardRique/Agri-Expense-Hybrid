@@ -12,6 +12,7 @@ import { MaterialManager } from '../../core/MaterialManager';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { Purchase } from '../../core/Purchase';
 import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
+import { Firebase } from '@ionic-native/firebase';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -48,7 +49,7 @@ export class NewPurchasePage {
   @ViewChild(Navbar) navbar: Navbar;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseHandler: PurchaseHandler, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController, public alertCtrl: AlertController, private firebase: Firebase) {
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list;
@@ -184,6 +185,7 @@ export class NewPurchasePage {
   savePurchase(){
 
     let costPerUnit = this.newPurchase.get('cost').value / this.newPurchase.get('quantity').value;
+    this.firebase.logEvent("create_purchase", {content_type: "function_call", item_id: "new_purchase"})
 
     let purchase = new Purchase(this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, costPerUnit, this.newPurchase.get('datePurchased').value);
 

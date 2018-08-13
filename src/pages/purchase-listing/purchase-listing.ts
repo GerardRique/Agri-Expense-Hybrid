@@ -12,6 +12,7 @@ import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 //Included to display currencies and dates on ios devices. 
 import 'intl';
 import 'intl/locale-data/jsonp/en.js';
+import { Firebase } from '@ionic-native/firebase';
 
 /**
  * Generated class for the PurchaseListingPage page.
@@ -37,7 +38,7 @@ export class PurchaseListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App, private popOverCtrl: PopoverController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App, private popOverCtrl: PopoverController, private toastCtrl: ToastController, private firebase: Firebase) {
     this.displayEmptyListMessage = false;
     this.rootNav = this.app.getRootNav();
 
@@ -45,6 +46,8 @@ export class PurchaseListingPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PurchaseListingPage');
+
+    this.firebase.logEvent("purchase_listing", {content_type: "page_view", item_id: "purchase_listing_page"});
   }
 
   public openPurchaseOptionsPopover(myEvent, purchase, index){

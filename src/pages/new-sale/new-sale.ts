@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { Sale } from '../../core/Sale';
 import { SaleManager } from '../../core/SaleManager';
 import { HarvestManager } from '../../core/HarvestManager';
+import { Firebase } from '@ionic-native/firebase';
 
 /**
  * Generated class for the NewSalePage page.
@@ -29,7 +30,7 @@ export class NewSalePage {
 
   callback: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public saleManager: SaleManager, public harvestManager: HarvestManager, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public saleManager: SaleManager, public harvestManager: HarvestManager, public toastCtrl: ToastController, private firebase: Firebase) {
     this.selectedHarvest = this.navParams.get('harvestData');
     this.callback = this.navParams.get('callback');
     console.log(this.selectedHarvest);
@@ -89,6 +90,8 @@ export class NewSalePage {
       duration: 2000,
       position: 'middle'
     })
+
+    this.firebase.logEvent("create_sale", {content_type: "function_call", item_id: "new_sale"});
     let mySale = new Sale(this.selectedHarvest['crop'], this.selectedHarvest['cropId'], this.selectedHarvest['id'], this.selectedHarvest['cycleId'], this.unitsSoldBy, this.quantityOfUnitsSold, this.costPerUnitSold, this.dateSold);
     let selectedHarvestId = this.selectedHarvest['id'];
     console.log(mySale);
