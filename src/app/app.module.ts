@@ -76,6 +76,8 @@ import { ShareManager } from '../core/ShareManager';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
+// Adding Firebase as a module to resolve errors
+import { Firebase } from '@ionic-native/firebase';
 
 @NgModule({
   declarations: [
@@ -189,6 +191,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     ShareManager,
     PhonegapLocalNotification,
     LocalNotifications,
+    Firebase,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

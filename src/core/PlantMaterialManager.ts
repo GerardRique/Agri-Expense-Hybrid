@@ -21,36 +21,40 @@ export class PlantMaterialManager extends MeasurableDataManager{
         this.unitList = ['Seed', 'Heads', 'Seedling', 'Slips', 'Stick', 'Tubes'];
         this.dataList = [
             {
-                "name": "Anise Seed",
-                "imagePath": "assets/img/anise_seed.jpg"
+                "name": "ANISE SEED",
+                "imagePath": "assets/img/cropImages/anise_seed.jpg"
             },
             {
-                "name": "Banana",
-                "imagePath": "assets/img/banana.jpg"
+                "name": "AVOCADO",
+                "imagePath": "assets/img/cropImages/avocado.jpeg"
             },
             {
-                "name": "Basil",
-                "imagePath": "assets/img/basil.jpg"
+                "name": "BANANA",
+                "imagePath": "assets/img/cropImages/banana.jpg"
+            },
+            {
+                "name": "BASIL",
+                "imagePath": "assets/img/cropImages/basil.jpg"
             },
             {
                 "name": "Bay Leaf",
-                "imagePath": "assets/img/bay_leaf.jpg"
+                "imagePath": "assets/img/cropImages/bay_leaf.jpg"
             },
             {
-                "name": "Beet",
-                "imagePath": "assets/img/beet.jpg"
+                "name": "BEET",
+                "imagePath": "assets/img/cropImages/beet.jpg"
             },
             {
-                "name": "Bhagi",
-                "imagePath": "assets/img/bhagi.jpg"
+                "name": "BHAGI",
+                "imagePath": "assets/img/cropImages/bhagi.jpg"
             },
             {
-                "name": "Bora (Bodi) Bean",
-                "imagePath": "assets/img/bodi_bean.jpg"
+                "name": "BORA (Bodi) BEAN",
+                "imagePath": "assets/img/cropImages/bodi_bean.jpg"
             },
             {
-                "name": "BreadFruit",
-                "imagePath": "assets/img/breadfruit.jpg"
+                "name": "BREADFRUIT",
+                "imagePath": "assets/img/cropImages/breadfruit.jpg"
             },
             {
                 "name":"BREADNUT (CHATAIGNE)",
@@ -63,6 +67,10 @@ export class PlantMaterialManager extends MeasurableDataManager{
             {
                 "name":"CABBAGE",
                 "imagePath": "assets/img/cropImages/cabbage.jpg"
+            },
+            {
+                "name":"CABBAGE (PURPLE)",
+                "imagePath": "assets/img/cropImages/purple_cabbage.png"
             },
             {
                 "name":"CARAILLI",
@@ -150,16 +158,24 @@ export class PlantMaterialManager extends MeasurableDataManager{
            },
            {
                 "name":"GREEN FIG",
-                "imagePath": "assets/img/banana.jpg"
+                "imagePath": "assets/img/cropImages/banana.jpg"
            },
            {
                 "name":"HOT PEPPER",
                 "imagePath": "assets/img/cropImages/hot_pepper.jpg"
            },
            {
+                "name":"KALE",
+                "imagePath": "assets/img/cropImages/kale.jpg"
+            },
+           {
                 "name":"LETTUCE",
                 "imagePath": "assets/img/cropImages/lettuce.jpg"
            },
+           {
+                "name":"LETTUCE (BUTTER)",
+                "imagePath": "assets/img/cropImages/lettuce_butter.jpg"
+            },
            {
                 "name":"LIME",
                 "imagePath": "assets/img/cropImages/lime.jpg"
@@ -172,6 +188,10 @@ export class PlantMaterialManager extends MeasurableDataManager{
                 "name":"MANGO",
                 "imagePath": "assets/img/cropImages/mango.jpg"
            },
+           {
+                "name":"MELONGENE (BAIGAN)",
+                "imagePath": "assets/img/cropImages/melongene.jpg"
+            },
            {
                 "name":"MINT",
                 "imagePath": "assets/img/cropImages/mint.jpg"
@@ -188,6 +208,14 @@ export class PlantMaterialManager extends MeasurableDataManager{
                 "name":"ORANGES",
                 "imagePath": "assets/img/cropImages/orange.jpg"
            },
+           {
+                "name":"PARSLEY",
+                "imagePath": "assets/img/cropImages/parsley.jpg"
+            },
+           {
+                "name":"PATCHOI",
+                "imagePath": "assets/img/cropImages/patchoi.jpg"
+            },
            {
                 "name":"PAW PAW",
                 "imagePath": "assets/img/cropImages/paw_paw.jpg"
@@ -229,6 +257,10 @@ export class PlantMaterialManager extends MeasurableDataManager{
                 "imagePath": "assets/img/cropImages/seim_bean.jpg"
            },
            {
+                "name":"SILK FIG",
+                "imagePath": "assets/img/cropImages/silk_fig.jpg"
+            },
+           {
                 "name":"SORREL",
                 "imagePath": "assets/img/cropImages/sorrel.jpg"
            },
@@ -240,6 +272,10 @@ export class PlantMaterialManager extends MeasurableDataManager{
                 "name":"SQUASH",
                 "imagePath": "assets/img/cropImages/squash.jpg"
            },
+           {
+                "name":"STRING BEANS",
+                "imagePath": "assets/img/cropImages/string_beans.jpg"
+            },
            {
                 "name":"SWEET PEPPER",
                 "imagePath": "assets/img/cropImages/sweet_pepper.jpg"
@@ -264,6 +300,10 @@ export class PlantMaterialManager extends MeasurableDataManager{
                 "name":"TOMATO",
                 "imagePath": "assets/img/cropImages/tomato.jpg"
            },
+           {
+                "name":"TOMATO (CHERRY)",
+                "imagePath": "assets/img/cropImages/tomato.jpg"
+            },
            {
                 "name":"TUMERIC (SAFFRON)",
                 "imagePath": "assets/img/cropImages/turmeric.jpg"
