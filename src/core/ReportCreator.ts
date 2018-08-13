@@ -123,8 +123,19 @@ export class ReportCreator{
                         let quantityUsed = materialUse['quantityUsed'];
                         let quantityPerArea = Number.parseInt(quantityUsed) / areaOfLand;
                         let quantityPerAreaString = "" + quantityPerArea.toFixed(2) + "";
+
                         newPromises.push(this.materialUseManager.get(materialUse['materialId']).then((material) => {
-                            let newRow = [noString, cycle['crop'], material['name'], quantityPerAreaString, areaOfLandString, materialUse['costPerMaterial'], materialUse['totalCost']];
+                            
+                            let newRow = [
+                                noString, 
+                                cycle['crop'], 
+                                material['name'], 
+                                quantityPerAreaString, 
+                                areaOfLandString, 
+                                materialUse['costPerMaterial'], 
+                                materialUse['totalCost']
+                            ];
+
                             list.push(newRow);
                             console.log(newRow);
                         }));
