@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, NavController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import { PopoverPage } from '../../core/UIComponents/PopoverPage';
@@ -24,22 +24,35 @@ export class HomePage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public popoverCtrl: PopoverController, private app: App, private cycleManager: CycleManager, private toastCtrl: ToastController, private firebase: Firebase) {
+  constructor(private navCtrl: NavController,
+              private alertCtrl: AlertController,
+              public popoverCtrl: PopoverController,
+              private app: App,
+              private cycleManager: CycleManager,
+              private toastCtrl: ToastController,
+              private loadingCtrl: LoadingController,
+              private firebase: Firebase) { // End of Constructor parameters
+    // In the constructor
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
 
-  //The ionViewWillEnter will run when the page is fully entered and is now the active page. The event will fire whether it was the first load or a cached page. 
+  // The ionViewWillEnter will run when the page is fully entered and is now the active page.
+  // The event will fire whether it was the first load or a cached page.
   ionViewDidEnter(){
-
-    console.log('IonViewDidEnter Home page');
-
     this.firebase.logEvent("cycle_listing", {content_type: "page_view", item_id: "cycle_listing_page"});
-
     this.loadPageData();
   }
 
   public loadPageData(){
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Cycles',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
+
     this.content.resize();
     this.cycleManager.getAll().then((list) => {
 
@@ -47,27 +60,19 @@ export class HomePage {
       this.cycleListing = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePlanted']).valueOf() - Date.parse(a['datePlanted']).valueOf()
       });
-
       console.log("Successfully retrieved " + this.cycleListing.length + " cycles");
-      if(this.cycleListing.length === 0){
-        this.displayNoCyclesMadeMessage = true;
-      }
-      else this.displayNoCyclesMadeMessage = false;
-    })
-  }
-
-  ionViewWillEnter(){
-    console.log('IonViewWillEnter Home page');
-    
+      // Updates whether the instruction message should displayed
+      this.displayNoCyclesMadeMessage = this.cycleListing.length === 0;
+      // Dismiss spinner
+      loadingSpinner.dismiss();
+    });
   }
 
   public editCycle(cycle): void{
-    //this.newNav.push(EditCyclePage, cycle);
-
     this.navCtrl.push(EditCyclePage, {
       'cycle': cycle,
       'callback': this.loadPageData.bind(this)
-    })
+    });
   }
 
   public displayClosedCycleConfirmAlert(cycleId: string, index: number){
@@ -85,8 +90,9 @@ export class HomePage {
       toast.present();
       return;
     }
+
     //If the selected cycle can be closed, an alert will be presented to the user asking them to confirm this operation.
-    let alert = this.alertCtrl.create({
+    this.alertCtrl.create({
       title: 'Confirm Close Cycle',
       message: 'Are you sure you want to close this cycle?',
       buttons: [
@@ -105,8 +111,7 @@ export class HomePage {
           }
         }
       ]
-    });
-    alert.present();
+    }).present();
   }
 
   public updateListing(cycle, index){

@@ -17,32 +17,27 @@
 
 <ion-content>
 
-  <p text-center *ngIf="displayEmptyListMessage">No sales made</p>
+  <p text-center *ngIf="displayEmptyListMessage">Create New Sales to Begin</p>
 
   <ion-list>
-    <!-- <ion-card *ngFor="let sale of saleListing">
-      <ion-card-title padding>{{sale.crop}}</ion-card-title>
-      <ion-card-content>
-        <p>Quantity sold: {{sale.quantityOfUnitsSold}}</p>
-        <p>Units sold by: {{sale.unitsSoldBy}}</p>
-        <p>Cost sold for: ${{sale.costPerunit | number: '.2-2'}}</p>
-        <p>Date Sold: {{sale.dateSold | date: 'fullDate'}}</p>
-      </ion-card-content>
-    </ion-card> -->
-
     <ion-item *ngFor="let sale of saleListing">
       <ion-thumbnail item-start>
-        <img src="{{sale.cropImagePath}}" alt="myImage">
+        <img src="{{sale.cropImagePath}}" alt="crop image">
       </ion-thumbnail>
       <h3>{{sale.crop}}</h3>
       <p>Quantity sold: {{sale.quantityOfUnitsSold}}</p>
       <p>Units sold by: {{sale.unitsSoldBy}}</p>
       <p>Cost sold for: ${{sale.costPerunit | number: '.2-2'}}</p>
-      <p>{{sale.dateSold | date: 'fullDate'}}</p>
+      <p>{{sale.dateSold | date : 'fullDate'}}</p>
     </ion-item>
   </ion-list>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="goToHarvestListingPage()" color="myGreen"><ion-icon name="add"></ion-icon></button>
+    <button
+      ion-fab
+      (click)="goToHarvestListingPage()"
+      color="myGreen">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>

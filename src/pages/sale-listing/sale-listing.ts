@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, AlertController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Content, AlertController, LoadingController} from 'ionic-angular';
 import { HarvestListingPage } from '../harvest-listing/harvest-listing';
 import { App } from 'ionic-angular';
 import { SaleManager } from '../../core/SaleManager';
@@ -28,67 +28,76 @@ export class SaleListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: App, private saleManager: SaleManager, private harvestManager: HarvestManager, private alertCtrl: AlertController, private firebase: Firebase) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private app: App,
+              private saleManager: SaleManager,
+              private harvestManager: HarvestManager,
+              private alertCtrl: AlertController,
+              private loadingCtrl: LoadingController,
+              private firebase: Firebase) {
 
     this.rootNav = this.app.getRootNav();
 
     this.displayEmptyListMessage = false;
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SaleListingPage');
-  }
-
   ionViewDidEnter(){
-
     this.loadData();
-
     this.firebase.logEvent("sale_listing", {content_type: "page_view", item_id: "sale_listing_page"});
-    
   }
 
   public loadData(){
-    this.content.resize();
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Labourers',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
 
+    this.content.resize();
     this.saleManager.getAll().then((list) => {
       this.saleListing = list.sort((a: Object, b: Object) => {
         return Date.parse(b['dateSold']).valueOf() - Date.parse(a['dateSold']).valueOf();
       });
-      if(this.saleListing.length === 0){
-        this.displayEmptyListMessage = true;
-      }else{
-        this.displayEmptyListMessage = false;
-      }
+      this.displayEmptyListMessage = this.saleListing.length === 0;
       console.log("Successfully retrieved " + this.saleListing.length + " sales");
-      this.getCropImagePaths();
+      this.getCropImagePaths().then(() => {
+        loadingSpinner.dismiss();
+      });
     });
   }
 
-  public getCropImagePaths(): Promise<void>{
+  public getCropImagePaths(): Promise<any>{
     let promises = [];
     for(let sale of this.saleListing){
       promises.push(this.saleManager.get(sale['cropId']).then((crop) => {
         sale['cropImagePath'] = crop['imagePath'];
       }));
     }
-
-    return Promise.all(promises).then(() => {
-      console.log('Retrieved Data');
-    })
+    return Promise.all(promises);
   }
 
   goToHarvestListingPage(){
-    let noHarvestAlert = this.alertCtrl.create({
-      title: 'No Harvests',
-      subTitle: 'Make a harvest before you can make a sale.',
-      buttons: ['Ok']
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Labourers',
+      enableBackdropDismiss: false,
+      showBackdrop: false
     });
+    loadingSpinner.present();
+    // Request harvests
     this.harvestManager.getAll().then((harvestList) => {
+      loadingSpinner.dismiss();
       if(harvestList.length === 0){
         console.log('No harvest made');
-        noHarvestAlert.present();
-      }
-      else{
+        this.alertCtrl.create({
+          title: 'No Harvests',
+          subTitle: 'Make a harvest before you can make a sale.',
+          buttons: ['Ok']
+        }).present();
+      } else{
         this.rootNav.push(HarvestListingPage, {
           callback: this.loadData.bind(this)
         });

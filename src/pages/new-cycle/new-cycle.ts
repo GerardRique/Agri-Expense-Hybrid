@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Navbar, LoadingController} from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { AlertController } from 'ionic-angular';
@@ -23,7 +23,7 @@ import { Firebase } from '@ionic-native/firebase';
 export class NewCyclePage {
   
   seeds = Array<Object>();
-  landTypes = ['Acre', 'Bed', 'Hectare'];
+  readonly landTypes = ['Acre', 'Bed', 'Hectare', 'Square Feet', 'Square Metres', 'Square Miles']; // TODO -
   selectSeedTemplate = true;
   selectLandTypeTemplatePage = false;
   selectLandQuantityTemplatePage = false;
@@ -34,12 +34,29 @@ export class NewCyclePage {
 
   @ViewChild(Navbar) navbar: Navbar;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private plantMaterialManager: PlantMaterialManager, private alertCtrl: AlertController, private cycleManager: CycleManager, public toastCtrl: ToastController, private firebase: Firebase) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private formBuilder: FormBuilder,
+              private plantMaterialManager: PlantMaterialManager,
+              private alertCtrl: AlertController,
+              private cycleManager: CycleManager,
+              public toastCtrl: ToastController,
+              private loadingCtrl: LoadingController,
+              private firebase: Firebase) {
+
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Planting Material',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
 
     this.plantMaterialManager.getAll().then((data) => {
       this.seeds = data;
-      //console.log(this.seeds);
+      loadingSpinner.dismiss();
     });
+
     this.newCycle = this.formBuilder.group({
       name: ['', Validators.required],
       crop: ['', Validators.required],
@@ -58,11 +75,6 @@ export class NewCyclePage {
     
   }
 
-  ionViewWillLeave(){
-    
-
-  }
-
   ionViewDidLoad() {
     //Set functionality for when the back button is pressed
     this.navbar.backButtonClick = () => {
@@ -78,7 +90,6 @@ export class NewCyclePage {
         this.navCtrl.pop();
       }
     };
-    console.log('ionViewDidLoad NewCyclePage');
   }
 
   presentPromptForPlantMaterial(){
@@ -133,19 +144,35 @@ export class NewCyclePage {
   }
 
   submit(){
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Saving cycle ... ',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
 
-    let cycle = new Cycle(this.newCycle.get('name').value, this.newCycle.get('crop').value, this.newCycle.get('cropId').value, this.newCycle.get('cropImagePath').value, this.newCycle.get('landUnit').value, this.newCycle.get('landQuantity').value, this.newCycle.get('datePlanted').value, this.newCycle.get('harvested').value, this.newCycle.get('ongoing').value);
+    let cycle = new Cycle(this.newCycle.get('name').value,
+                            this.newCycle.get('crop').value,
+                            this.newCycle.get('cropId').value,
+                            this.newCycle.get('cropImagePath').value,
+                            this.newCycle.get('landUnit').value,
+                            this.newCycle.get('landQuantity').value,
+                            this.newCycle.get('datePlanted').value,
+                            this.newCycle.get('harvested').value,
+                            this.newCycle.get('ongoing').value);
 
     this.firebase.logEvent("create_cycle", {content_type: "function_call", item_id: "new_cycle"});
+
     this.cycleManager.add(cycle).then((response) => {
-      let toast = this.toastCtrl.create({
+      loadingSpinner.dismiss();
+
+      this.toastCtrl.create({
         message: 'Cycle Successfully created',
         duration: 1000,
         position: 'bottom'
-      });
+      }).present();
 
-      toast.present();
-      console.log('Cycle Manager test successfull');
       this.callback();
       this.navCtrl.popToRoot();
     })

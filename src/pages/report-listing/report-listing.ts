@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, PopoverController, AlertController, Platform } from 'ionic-angular';
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  PopoverController,
+  AlertController,
+  Platform,
+  LoadingController
+} from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
 import { File, FileSaver, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
@@ -29,12 +38,17 @@ export class ReportListingPage {
 
   displayMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, private file: File, private toastCtrl: ToastController, public popOverCtrl: PopoverController, public alertCtrl: AlertController, public shareManager: ShareManager, private platform: Platform) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public reportCreator: ReportCreator,
+              private file: File,
+              private loadingCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              public popOverCtrl: PopoverController,
+              public alertCtrl: AlertController,
+              public shareManager: ShareManager,
+              private platform: Platform) {
     this.displayMessage = false;
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportListingPage');
   }
 
   ionViewDidEnter(){
@@ -55,21 +69,29 @@ export class ReportListingPage {
   }
 
   public updateFileList(){
-    let toast = this.toastCtrl.create({
-      message: "Error retrieving files. ",
-      duration: 5000,
-      position: "bottom"
+
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Reports',
+      enableBackdropDismiss: false,
+      showBackdrop: false
     });
-    this.reportCreator.retrieveFiles('NewAgriExpense').then((entries) => {
-      let message = "Count: " + entries.length;
+    loadingSpinner.present();
+    // Retrieve Files for the report and dismiss if successful or notify in error occurs
+    this.reportCreator.retrieveFiles('AgriExpense').then((entries) => {
       this.fileList = entries;
       if(this.platform.is('core') || this.platform.is('mobileweb')){
         this.fileList = [];
       }
+      loadingSpinner.dismiss();
     }).catch((error) => {
-      toast.present();
-      console.log('Error retrieving files');
-    })
+      loadingSpinner.dismiss();
+      this.toastCtrl.create({
+        message: "Error retrieving files. ",
+        duration: 5000,
+        position: "bottom"
+      }).present();
+      console.error('Error retrieving files: ' + JSON.stringify(error));
+    });
   }
 
   public openReportOptionsMenu(myEvent, entry: Entry, index: number){

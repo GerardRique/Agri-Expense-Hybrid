@@ -107,7 +107,7 @@ export class HarvestListingPage {
     let data = {
       'harvestData': harvest,
       callback: this.navParams.get('callback')
-    }
+    };
 
     this.navCtrl.push(NewSalePage, data);
   }

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
-import { EditPurchasePage } from '../../pages/edit-purchase/edit-purchase';
+import {IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController} from 'ionic-angular';
+import { EditPurchasePage } from '../edit-purchase/edit-purchase';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialManager } from '../../core/MaterialManager';
 import { App } from 'ionic-angular';
@@ -38,7 +38,16 @@ export class PurchaseListingPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private purchaseManager: PurchaseManager, private materialManager: MaterialManager, private alertCtrl: AlertController, private app: App, private popOverCtrl: PopoverController, private toastCtrl: ToastController, private firebase: Firebase) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private purchaseManager: PurchaseManager,
+              private materialManager: MaterialManager,
+              private alertCtrl: AlertController,
+              private app: App,
+              private popOverCtrl: PopoverController,
+              private toastCtrl: ToastController,
+              private loadingCtrl: LoadingController,
+              private firebase: Firebase) {
     this.displayEmptyListMessage = false;
     this.rootNav = this.app.getRootNav();
 
@@ -97,17 +106,25 @@ export class PurchaseListingPage {
 
   public loadData(){
 
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Purchases',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
+
     this.content.resize();
 
     this.purchaseManager.getAll().then((list) => {
       this.purchaseList = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
       });
-      if(this.purchaseList.length === 0){
-        this.displayEmptyListMessage = true;
-      } else this.displayEmptyListMessage = false;
-      this.getData();
-    })
+      this.displayEmptyListMessage = this.purchaseList.length === 0;
+      this.getData().then(() => {
+        loadingSpinner.dismiss();
+      });
+    });
   }
 
   getData(): Promise<void>{
@@ -152,11 +169,7 @@ export class PurchaseListingPage {
     let cantDeletePurchaseAlert = this.alertCtrl.create({
       title: 'Delete Purchase',
       message: 'This purchase has already been used and cannot be deleted',
-      buttons: [
-        {
-          text: 'OK'
-        }
-      ]
+      buttons: [{text: 'OK'}]
     });
 
     if(hasBeenUsed === true){

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Content, LoadingController} from 'ionic-angular';
 import { NewLabourerPage } from '../new-labourer/new-labourer';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
@@ -34,27 +34,34 @@ export class LabourerListingPage {
 
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataManagerFactory: DataManagerFactory){
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private loadingCtrl: LoadingController,
+              private dataManagerFactory: DataManagerFactory){ // End of constructor parameters
+    // Within the constructor
     this.labourerListing = [];
     this.displayEmptyListMessage = false;
-
     this.searchLabourer = '';
-
     this.searchControl = new FormControl();
-
   }
 
   ionViewDidEnter(){
     this.labourManager = this.dataManagerFactory.getManager(DataManagerFactory.LABOUR);
+
+    // Start the Spinner for loading content (will be dismissed when information returned successfully)
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading Labourers',
+      enableBackdropDismiss: false,
+      showBackdrop: false
+    });
+    loadingSpinner.present();
+
     this.labourManager.getAll().then((list) => {
       this.labourerListing = list;
       console.log('Successfully retrieved ' + list.length + ' labourers');
       this.content.resize();
-      if(this.labourerListing.length === 0){
-        this.displayEmptyListMessage = true;
-      } else this.displayEmptyListMessage = false;
-    }).catch((error) => {
-      console.log("Error retrieving labourers");
+      this.displayEmptyListMessage = this.labourerListing.length === 0;
+      loadingSpinner.dismiss()
     });
   }
 
