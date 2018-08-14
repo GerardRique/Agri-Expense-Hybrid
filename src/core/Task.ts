@@ -13,7 +13,6 @@ export class Task implements Serializeable{
     private id;
 
     constructor(private cycleId: string, private labourerId: string, private dateStarted: Date, private rateOfPay: string, private salary: number, private quantity: number, private description: string){
-        let uuid = new UUID();
         this.id = UUID.UUID();
     }
 

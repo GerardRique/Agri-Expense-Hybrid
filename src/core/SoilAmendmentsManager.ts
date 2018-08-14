@@ -1,9 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
 import { MeasurableDataManager } from './MeasurableDataManager';
 
@@ -13,8 +10,8 @@ export class SoilAmendmentsManager extends MeasurableDataManager{
     protected dataList: Array<Object>;
     public DATA_ID: string;
 
-    constructor(private soilAmendmentStorage: Storage, private soilAmendmentUUID: UUID){
-        super(soilAmendmentStorage, soilAmendmentUUID);
+    constructor( storage: Storage, soilAmendmentUUID: UUID){
+        super(storage, soilAmendmentUUID);
 
         this.unitList = ['Bag', 'Truck'];
         this.DATA_ID = "Soil Ammendment";

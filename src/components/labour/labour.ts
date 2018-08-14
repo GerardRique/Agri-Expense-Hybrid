@@ -1,5 +1,4 @@
-import { Component, Compiler, Injector, VERSION, ViewChild, NgModule, NgModuleRef, ViewContainerRef } from '@angular/core';
-import { NgModel } from '@angular/forms/src/directives/ng_model';
+import { Component, Compiler, Injector, ViewChild, NgModule, NgModuleRef, ViewContainerRef } from '@angular/core';
 
 /**
  * Generated class for the LabourComponent component.

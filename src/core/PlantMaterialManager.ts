@@ -1,12 +1,8 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { DataManager } from './DataManager';
 import { MeasurableDataManager } from './MeasurableDataManager';
 import { UUID } from 'angular2-uuid';
-import { Jsonp } from '@angular/http/src/http';
 
 @Injectable()
 export class PlantMaterialManager extends MeasurableDataManager{
@@ -15,8 +11,8 @@ export class PlantMaterialManager extends MeasurableDataManager{
     protected dataList: Array<Object>;
     public DATA_ID: string;
 
-    constructor(private plantStorage: Storage, private plantMaterialUUID: UUID){
-        super(plantStorage, plantMaterialUUID);
+    constructor(storage: Storage, plantMaterialUUID: UUID){
+        super(storage, plantMaterialUUID);
         this.DATA_ID = "Plant Material";
         this.unitList = ['Seed', 'Heads', 'Seedling', 'Slips', 'Stick', 'Tubes'];
         this.dataList = [
@@ -329,8 +325,8 @@ export class PlantMaterialManager extends MeasurableDataManager{
 
     //The getData function returns a promise that contains an object that contains data on a plant material given the id of the plant material. 
     public getData(key: string): Promise<Object>{
-        return this.plantStorage.ready().then(() => {
-            return this.plantStorage.get(key).then((materialString) => {
+        return this.storage.ready().then(() => {
+            return this.storage.get(key).then((materialString) => {
                 let materialObject = JSON.parse(materialString);
                 return materialObject;
             }).catch((error) => {
@@ -340,5 +336,4 @@ export class PlantMaterialManager extends MeasurableDataManager{
             return error;
         });
     }
-    
 }

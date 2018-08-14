@@ -1,8 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { DataManager } from '../DataManager';
 import { UUID } from 'angular2-uuid';
 import { Country } from './Country';
@@ -10,17 +8,13 @@ import { Country } from './Country';
 @Injectable()
 
 export class CountryManager extends DataManager{
-    public DATA_ID: string;
-
+    DATA_ID: string;
     protected dataList: Array<Object>;
-
     private province_key: string = "provinces";
 
-    constructor(private countryStorage: Storage, private countryUUID: UUID){
-        super(countryStorage, countryUUID);
-
+    constructor(storage: Storage, countryUUID: UUID){
+        super(storage, countryUUID);
         this.DATA_ID = "Country";
-
         this.dataList = [
             {
                 "name": "Anguilla",
@@ -121,42 +115,44 @@ export class CountryManager extends DataManager{
     }
 
     public initialize(): Promise<any>{
-        let promises = [];
-        let uniqueIDs = [];
+        // Returns the promise when the storage is completed
 
-        return this.countryStorage.ready().then(() => {
-            for(let country of this.dataList){
-                let myCountry = new Country(country['name'], country['subDivisionTitle']);
-                uniqueIDs.push(myCountry.getId());
+        return this.storage.ready().then(() => {
+          let promises = [];
+          let uniqueIDs = [];
 
-                let countryString = JSON.stringify(myCountry);
-                promises.push(this.countryStorage.set(myCountry.getId(), countryString));
+          for(let country of this.dataList){
+              let myCountry = new Country(country['name'], country['subDivisionTitle']);
+              uniqueIDs.push(myCountry.getId());
 
-                let subDivisions = country['subDivisions'];
-                let subDivisionsId = myCountry.getId() + "_" + this.province_key;
-                let subdivisionsString = JSON.stringify(subDivisions);
-                promises.push(this.countryStorage.set(subDivisionsId, subdivisionsString));  
-            }
+              let countryString = JSON.stringify(myCountry);
+              promises.push(this.storage.set(myCountry.getId(), countryString));
 
-            let uuidListString = JSON.stringify(uniqueIDs);
-            promises.push(this.countryStorage.set(this.DATA_ID, uuidListString));
+              let subDivisions = country['subDivisions'];
+              let subDivisionsId = myCountry.getId() + "_" + this.province_key;
+              let subdivisionsString = JSON.stringify(subDivisions);
+              promises.push(this.storage.set(subDivisionsId, subdivisionsString));
+          }
 
-            return Promise.all(promises).then(() => {
-                console.log("Initialized data for " + this.DATA_ID);
-                return this;
-            }).catch((error) => {
-                return error;
-            });
+          let uuidListString = JSON.stringify(uniqueIDs);
+          promises.push(this.storage.set(this.DATA_ID, uuidListString));
+
+          return Promise.all(promises).then(() => {
+              console.log("Initialized data for " + this.DATA_ID);
+              return this;
+          }).catch((error) => {
+              return error;
+          });
         }).catch((error) => {
             return error;
         });
     }
 
     public getCounties(countryId: string): Promise<Array<string>>{
-        return this.countryStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let countiesId = countryId + "_" + this.province_key;
 
-            return this.countryStorage.get(countiesId).then((countyString) => {
+            return this.storage.get(countiesId).then((countyString) => {
                 let countyList = JSON.parse(countyString);
 
                 let sortedList = countyList.sort();
@@ -166,5 +162,7 @@ export class CountryManager extends DataManager{
             return [];
         })
     }
+
+
 }
 

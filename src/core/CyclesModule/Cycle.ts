@@ -47,4 +47,10 @@ export class Cycle implements Serializeable{
     private isActive(): boolean{
         return this.active;
     }
+    private getName() : string{
+        return this.name;
+    }
+    private setName(name: string){
+        this.name = name;
+    } 
 }

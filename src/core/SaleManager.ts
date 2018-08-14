@@ -1,6 +1,5 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
 import { Sale } from './Sale';
@@ -11,22 +10,22 @@ export class SaleManager extends DataManager{
     public DATA_ID: string;
     protected dataList: Array<Object>;
 
-    constructor(private saleStorage: Storage, private saleUUID: UUID){
-        super(saleStorage, saleUUID);
+    constructor( storage: Storage, private saleUUID: UUID){
+        super(storage, saleUUID);
 
         this.DATA_ID = "Sales";
         this.dataList = [];
     }
 
     public getByCycleId(cycleId: string): Promise<Array<Sale>>{
-        return this.saleStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let cycleSaleId = this.DATA_ID + "_" + cycleId;
 
             let promises = [];
 
             let saleListing = new Array<Object>();
 
-            return this.saleStorage.get(cycleSaleId).then((saleIdList) => {
+            return this.storage.get(cycleSaleId).then((saleIdList) => {
                 if(saleIdList === null)
                     return [];
                 if(!isObject(saleIdList))
@@ -34,7 +33,7 @@ export class SaleManager extends DataManager{
                 
                 
                 for(let id of saleIdList){
-                    promises.push(this.saleStorage.get(id).then((sale) => {
+                    promises.push(this.storage.get(id).then((sale) => {
                         let data = JSON.parse(sale);
 
                         let saleData = <Sale>data;
@@ -61,7 +60,7 @@ export class SaleManager extends DataManager{
 
         promises.push(super.add(data));
 
-        return this.saleStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let saleId = data.getId();
 
             let cycleId = data.getCycleId();
@@ -70,7 +69,7 @@ export class SaleManager extends DataManager{
             let cycleSaleId = this.DATA_ID + "_" + cycleId;
             let harvestSaleId = this.DATA_ID + "_" + harvestId;
 
-            promises.push(this.saleStorage.get(cycleSaleId).then((result) => {
+            promises.push(this.storage.get(cycleSaleId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))
@@ -78,10 +77,10 @@ export class SaleManager extends DataManager{
                 result.push(saleId);
 
                 let resultString = JSON.stringify(result);
-                this.saleStorage.set(cycleSaleId, resultString);
+                this.storage.set(cycleSaleId, resultString);
             }));
 
-            promises.push(this.saleStorage.get(harvestSaleId).then((result) => {
+            promises.push(this.storage.get(harvestSaleId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))
@@ -91,7 +90,7 @@ export class SaleManager extends DataManager{
 
                 let resultString = JSON.stringify(result);
 
-                this.saleStorage.set(harvestSaleId, resultString);
+                this.storage.set(harvestSaleId, resultString);
             }));
 
             return Promise.all(promises).then(() => {

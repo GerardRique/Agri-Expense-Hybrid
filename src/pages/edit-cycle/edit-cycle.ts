@@ -21,7 +21,7 @@ export class EditCyclePage {
 
   private plantMaterialList: Array<Object>;
   //TODO: Create class for units. 
-  private landUnitList = ['Acre', 'Bed', 'Hectare'];
+  // private landUnitList = ['Acre', 'Bed', 'Hectare'];
 
   private selectedCycle: Object;
 
@@ -77,7 +77,7 @@ export class EditCyclePage {
       })
 
     }).catch((error) => {
-      console.log("Error retrieving crop data for updating cycle");
+      console.log("Error retrieving crop data for updating cycle:" + JSON.stringify(error));
     });
   }
 

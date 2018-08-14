@@ -1,8 +1,5 @@
 import { Storage } from '@ionic/storage';
-import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { UUID } from 'angular2-uuid';
 import { DataManager } from './DataManager';
 
@@ -11,8 +8,8 @@ export abstract class MeasurableDataManager extends DataManager {
     protected unitListKey = "UNIT_LIST";
     protected abstract unitList: Array<string>;
 
-    constructor(private dataStorage: Storage, private dataUUID: UUID){
-        super(dataStorage, dataUUID);
+    constructor(storage: Storage, dataUUID: UUID){
+        super(storage, dataUUID);
     }
 
     public initialize(): Promise<any>{
@@ -29,12 +26,13 @@ export abstract class MeasurableDataManager extends DataManager {
 
     public initializeUnits(): Promise<boolean>{
         console.log("Initializing units...");
-        return this.dataStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let unitListString = JSON.stringify(this.unitList);
             let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;
-            return this.dataStorage.set(unitListStringKey, unitListString).then(() => {
+            return this.storage.set(unitListStringKey, unitListString).then(() => {
                 return true;
             }).catch((error) => {
+                console.error(error)
                 return false;
             });
         })
@@ -42,14 +40,15 @@ export abstract class MeasurableDataManager extends DataManager {
 
     public checkInitialization(): Promise<boolean>{
         let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;
-        return this.dataStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             return super.checkInitialization().then((result) => {
                 if(result == true){
-                    return this.dataStorage.get(unitListStringKey).then((value) => {
+                    return this.storage.get(unitListStringKey).then((value) => {
                         if(value === null || value.length === 0)
                             return false;
                         else return true;
                     }).catch((error) => {
+                        console.error(error);
                         return false;
                     });
                 } else {
@@ -64,9 +63,9 @@ export abstract class MeasurableDataManager extends DataManager {
     }
 
     public getUnitsList(): Promise<Array<string>>{
-        return this.dataStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let unitListStringKey = this.unitListKey + "_" + this.DATA_ID;
-            return this.dataStorage.get(unitListStringKey).then((resultString) => {
+            return this.storage.get(unitListStringKey).then((resultString) => {
                 let data = JSON.parse(resultString);
                 if(data === null)
                     return [];

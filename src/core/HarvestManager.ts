@@ -1,9 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
 import { MeasurableDataManager } from './MeasurableDataManager';
 import { Harvest } from './Harvest';
@@ -18,8 +15,8 @@ export class HarvestManager extends MeasurableDataManager{
 
     public DATA_ID: string;
 
-    constructor(private harvestStorage: Storage, private harvestUUID: UUID){
-        super(harvestStorage, harvestUUID);
+    constructor(storage: Storage, harvestUUID: UUID){
+        super(storage, harvestUUID);
 
         this.DATA_ID = "Harvest";
 
@@ -33,12 +30,12 @@ export class HarvestManager extends MeasurableDataManager{
         let promises = [];
         promises.push(super.add(data));
 
-        return this.harvestStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let harvestId = data.getId();
             let cycleId = data.getCycleId();
             let cycleHarvestId = this.DATA_ID + "_" + cycleId;
 
-            promises.push(this.harvestStorage.get(cycleHarvestId).then((result) => {
+            promises.push(this.storage.get(cycleHarvestId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
@@ -47,16 +44,16 @@ export class HarvestManager extends MeasurableDataManager{
 
                 let resultString = JSON.stringify(result);
 
-                this.harvestStorage.set(cycleHarvestId, resultString);
+                this.storage.set(cycleHarvestId, resultString);
             }));
 
-            promises.push(this.harvestStorage.get(cycleHarvestId).then((result) => {
+            promises.push(this.storage.get(cycleHarvestId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(harvestId);
                 let resultString = JSON.stringify(result);
-                this.harvestStorage.set(cycleHarvestId, resultString);
+                this.storage.set(cycleHarvestId, resultString);
             }));
 
             return Promise.all(promises).then(() => {
@@ -74,9 +71,9 @@ export class HarvestManager extends MeasurableDataManager{
 
         let promises = [];
 
-        return this.harvestStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let harvestTaskId = this.DATA_ID + "_" + cycleId;
-            return this.harvestStorage.get(harvestTaskId).then((harvestIdList) => {
+            return this.storage.get(harvestTaskId).then((harvestIdList) => {
                 if(harvestIdList === null){
                     return harvestList
                 }
@@ -84,7 +81,7 @@ export class HarvestManager extends MeasurableDataManager{
                 if(!isObject(harvestIdList))harvestIdList = JSON.parse(harvestIdList);
 
                 for(let id of harvestIdList){
-                    promises.push(this.harvestStorage.get(id).then((harvestString) => {
+                    promises.push(this.storage.get(id).then((harvestString) => {
                         let data = JSON.parse(harvestString);
 
                         let harvest = <Harvest>data;

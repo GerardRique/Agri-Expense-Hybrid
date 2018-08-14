@@ -9,7 +9,6 @@ import { App } from 'ionic-angular';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
 import { Content } from 'ionic-angular/components/content/content';
-import { DateFilterPipe } from '../../pipes/date-filter/date-filter';
 import { Firebase } from '@ionic-native/firebase';
 @Component({
   selector: 'page-home',

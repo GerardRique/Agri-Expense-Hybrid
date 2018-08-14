@@ -7,7 +7,7 @@ export class PlantingMaterial implements Serializeable{
     private id;
 
     constructor(private name: string, private imagePath: string){
-        let uuid = new UUID();
+        //let uuid = new UUID();
         this.id = UUID.UUID();
     }
 

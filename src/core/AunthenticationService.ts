@@ -6,7 +6,6 @@ import { ToastController, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Subject } from 'rxjs';
 import { GooglePlus } from '@ionic-native/google-plus';
 
 @Injectable()
@@ -77,9 +76,9 @@ export class AuthenticationService{
         return firebase.auth().signInWithRedirect(provider).then(() => {
             return firebase.auth().getRedirectResult();
         }).then((result) => {
-            let token = result.credential.accessToken;
-
-            let user = result.user;
+            console.log(result);
+            // let token = result.credential.accessToken;
+            // let user = result.user;
             return true;
         }).catch((error) => {
             let toast = this.toastCtrl.create({
@@ -99,12 +98,15 @@ export class AuthenticationService{
             'scopes': 'profile email'
         }).then((res) => {
             return this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken)).then((result) => {
-                let uuid = result.uid;
+                console.log(result);
+                // let uuid = result.uid;
                 return true;
             }).catch((error) => {
+                console.error(error);
                 return false;
             });
         }).catch((error) => {
+            console.error(error);
             return false;
         });
     }

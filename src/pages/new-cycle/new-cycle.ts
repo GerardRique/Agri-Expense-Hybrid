@@ -39,7 +39,7 @@ export class NewCyclePage {
     this.plantMaterialManager.getAll().then((data) => {
       this.seeds = data;
       //console.log(this.seeds);
-    })
+    });
     this.newCycle = this.formBuilder.group({
       name: ['', Validators.required],
       crop: ['', Validators.required],
@@ -50,7 +50,7 @@ export class NewCyclePage {
       datePlanted: [new Date().toISOString(), Validators.required],
       harvested: [0.0, Validators.required],
       ongoing: [true, Validators.required]
-    })
+    });
   }
 
   ionViewWillEnter(){
@@ -77,7 +77,7 @@ export class NewCyclePage {
       else if(this.selectSeedTemplate === true){
         this.navCtrl.pop();
       }
-    }
+    };
     console.log('ionViewDidLoad NewCyclePage');
   }
 

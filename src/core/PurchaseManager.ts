@@ -8,16 +8,16 @@ export class PurchaseManager extends DataManager{
     public DATA_ID: string;
     protected dataList: Array<Object>;
 
-    constructor(public purchaseStorage: Storage, public purchaseUUID: UUID){
-        super(purchaseStorage, purchaseUUID);
+    constructor(storage: Storage, purchaseUUID: UUID){
+        super(storage, purchaseUUID);
         this.DATA_ID = "Purchases";
         this.dataList = [];
     }
 
     public getOfMaterialType(materialId: any): Promise<Array<Object>>{
-        let promises = [];
+
         let list = Array<Object>();
-        return this.purchaseStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             return super.getAll().then((purchaseList) => {
                 for(let purcahse of purchaseList){
                     if(purcahse['materialId'].localeCompare(materialId) === 0)

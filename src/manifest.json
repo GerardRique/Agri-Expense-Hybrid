@@ -1,10 +1,11 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "AgriExpense",
+  "short_name": "AgriExpense",
+  "description": "The AgriExpense mobile application was developed to assist farmers to keep records of the operational cost of each crop cycle, by recording the crop expenses on the go and monitoring cost of production per unit harvested",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
-    "src": "assets/imgs/logo.png",
+    "src": "assets/icon/icon.png",
     "sizes": "512x512",
     "type": "image/png"
   }],

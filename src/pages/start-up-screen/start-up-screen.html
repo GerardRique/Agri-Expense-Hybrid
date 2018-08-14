@@ -15,17 +15,27 @@
     <ion-slide >
       <img style="width: 200px; height: 200px;" src="assets/icon/icon.png">
       <h1 class="white-text">Welcome</h1>
-      <p class="white-text">AgriExpense is a mobile application that will keep track of some of the input of the production process</p>
+      <p id="welcome_text" class="white-text">
+        The AgriExpense mobile application was developed to assist farmers to keep records of the operational
+        cost of each crop cycle, by recording the crop expenses on the go and monitoring cost of production
+        per unit harvested.
+      </p>
     </ion-slide>
     <ion-slide>
-      <ion-icon color="light" name="nutrition" style="zoom:3.0;"></ion-icon>
+      <ion-icon color="light" name="nutrition" style="zoom:6.0;"></ion-icon>
       <h1 class="white-text">Cycles</h1>
-      <p class="white-text">Cycles represent each individual plot of land that is planted. Each Individual planting is usually represented as a crop cycle</p>
+      <p id="cycle_text" class="white-text">
+        Cycles represent the individual sowing of a crop within a unit of land.
+        Farmers may have multiple cycles of the same crop, made ad crop-specific intervals to ensure consistent flow of harvests.
+      </p>
     </ion-slide>
     <ion-slide>
-      <ion-icon color="light" name="cart" style="zoom:3.0;"></ion-icon>
+      <ion-icon color="light" name="cart" style="zoom:6.0;"></ion-icon>
       <h1 class="white-text">Purchases</h1>
-      <p class="white-text">Purchases represent the total cost of the item purchased. As materials from the purchased are used during the life cycle of the crop, the fraction of the cost will be added to the cycle. </p>      
+      <p id="purchase_text" class="white-text">
+        Purchases represent the total cost of the item purchased.
+        As materials from the purchased are used during the life cycle of the crop,
+        the fraction of the cost will be added to the cycle. </p>
     </ion-slide>
   </ion-slides>
 </ion-content>
@@ -34,16 +44,42 @@
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-end outline color="light" (click)="skip()" item-start>
+      <button
+        ion-button icon-end
+        outline color="light"
+        *ngIf="slides.getActiveIndex() != 0"
+        (click)="previousSlide()"
+        item-start>
+        Back
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button
+        ion-button icon-end
+        outline color="light"
+        (click)="skip()"
+        item-start>
         Skip
-        <ion-icon name="arrow-forward"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-col>
 
     <ion-col>
       <ion-buttons end>
-        <button ion-button icon-end outline color="light" (click)="nextSlide()">
+        <button
+          ion-button icon-end
+          outline color="light"
+          *ngIf="!slides.isEnd()"
+          (click)="nextSlide()">
           Next
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+
+        <button
+          ion-button icon-end
+          outline color="light"
+          *ngIf="slides.isEnd()"
+          (click)="finish()">
+          Finish
           <ion-icon name="arrow-forward"></ion-icon>
         </button>
       </ion-buttons>

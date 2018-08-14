@@ -1,9 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { DataManager } from './DataManager';
 import { MeasurableDataManager } from './MeasurableDataManager';
 import { UUID } from 'angular2-uuid';
 
@@ -14,7 +11,7 @@ export class ChemicalsManager extends MeasurableDataManager{
     protected dataList: Array<Object>;
     public DATA_ID: string;
 
-    constructor(private chemicalStorage: Storage, private chemicalsUUID: UUID){
+    constructor( chemicalStorage: Storage,  chemicalsUUID: UUID){
         super(chemicalStorage, chemicalsUUID);
         this.unitList = [
             'ounces(oz)', 

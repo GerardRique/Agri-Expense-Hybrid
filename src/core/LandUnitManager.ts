@@ -1,12 +1,9 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
-import { MeasurableDataManager } from './MeasurableDataManager';
 import { UUID } from 'angular2-uuid';
-import { Jsonp } from '@angular/http/src/http';
 
 @Injectable()
 export class LandUnitManager extends DataManager{
@@ -14,8 +11,8 @@ export class LandUnitManager extends DataManager{
 
     public DATA_ID: string;
 
-    constructor(private landUnitStorage: Storage, private landUnitUUID: UUID){
-        super(landUnitStorage, landUnitUUID);
+    constructor( storage: Storage,  landUnitUUID: UUID){
+        super(storage, landUnitUUID);
 
         this.DATA_ID = "land_units";
         this.dataList = [

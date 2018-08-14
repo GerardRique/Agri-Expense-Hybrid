@@ -1,12 +1,9 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { UUID } from 'angular2-uuid';
-import { Jsonp } from '@angular/http/src/http';
 import { FertilizerManager } from './FertilizerManager';
 import { ChemicalsManager } from './ChemicalsManager';
 import { SoilAmendmentsManager } from './SoilAmendmentsManager';

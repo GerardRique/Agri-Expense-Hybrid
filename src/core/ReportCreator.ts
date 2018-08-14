@@ -1,23 +1,15 @@
-import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
-import { Nav, Platform, NavController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { DataManager } from './DataManager';
-import { File, FileSaver, Entry } from '@ionic-native/file';
+import { File, Entry } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
-import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
-
 import * as XLSX from 'xlsx';
-import { Xliff } from '@angular/compiler/src/i18n/serializers/xliff';
 import { CycleManager } from './CyclesModule/CycleManager';
-import { TaskManager } from './TaskManager';
-import { XHRBackend } from '@angular/http/src/backends/xhr_backend';
 import { DataManagerFactory } from './DataManagerFactory';
 import { MaterialUseManager } from './MaterialUseManager';
-import { messaging } from 'firebase/app';
 
 @Injectable()
 export class ReportCreator{

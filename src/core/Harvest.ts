@@ -5,11 +5,11 @@ export class Harvest implements Serializeable{
 
     private id: string;
 
-    private quantityRemaining;
+    // private quantityRemaining;
 
     constructor(private cycleId: string, private cropId: string, private crop: string, private quantityHarvested: number, private unitsHarvested: string, private dateHarvested: string){
         this.id = UUID.UUID();
-        this.quantityRemaining = this.quantityHarvested;
+        // this.quantityRemaining = this.quantityHarvested;
     }
 
     public getId(): string{

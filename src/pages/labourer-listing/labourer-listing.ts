@@ -1,14 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { NewLabourerPage } from '../new-labourer/new-labourer';
-import { LabourManager } from '../../core/LabourManager';
 import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { DataManager } from '../../core/DataManager';
-import { Labourer } from '../../core/Labourer';
-import { ListTemplate } from '../../core/ListTemplate';
 import { SelectCyclePage } from '../select-cycle/select-cycle';
 import { FormControl } from '@angular/forms';
-import { FilterPipe } from '../../pipes/filter/filter';
 
 /**
  * Generated class for the LabourerListingPage page.

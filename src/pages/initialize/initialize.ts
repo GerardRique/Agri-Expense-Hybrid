@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, ToastController, AlertController } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../core/AunthenticationService';
 import { InitializeData } from '../../core/InitializationModule/InitializeData';
 import { CountryManager } from '../../core/CountryModule/CountryManager';
-import { DataManager } from '../../core/DataManager';
-import { DataManagerFactory } from '../../core/DataManagerFactory';
 import { Storage } from '@ionic/storage';
-import * as firebase from 'firebase/app';
 import { DataSynchronization } from '../../core/Backened/DataSynchronization';
 import { MeasurableDataManagerFactory } from '../../core/MeasurableDataManagerFactory';
 import { MeasurableDataManager } from '../../core/MeasurableDataManager';
@@ -24,62 +20,62 @@ This page is a setup up page that will be run after the Application is first ins
   templateUrl: 'initialize.html',
 })
 export class InitializePage {
-
+  // Location configuration
   private countries: Array<Object>;
   private counties: Array<string>;
-
   private userCountry: Object;
-  private alarmTime: any;
   private userCounty: string;
-  private userSignedIn: boolean;
-  private userDataSyncTime: string;
-
-  private displaySignInButton: boolean;
-
   private subDivisionTitle: string;
-
+  // Alarm and Sync configuration
+  private alarmTime: any;
+  private userDataSyncTime: string;
   private chosenHours: number;
   private chosenMinutes: number;
+  // Sign-in configuration
+  private displaySignInButton: boolean;
+  private userSignedIn: boolean;
 
-  constructor(public storage: Storage, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private countryManager: CountryManager, private authenticationService: AuthenticationService, private measurableDataManagerFactory: MeasurableDataManagerFactory, private dataManagerFactory: DataManagerFactory, private initializeData: InitializeData, private toastCtrl: ToastController, private alertCtrl: AlertController, private dataSync :DataSynchronization, private localNotifications: LocalNotifications) {
-    console.log("Running first initialization...");
+  constructor(public storage: Storage,
+              public platform: Platform,
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              private countryManager: CountryManager,
+              private authenticationService: AuthenticationService,
+              private measurableDataManagerFactory: MeasurableDataManagerFactory,
+              private initializeData: InitializeData,
+              private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
+              private dataSync :DataSynchronization,
+              private localNotifications: LocalNotifications) { // End the parameter for constructor
 
 
-    this.countryManager.initialize().then((result) => { 
-        this.alarmTime = moment(new Date(9, 0, 0)).format();
-        this.userDataSyncTime = new Date().toISOString();
-        this.userSignedIn = false;
-        this.displaySignInButton = true;
+    this.countryManager.initialize().then(result => {
+      // When we initialise the country manager, we configure defaults before requsting countries
 
-        this.chosenHours = new Date().getHours();
-        this.chosenMinutes = new Date().getMinutes();
+      // We set the alarm time (to be displayed and default) to the current time
+      this.alarmTime = moment(new Date()).format(); // Use the current time to set alarm
+      this.chosenHours = new Date().getHours();
+      this.chosenMinutes = new Date().getMinutes();
+      // Configure the default sync time to the current time
+      this.userDataSyncTime = new Date().toISOString();
 
-        this.counties = Array<string>();
+      this.counties = Array<string>();
+      this.userCounty = "";
+      this.subDivisionTitle = "Area";
 
-        this.subDivisionTitle = "county";
+      this.userSignedIn = false;
+      this.displaySignInButton = true;
 
-        this.countryManager.getAll().then((list) => {
-          this.countries = list;
-          console.log("Retrieved " + this.countries.length + " countries");
-        })
-    }).catch((error) => {
-      console.log(error);
-    })
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InitializePage');
+      // Retrieve countries
+      this.countryManager.getAll().then(list => {
+        this.countries = list;
+        console.log("Retrieved " + this.countries.length + " countries");
+      })
+    }).catch(console.error);
   }
 
   runInitialization(){
-    console.log('Running...');
-    this.initializeData.initializeApp().then((result) => {
-      if(result === true){
-        console.log('Application successfully installed');
-      }else{
-        console.log("Error initializing Application");
-      }
-    })
+    return this.initializeData.initializeApp();
   }
 
   signInWithGoogle(){
@@ -178,73 +174,57 @@ export class InitializePage {
 
   selectCountry(){
     this.userCounty = "";
-    let countryId = this.userCountry['id'];
-    let countryName = this.userCountry['name'];
-    let subDivisionTitle = this.userCountry['subDivisionTitle'];
-    this.subDivisionTitle = subDivisionTitle;
-    console.log("Selected Country: " + countryName);
+    this.subDivisionTitle = this.userCountry['subDivisionTitle'];
 
-    console.log(subDivisionTitle);
-
-    this.countryManager.getCounties(countryId).then((list) => {
+    this.countryManager.getCounties(this.userCountry['id']).then((list) => {
       this.counties = list;
-      console.log("Retrieved " + this.counties.length + " counties for " + countryName);
+      console.log("Retrieved " + this.counties.length + " counties for " + this.userCountry['name']);
     })
   }
 
+  setAlarmTime(){
+    console.log("Alarm time was configured as (%s:%s)",this.chosenHours, this.chosenMinutes);
+
+    let notificationTime = new Date();
+    notificationTime.setHours(this.chosenHours);
+    notificationTime.setMinutes(this.chosenMinutes);
+    notificationTime.setSeconds(0);
+    this.platform.ready().then(() => {
+
+      let notification = {
+        id: 1,
+        title: 'Farming Record Reminder',
+        text: 'Remember to enter the records of your farming activity for today.',
+        trigger: { every: {hour: this.chosenHours, minute: this.chosenMinutes }}
+      };
+
+      if(this.platform.is('cordova')) {
+        // @ts-ignore
+        this.localNotifications.schedule(notification);
+      }
+
+      this.runInitialization();
+
+    });
+  }
+
+  setDataScheduleTime(){
+
+  }
 
   saveData(){
     this.initializeData.checkAppInitialization().then((result) => {
+      // TODO - check initialisation - unclear why it would return true
       if(result === true){
         this.navCtrl.pop();
       }
       else{
+        // Configure Alarm time
+        this.setAlarmTime();
+        // Configure Schedule for uploading data
+        this.setDataScheduleTime();
 
-        let notificationTime = new Date();
-
-        console.log(this.chosenHours);
-
-        console.log(this.chosenMinutes);
-
-        notificationTime.setHours(this.chosenHours);
-        notificationTime.setMinutes(this.chosenMinutes);
-        notificationTime.setSeconds(0);
-
-        let toast = this.toastCtrl.create({
-          message: 'Hey There',
-          position: 'middle',
-          duration: 5000
-        });
-
-        
-
-        console.log(notificationTime);
-
-        let currentDate = new Date(new Date().getTime() + 3600);
-        console.log(notificationTime);
-        console.log(currentDate);
-
-        this.platform.ready().then(() => {
-          let notification = {
-            id: 1,
-            title: 'AgriExpense!',
-            text: 'Hey, just reminding you to enter your data.',
-            at: notificationTime,
-            every: 'minute'
-          };
-      
-          if(this.platform.is('cordova')){
-            this.localNotifications.schedule(notification);
-            this.localNotifications.on('trigger').subscribe(() => {
-              //this.dataManagerPage.upload();
-              toast.present();
-              //this.dataSync.uploadData();
-            })
-          }
-          this.runInitialization();
-          this.navCtrl.pop();
-        });
-        
+        this.navCtrl.pop();
       }
     })
     

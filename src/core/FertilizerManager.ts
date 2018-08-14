@@ -1,9 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
 import { MeasurableDataManager } from './MeasurableDataManager';
 
@@ -14,7 +11,7 @@ export class FertilizerManager extends MeasurableDataManager{
     public DATA_ID: string;
 
 
-    constructor(private fertilizerStorage: Storage, private fertilizerUUID: UUID){
+    constructor( fertilizerStorage: Storage,  fertilizerUUID: UUID){
         super(fertilizerStorage, fertilizerUUID);
         this.DATA_ID = "Fertilizer";
         this.unitList = [

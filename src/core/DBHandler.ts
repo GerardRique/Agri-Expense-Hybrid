@@ -1,12 +1,10 @@
 import { Storage } from '@ionic/storage';
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 export abstract class DBHandler{
     size: number;
     abstract KEY_NAME: string;
-    constructor(private storage: Storage){
+    constructor(protected storage: Storage){
         this.size = 0;
     }
     getSize(){

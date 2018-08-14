@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar hideBackButton color="myGreen">
-    <ion-title>Agri Expense Setup</ion-title>
+    <ion-title>Setup</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,29 +16,46 @@
 <ion-content padding>
 
   <form padding>
+
     <ion-item>
         <ion-label color="primary" stacked >Select Your Country</ion-label>
         <ion-select [(ngModel)]="userCountry" name="myCountry" (ionChange)="selectCountry()">
-          <ion-option *ngFor="let country of countries" [value]="country">{{country.name}}</ion-option>
+          <ion-option *ngFor="let country of countries" [value]="country">{{country.name | titlecase}}</ion-option>
         </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Select Your {{subDivisionTitle}}</ion-label>
-      <ion-select [(ngModel)]="userCounty" name="myCounty">
-        <ion-option *ngFor="let county of counties" [value]="county">{{county}}</ion-option>
+      <ion-label color="primary" stacked>Select Your {{subDivisionTitle  | titlecase}}</ion-label>
+      <ion-select [(ngModel)]="userCounty" name="myCounty" >
+        <ion-option [disabled]="!userCountry.id" *ngFor="let county of counties" [value]="county">{{county| titlecase}}</ion-option>
       </ion-select>
     </ion-item>
 
-
     <ion-item padding>
-      <ion-label color="primary" stacked>Alarm Time</ion-label>
-      <ion-datetime displayFormat="hh: mm A" name="alarmTime" [(ngModel)]="alarmTime" (ionChange)="changeTime($event)"></ion-datetime>
+      <ion-label color="primary" stacked>Set Daily Alarm Time</ion-label>
+      <ion-datetime
+        displayFormat="hh: mm A"
+        name="alarmTime"
+        [(ngModel)]="alarmTime"
+        (ionChange)="changeTime($event)">
+      </ion-datetime>
     </ion-item>
 
-    <button class="center" block ion-button outline color="danger" *ngIf="displaySignInButton" padding (click)="signInWithGoogle()"> <ion-icon ios="logo-googleplus" md="logo-googleplus"></ion-icon> <span>Google Sign In</span></button>
+    <button
+      class="center" padding
+      block ion-button outline color="danger"
+      *ngIf="displaySignInButton"
+      (click)="signInWithGoogle()">
+      <ion-icon ios="logo-googleplus" md="logo-googleplus"></ion-icon>
+      <span>Google Sign In</span>
+    </button>
 
-    <button class="center" block ion-button outline color="danger" *ngIf="!displaySignInButton" padding><span>Signed In with Google</span></button>
+    <button
+      class="center" padding
+      block ion-button outline color="danger"
+      *ngIf="!displaySignInButton">
+      <span>Signed In with Google</span>
+    </button>
 
     <!-- <ion-item padding>
       <ion-label color="primary" stacked>Data Sync Time</ion-label>
@@ -46,7 +63,11 @@
     </ion-item> -->
 
     <ion-fab right bottom >
-      <button ion-fab color="myGreen" (click)="saveData()"><ion-icon name="checkmark"></ion-icon></button>
+      <button
+        ion-fab color="myGreen"
+        (click)="saveData()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
     </ion-fab>
 
   </form>

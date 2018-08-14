@@ -6,7 +6,7 @@ export class Labourer implements Serializeable{
     private id: string;
 
     constructor(private firstName: string, private lastName: string, private contactNumber: string){
-        let uuid = new UUID();
+        // let uuid = new UUID();
         this.id = UUID.UUID();
     }
     

@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
 import { DataManager } from "./DataManager";
 import { UUID } from "angular2-uuid";
-import { SUPER_EXPR } from "@angular/compiler/src/output/output_ast";
 import { MaterialUse } from "./MaterialUse";
 import { isObject } from "ionic-angular/util/util";
 
@@ -14,8 +13,8 @@ export class MaterialUseManager extends DataManager{
     public DATA_ID: string;
     protected dataList: Array<Object>;
 
-    constructor(private materialStorage: Storage, private materialUseUUID: UUID){
-        super(materialStorage, materialUseUUID);
+    constructor( storage: Storage,  materialUseUUID: UUID){
+        super(storage, materialUseUUID);
         this.DATA_ID = "MaterialUse";
         this.dataList = [];
     }
@@ -26,16 +25,17 @@ export class MaterialUseManager extends DataManager{
 
         promises.push(super.add(data));
 
-        return this.materialStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let useId = data.getId();
             let cycleId = data.getCycleId();
             let materialId = data.getMaterialId();
             let purchaseId = data.getPurchaseId();
-
             let cycleUseId = this.DATA_ID + "_" + cycleId;
             let materialUseId = this.DATA_ID + "_" + materialId;
 
-            promises.push(this.materialStorage.get(cycleUseId).then((result) => {
+            console.log("Retrieved: %s, %s, %s, %s, %s, %s", useId, cycleId, materialId, purchaseId, cycleUseId, materialUseId);
+
+            promises.push(this.storage.get(cycleUseId).then((result) => {
                 
                 if(result === null)result = [];
 
@@ -44,10 +44,10 @@ export class MaterialUseManager extends DataManager{
                 result.push(useId);
 
                 let resultString = JSON.stringify(result);
-                this.materialStorage.set(cycleUseId, resultString);
+                this.storage.set(cycleUseId, resultString);
             }));
 
-            promises.push(this.materialStorage.get(materialUseId).then((result) => {
+            promises.push(this.storage.get(materialUseId).then((result) => {
                 
                 if(result === null)result = [];
 
@@ -57,7 +57,7 @@ export class MaterialUseManager extends DataManager{
 
                 let resultString = JSON.stringify(result);
                 
-                this.materialStorage.set(materialUseId, resultString);
+                this.storage.set(materialUseId, resultString);
             }));
 
             return Promise.all(promises).then(() => {
@@ -78,17 +78,17 @@ export class MaterialUseManager extends DataManager{
         let promises = [];
         let materialUseList = Array<Object>();
 
-        return this.materialStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let cycleUseId = this.DATA_ID + "_" + cycleId;
 
-            return this.materialStorage.get(cycleUseId).then((list) => {
+            return this.storage.get(cycleUseId).then((list) => {
                 if(list === null)
                     return [];
                 
                 if(!isObject(list)) list = JSON.parse(list);
 
                 for(let id of list){
-                    promises.push(this.materialStorage.get(id).then((dataString) => {
+                    promises.push(this.storage.get(id).then((dataString) => {
                         let data = JSON.parse(dataString);
                         let materialUse = <MaterialUse> data;
                         materialUseList.push(materialUse);

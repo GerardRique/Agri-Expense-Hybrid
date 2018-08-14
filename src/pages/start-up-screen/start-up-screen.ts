@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Slides } from 'ionic-angular';
 import { InitializePage } from '../initialize/initialize';
-import { CountryManager } from '../../core/CountryModule/CountryManager';
 /**
  * Generated class for the StartUpScreenPage page.
  *
@@ -19,37 +18,32 @@ export class StartUpScreenPage {
 
   @ViewChild(Slides) slides: Slides;
 
-  private static FIRST_SLIDE_COLOR: string = "#9B18E7";
-
-  private static SECOND_SLIDE_COLOR: string = "#2ECC71";
-
-  private static THIRD_SLIDE_COLOR: string = "#47BFF3";
+  private readonly FIRST_SLIDE_COLOR: string = "#9B18E7";
+  private readonly SECOND_SLIDE_COLOR: string = "#2ECC71";
+  private readonly THIRD_SLIDE_COLOR: string = "#47BFF3";
 
   private lock: boolean;
-
   private slideColor: string;
 
-  private buttonText: string;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private countryManager: CountryManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.lock = false;
-
-    this.buttonText = "Skip";
-
-    this.slideColor = "#9B18E7";
-
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad StartUpScreenPage');
+    this.slideColor = this.FIRST_SLIDE_COLOR;
   }
 
   skip(){
     this.navCtrl.pop();
   }
 
+  finish(){
+    this.navCtrl.pop();
+  }
+
   nextSlide(){
     this.slides.slideNext();
+  }
+
+  previousSlide(){
+    this.slides.slidePrev();
   }
 
   ionViewDidLeave(){
@@ -58,26 +52,17 @@ export class StartUpScreenPage {
 
   slideChanged() {
     let currentIndex = this.slides.getActiveIndex();
-    console.log(this.slides.length());
-
-    if(this.slides.length() === currentIndex){
-      this.navCtrl.pop();
-    }
 
     if(currentIndex === 0){
-      this.buttonText = "Skip";
-      this.slideColor = "#9B18E7";
+      this.slideColor = this.FIRST_SLIDE_COLOR;
     }
 
     if(currentIndex === 1){
-      this.buttonText = "Skip";
-      this.slideColor = "#2ECC71";
+      this.slideColor = this.SECOND_SLIDE_COLOR;
     }
     else if(currentIndex === 2){
-      this.buttonText = "Next";
-      this.slideColor = "#47BFF3";
+      this.slideColor = this.THIRD_SLIDE_COLOR;
     }
-    console.log('Current index is', currentIndex);
   }
 
 }

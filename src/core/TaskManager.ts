@@ -1,13 +1,8 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { DataManager } from './DataManager';
 import { UUID } from 'angular2-uuid';
-import { Labourer } from '../core/Labourer'; 
-import { Jsonp } from '@angular/http/src/http';
-import { Serializeable } from './Serializeable';
 import { Task } from '../core/Task';
 import { isObject } from 'ionic-angular/util/util';
 
@@ -16,8 +11,8 @@ export class TaskManager extends DataManager{
     public DATA_ID: string;
     protected dataList: Array<Object>;
 
-    constructor(private taskStorage: Storage, private taskUUID: UUID){
-        super(taskStorage,taskUUID);
+    constructor( storage: Storage, taskUUID: UUID){
+        super(storage,taskUUID);
         this.DATA_ID = "tasks";
         this.dataList = [];
     }
@@ -25,30 +20,30 @@ export class TaskManager extends DataManager{
     public add(data: Task): Promise<boolean>{
         let promises = [];
         promises.push(super.add(data));
-        return this.taskStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let taskId = data.getId();
             let cycleId = data.getCycleId();
             let labourerId = data.getLabourerId();
             let labourerTasksId = this.DATA_ID + "_" + labourerId;
             let cycleTasksId = this.DATA_ID + "_" + cycleId;
-            promises.push(this.taskStorage.get(labourerTasksId).then((result) => {
+            promises.push(this.storage.get(labourerTasksId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(taskId);
                 console.log(result);
                 let resultString = JSON.stringify(result);
-                this.taskStorage.set(labourerTasksId, resultString);
+                this.storage.set(labourerTasksId, resultString);
             }));
 
-            promises.push(this.taskStorage.get(cycleTasksId).then((result) => {
+            promises.push(this.storage.get(cycleTasksId).then((result) => {
                 if(result === null)
                     result = [];
                 if(!isObject(result))result = JSON.parse(result);
                 result.push(taskId);
                 console.log(result);
                 let resultString = JSON.stringify(result);
-                this.taskStorage.set(cycleTasksId, resultString);
+                this.storage.set(cycleTasksId, resultString);
             }));
 
             return Promise.all(promises).then(() => {
@@ -64,16 +59,16 @@ export class TaskManager extends DataManager{
     public getByCycleId(cycleId: string): Promise<Array<Task>>{
         let taskList = Array<Task>();
         let promises = [];
-        return this.taskStorage.ready().then(() => {
+        return this.storage.ready().then(() => {
             let cycleTaskId =  this.DATA_ID + "_" + cycleId;
-            return this.taskStorage.get(cycleTaskId).then((taskIdList) => {
+            return this.storage.get(cycleTaskId).then((taskIdList) => {
                 if(taskIdList === null){
                     return taskList;
                 }
                 if(!isObject(taskIdList))taskIdList = JSON.parse(taskIdList);
 
                 for(let id of taskIdList){
-                    promises.push(this.taskStorage.get(id).then((dataString) => {
+                    promises.push(this.storage.get(id).then((dataString) => {
                         let data = JSON.parse(dataString);
                         let task = <Task> data;
                         taskList.push(task);

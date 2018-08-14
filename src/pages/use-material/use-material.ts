@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import {  FormBuilder, FormGroup } from '@angular/forms';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { MaterialUse } from '../../core/MaterialUse';
 import { MaterialUseManager } from '../../core/MaterialUseManager';

@@ -1,12 +1,8 @@
 import { Storage } from '@ionic/storage';
-import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { UUID } from 'angular2-uuid';
 import { Serializeable } from './Serializeable';
 import { isObject } from 'ionic-angular/util/util';
-import { isJsObject } from '@angular/core/src/change_detection/change_detection_util';
 
 export abstract class DataManager{
 
@@ -14,8 +10,7 @@ export abstract class DataManager{
     //TODO: Create interface for data list to ensure that objects have the appropriate keys. 
     protected abstract dataList: Array<Object>;
 
-    constructor(private storage: Storage, private uuid: UUID){
-    }
+    constructor(protected storage: Storage, protected uuid: UUID){ }
 
     //The initialize function takes all the data provided in the data list and persists that data to the device storage. This function returns a promise that is resolved when all items in the data list have been stored on device storage. 
     public initialize(): Promise<any>{
@@ -49,9 +44,11 @@ export abstract class DataManager{
                     return false;
                 else return true;
             }).catch((error) => {
+                console.error(error);
                 return false;
             });
         }).catch((error) => {
+            console.error(error);
             return false;
         })
     }
