@@ -14,7 +14,7 @@ export class PlantMaterialManager extends MeasurableDataManager{
     constructor(storage: Storage, plantMaterialUUID: UUID){
         super(storage, plantMaterialUUID);
         this.DATA_ID = "Plant Material";
-        this.unitList = ['Seed', 'Heads', 'Seedling', 'Slips', 'Stick', 'Tubes'];
+        this.unitList = [ 'Barks', 'Heads','Leaf Fibers', 'Roots', 'Seeds', 'Seedlings', 'Slips','Stems', 'Sticks', 'Tubes'].sort();
         this.dataList = [
             {
                 "name": "ANISE SEED",

@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TaskListingPage } from '../task-listing/task-listing';
-import { LabourerListingPage } from '../labourer-listing/labourer-listing';
-import { MaterialManager } from '../../core/MaterialManager';
-import { SelectPurchasePage } from '../select-purchase/select-purchase';
-import { MaterialUseManager } from '../../core/MaterialUseManager';
-import { ViewCycleUsePage } from '../view-cycle-use/view-cycle-use';
-import { TaskManager } from '../../core/TaskManager';
-import { HarvestManager } from '../../core/HarvestManager';
-import { HarvestListingPage } from '../harvest-listing/harvest-listing';
-import { SaleManager } from '../../core/SaleManager';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {TaskListingPage} from '../task-listing/task-listing';
+import {LabourerListingPage} from '../labourer-listing/labourer-listing';
+import {MaterialManager} from '../../core/MaterialManager';
+import {SelectPurchasePage} from '../select-purchase/select-purchase';
+import {MaterialUseManager} from '../../core/MaterialUseManager';
+import {ViewCycleUsePage} from '../view-cycle-use/view-cycle-use';
+import {TaskManager} from '../../core/TaskManager';
+import {HarvestManager} from '../../core/HarvestManager';
+import {HarvestListingPage} from '../harvest-listing/harvest-listing';
+import {SaleManager} from '../../core/SaleManager';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -25,7 +25,7 @@ import { SaleManager } from '../../core/SaleManager';
 })
 export class CycleDataPage {
 
-  totalAmountSpent: number
+  totalAmountSpent: number;
 
   cycleId: string;
 
@@ -47,11 +47,7 @@ export class CycleDataPage {
   totalSpentOnLabour: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager, private saleManager: SaleManager) {
-    this.selectedCycle = new Object();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CycleDataPage');
+    this.selectedCycle = {};
   }
 
   ionViewDidEnter(){
@@ -67,12 +63,12 @@ export class CycleDataPage {
     console.log('Cycle ID: ' + this.cycleId);
     this.materialManager.get(this.cycleId).then((cycle) => {
       this.selectedCycle = cycle;
-    })
+    });
 
     this.harvestManager.getByCycleId(this.cycleId).then((harvestList) => {
       this.numHarvests = harvestList.length;
       console.log("Successfully retrieved " + harvestList.length + " harvests.");
-    })
+    });
 
 
     this.calculateTotalMadeFromSales();
@@ -86,14 +82,13 @@ export class CycleDataPage {
       this.materialUseMap = new Map<string, Array<Object>>();
       this.initializeMaterialUseTotals();
 
-      //Rtrieve all the materials used on the selected crop cycle by using the materialUseManager class. 
+      //Retrieve all the materials used on the selected crop cycle by using the materialUseManager class.
       this.materialUseManager.getByCycleId(this.cycleId).then((list) => {
         this.materialUseList = list;
 
         //the following loop traverses through each material and gets the total amount of money spent for each material to be displayed to the user. Each total is also added to get the total amount spent on the crop cycle. 
         for(let material of this.materialList){
-          let total = this.getMaterialTotal(material);
-          this.totalAmountSpent = this.totalAmountSpent + total;
+          this.totalAmountSpent += this.getMaterialTotal(material);
         }
       });
     });
@@ -105,11 +100,10 @@ export class CycleDataPage {
       console.log('Successfully retrieved ' + this.taskList.length + ' tasks');
 
       for(let task of this.taskList){
-        let total = task['quantity'] * task['salary'];
-        this.totalSpentOnLabour = this.totalSpentOnLabour + total;
+        this.totalSpentOnLabour += task['quantity'] * task['salary'];
       }
 
-      this.totalAmountSpent = this.totalAmountSpent + this.totalSpentOnLabour;
+      this.totalAmountSpent += this.totalSpentOnLabour;
     })
   }
 
@@ -124,8 +118,7 @@ export class CycleDataPage {
     this.totalMadeFromSales = 0.0;
     this.saleManager.getByCycleId(this.cycleId).then((saleListing) => {
       for(let sale of saleListing){
-        let currentAmount = sale['costPerunit'] * sale['quantityOfUnitsSold'];
-        this.totalMadeFromSales += currentAmount;
+        this.totalMadeFromSales += sale['costPerunit'] * sale['quantityOfUnitsSold'];
       }
     })
   }
@@ -136,15 +129,15 @@ export class CycleDataPage {
     let list = Array<Object>();
 
     //Get the id of the given material. 
-    let materialId = JSON.stringify(material['id'])
+    const materialId = JSON.stringify(material['id']);
 
     //For every item in the material use list, if the material used matches the given material id, the cost is added to the total cost used for the material on the selected cycle. 
     for(let item of this.materialUseList){
-      let id = JSON.stringify(item['materialId']);
+      const id = JSON.stringify(item['materialId']);
 
       if(id.localeCompare(materialId) === 0){
         list.push(item);
-        total = total + item['totalCost'];
+        total += item['totalCost'];
       }
     }
     this.materialUseMap.set(material['id'], list);
@@ -154,7 +147,7 @@ export class CycleDataPage {
 
   //The following function navigates the user to the task listing page when the user selects the option to view all labourers assigned to the selected crop cycle.
   goToTaskListingPage(){
-    let data = {
+    const data = {
       'cycleId': this.cycleId
     };
     this.navCtrl.push(TaskListingPage, data);
@@ -165,7 +158,7 @@ export class CycleDataPage {
   }
 
   goToSelectPurchasePage(materialId: string){
-    let data = {
+    const data = {
       'materialId': materialId,
       'cycleId': this.cycleId
     };
@@ -174,10 +167,9 @@ export class CycleDataPage {
 
   goToViewCycleUsePage(materialId: string, materialName: string){
     console.log(materialName);
-    let materialUseList = Array<Object>();
-    materialUseList = this.materialUseMap.get(materialId);
-    let materialUseListString = JSON.stringify(materialUseList);
-    let data = {
+    const materialUseList = this.materialUseMap.get(materialId);
+    const materialUseListString = JSON.stringify(materialUseList);
+    const data = {
       'materialName': materialName,
       'materialUseString': materialUseListString
     };
@@ -185,12 +177,12 @@ export class CycleDataPage {
   }
 
   goToHarvestListingPage(){
-    let bundle = {
+    const bundle = {
       "options": {
         "cycleId": this.cycleId,
         "displayMakeSaleButton": false
       }
-    }
+    };
     this.navCtrl.push(HarvestListingPage, bundle);
   }
 
