@@ -286,7 +286,7 @@ export class ReportCreator {
     });
 
     if (this.platform.is('android')) {
-      return this.createDirectory(this.directory).then((url) => {
+      return this.createDirectoryAndroid(this.directory).then((url) => {
         return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
           toast.present();
           return true;
@@ -303,16 +303,27 @@ export class ReportCreator {
         return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
           toast.present();
           return true;
-        })
+        });
       }).catch((error) => {
         let errorString = JSON.stringify(error);
         errorToast.setMessage("ios5: " + errorString);
         errorToast.present();
         return false;
-      })
+      });
     }
-
-
+    else{
+      return this.createDirectory(this.directory).then((url) => {
+        return this.file.writeFile(url, filename, blob, {replace: true}).then(() => {
+          toast.present();
+          return true;
+        });
+      }).catch((error) => {
+        let errorString = JSON.stringify(error);
+        errorToast.setMessage("ios5: " + errorString);
+        errorToast.present();
+        return false;
+      });
+    }
   }
 
   public retrieveFiles(folderName: string): Promise<Array<Entry>> {
@@ -322,7 +333,7 @@ export class ReportCreator {
       }).catch((error) => {
         console.log(error);
         return error;
-      })
+      });
     }
     else if (this.platform.is('android')) {
       return this.file.listDir(this.file.externalRootDirectory, folderName).then((entries) => {
@@ -330,7 +341,14 @@ export class ReportCreator {
       }).catch((error) => {
         console.log(error);
         return error;
-      })
+      });
+    }else{ // To handle the other types of supported OS that may occur
+      return this.file.listDir(this.file.dataDirectory, folderName).then((entries) => {
+        return entries;
+      }).catch((error) => {
+        console.log(error);
+        return error;
+      });
     }
   }
 
@@ -351,12 +369,12 @@ export class ReportCreator {
       return this.file.createDir(this.file.dataDirectory, directoryName, true).then((entry) => {
         console.log('Created folder ' + directoryName);
         return entry.toURL();
-      })
-    })
+      });
+    });
   }
 
   //The createDirectory function accepts a directory name. If a directory already exists with this name, the function will return a url to that directory. Otherwise the function will create a directory with the given name and return a url of the newly created directory.
-  public createDirectory(directoryName: string): Promise<string> {
+  public createDirectoryAndroid(directoryName: string): Promise<string> {
     return this.file.checkDir(this.file.externalRootDirectory, directoryName).then((result) => {
       if (result === true) {
         console.log(directoryName + ' folder already created');
@@ -379,6 +397,27 @@ export class ReportCreator {
     });
   }
 
+  public createDirectory(directoryName: string): Promise<string>{
+    return this.file.checkDir(this.file.dataDirectory, directoryName).then((result) => {
+      if (result === true) {
+        console.log(directoryName + ' folder already created');
+        return this.file.dataDirectory + '' + directoryName + '/';
+      } else {
+        return this.file.createDir(this.file.dataDirectory, directoryName, true).then((entry) => {
+          console.log('Created folder ' + directoryName);
+          return entry.toURL();
+        }).catch((error) => {
+          return '';
+        });
+      }
+    }).catch((error) => {
+      return this.file.createDir(this.file.dataDirectory, directoryName, true).then((entry) => {
+        console.log('Created folder ' + directoryName);
+        return entry.toURL();
+      });
+    });
+  }
+
   private saveInBrowser(blob: Blob, filename: string): boolean {
     console.log('Save in browser function');
     console.log(blob);
@@ -390,9 +429,8 @@ export class ReportCreator {
     a.href = url;
     a.download = filename;
     a.click();
-    window.URL.revokeObjectURL(url)
+    window.URL.revokeObjectURL(url);
     return true;
-    ;
   }
 
   convertToCsv(manager: DataManager): Promise<string> {
