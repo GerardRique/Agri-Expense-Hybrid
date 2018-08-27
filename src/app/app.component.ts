@@ -54,11 +54,9 @@ export class MyApp {
       { title: 'Reports ', component: ReportListingPage }
     ];
 
-    let signInPage = { title: 'Sign In', component: SignInPage };
-
-    let manageAccountPage = { title: 'Manage Account', component: SignInPage};
-
-    let dataManagePage = { title: 'Manage Data', component: ManageDataPage };
+    const signInPage = { title: 'Sign In', component: SignInPage };
+    const manageAccountPage = { title: 'Manage Account', component: SignInPage};
+    const dataManagePage = { title: 'Manage Data', component: ManageDataPage };
 
     
 
@@ -66,7 +64,7 @@ export class MyApp {
     //Using the authentication service, we can check if the user is signed in.
     this.authenticationService.checkAuthentication().subscribe((user: firebase.User) => {
       if(!user){
-        //If the user is not signed in, we must display a button to naviagte to the sign in page.
+        //If the user is not signed in, we must display a button to navigate to the sign in page.
         //We must first check if the manage accounts page is already in  the menu. If it is we must remove it because the user is not logged in.
         let index = this.pages.indexOf(manageAccountPage);
         if(index > -1){
@@ -106,7 +104,7 @@ export class MyApp {
           this.navCtrl.push(StartUpScreenPage);
           //this.navCtrl.push(InitializePage);
         }
-      })
+      });
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

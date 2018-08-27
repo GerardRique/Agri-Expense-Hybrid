@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
-import { CycleManager } from '../..//core/CyclesModule/CycleManager';
+import { CycleManager } from '../../core/CyclesModule/CycleManager';
 /**
  * Generated class for the EditCyclePage page.
  *
@@ -19,7 +19,7 @@ export class EditCyclePage {
 
   private editedCycle: FormGroup;
 
-  private plantMaterialList: Array<Object>;
+  public plantMaterialList: Array<Object>;
   //TODO: Create class for units. 
   // private landUnitList = ['Acre', 'Bed', 'Hectare'];
 
@@ -49,22 +49,14 @@ export class EditCyclePage {
     })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditCyclePage');
-
-    
-  }
-
   updateCropName(){
-    console.log("Updating crop name...");
+    console.log("Updating crop name... " + this.editedCycle.controls['crop']);
   }
 
   public editCycle(): void{
     this.plantMaterialManager.getData(this.editedCycle.get('cropId').value).then((cropData) => {
       this.editedCycle.controls['crop'].setValue(cropData['name']);
       this.editedCycle.controls['cropImagePath'].setValue(cropData['imagePath']);
-
-      console.log(this.editedCycle.value);
 
       this.cycleManager.edit(this.selectedCycle['id'], this.editedCycle.value).then((response) => {
         if(response === true){
@@ -73,11 +65,11 @@ export class EditCyclePage {
         }
         else console.log('Error editing cycle');
       }).catch((error) => {
-        console.log('Error editing cycle: + ' + JSON.stringify(error));
+        console.error('Error editing cycle: + ' + JSON.stringify(error));
       })
 
     }).catch((error) => {
-      console.log("Error retrieving crop data for updating cycle:" + JSON.stringify(error));
+      console.error("Error retrieving crop data for updating cycle:" + JSON.stringify(error));
     });
   }
 

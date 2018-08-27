@@ -38,7 +38,6 @@
     "angularfire2": "5.0.0-rc.6",
     "cordova-android": "6.4.0",
     "cordova-android-support-gradle-release": "^1.4.4",
-    "cordova-browser": "^4.1.0",
     "cordova-ios": "4.5.5",
     "cordova-plugin-badge": "^0.8.7",
     "cordova-plugin-browsertab": "^0.2.0",
@@ -57,7 +56,7 @@
     "cordova-plugin-statusbar": "git+https://github.com/apache/cordova-plugin-statusbar.git",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-socialsharing": "^5.4.1",
-    "cordova-universal-links-plugin": "^1.2.1",
+    "cordova-universal-links-plugin": "git+https://github.com/nordnet/cordova-universal-links-plugin.git",
     "es6-promise-plugin": "^4.2.2",
     "firebase": "4.9.1",
     "intl": "^1.2.5",
@@ -86,7 +85,6 @@
   "cordova": {
     "platforms": [
       "android",
-      "browser",
       "ios"
     ],
     "plugins": {

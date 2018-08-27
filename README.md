@@ -24,3 +24,10 @@ $ ionic cordova run ios
 
 Substitute ios for android if not on a Mac.
 
+
+
+## Special Notes:
+Issue: "Cannot find module '../plugman/platforms/ios'"
+The plugin "cordova-universal-links-plugin" gives trouble when building for iOS. The only useful action to work includes:
+https://github.com/nordnet/cordova-universal-links-plugin/issues/110#issuecomment-300401036
+
