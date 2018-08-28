@@ -23,36 +23,21 @@ export class ReportsPage {
     
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportsPage');
-  }
-
   generateStandardReport(){
-
     this.reportCreator.getCycleSpreadsheetData(this.cycleManager).then((cycleData) => {
-
       let dataString = JSON.stringify(cycleData);
-
-      let data = {
-        'tableData': dataString
-      }
+      let data = { 'tableData': dataString };
       this.navCtrl.push(ReportListingPage, data);
-    })
+    });
 
   }
 
   generateADBReport(){
     this.reportCreator.generateADBOutflowReport(this.cycleManager).then((data) => {
-      console.log(data);
-
       let dataString = JSON.stringify(data);
-
-      let adbData = {
-        'tableData': dataString
-      }
-
+      let adbData = { 'tableData': dataString };
       this.navCtrl.push(ReportListingPage, adbData);
-    })
+    });
   }
 
 }

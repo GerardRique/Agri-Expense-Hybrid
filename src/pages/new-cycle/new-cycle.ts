@@ -23,7 +23,7 @@ import { Firebase } from '@ionic-native/firebase';
 export class NewCyclePage {
   
   seeds = Array<Object>();
-  readonly landTypes = ['Acre', 'Bed', 'Hectare', 'Square Feet', 'Square Metres', 'Square Miles']; // TODO -
+  readonly landTypes = ['Acre', 'Bed (sq metre)', 'Hectare', 'Square Feet', 'Square Metres', 'Square Miles']; // TODO -
   selectSeedTemplate = true;
   selectLandTypeTemplatePage = false;
   selectLandQuantityTemplatePage = false;

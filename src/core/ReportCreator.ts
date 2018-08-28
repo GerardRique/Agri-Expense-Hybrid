@@ -72,70 +72,94 @@ export class ReportCreator {
   }
 
   public generateADBOutflowReport(cycleManager: CycleManager): Promise<Array<Array<string>>> {
-    let list = Array<Array<string>>();
-
+    const records = Array<Array<string>>();
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
 
     let cycleDataMap = new Map<string, Array<Object>>();
-
-
-    let promises = [];
-
+    // Current retrieves all of the cycles available in the database - //TODO - Need to provide interface for user to specify timeframe
     return this.cycleManager.getAll().then((cycleListing) => {
-      let headings = ['No.', 'Crop', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Monthy Expenses (In Soles) (1x2x3=4)', 'Beginning Month', 'Beginning Year'];
+      let headings = ['No.', 'Crop', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Beginning Month', 'Beginning Year'];
       let subHeadings = ['No.', 'Crop', 'Input Description', 'QtyPerArea', 'Area', 'UnitCPrice', 'Outflows', 'Beginning Month', 'Beginning Year'];
       let count = 1;
-      list.push(headings);
-      list.push(subHeadings);
 
+      const materialUsedPromises = [];
+
+      records.push(headings);
+      records.push(subHeadings);
+
+      // For each cycle, retrieve the materials used
       cycleListing.forEach((cycle) => {
-        promises.push(this.materialUseManager.getByCycleId(cycle['id']).then((materialUseList) => {
+        // The request to retrieve the data is handle as promises. The promises are pushed to an array to be processed collectively
+        materialUsedPromises.push(this.materialUseManager.getByCycleId(cycle['id']).then((materialUseList) => {
           cycleDataMap.set(cycle['id'], materialUseList);
         }));
       });
 
-      return Promise.all(promises).then(() => {
-        let newPromises = [];
+      // When all of the promises (to retrieve materials) are successfully processed
+      return Promise.all(materialUsedPromises).then(() => {
+        let CycleRecordPromises = [];
+
         cycleListing.forEach((cycle) => {
           let materialUseListing = cycleDataMap.get(cycle['id']);
           materialUseListing.forEach((materialUse) => {
+            console.log("Processing: " + JSON.stringify(materialUse));
 
-            let noString = "" + count + "";
+            let noString = count + "";
             count += 1;
+
             let areaOfLand = cycle['landQuantity'];
-            //TODO More extensive conversion of land units is required
-            if (cycle['landUnit'].localeCompare('Acre') === 0) {
+            const landUnit = cycle['landUnit'];
+
+            // Acre to Hectare
+            if (landUnit.localeCompare('Acre') === 0) {
               areaOfLand *= 0.404686;
             }
-            areaOfLand = Number.parseFloat(areaOfLand).toFixed(2);
-            let areaOfLandString = "" + areaOfLand + "";
-            console.log(materialUse);
-            let quantityUsed = materialUse['quantityUsed'];
-            let quantityPerArea = Number.parseInt(quantityUsed) / areaOfLand;
-            let quantityPerAreaString = "" + quantityPerArea.toFixed(2) + "";
+            // Square Meter to Hectare
+            else if (landUnit.localeCompare('Bed (sq metre)') === 0){
+              areaOfLand *= 0.00001;
+            }
+            else if (landUnit.localeCompare('Square Metres') === 0){
+              areaOfLand *= 0.00001;
+            }
+            // 107640 sqft = 1 Ha
+            else if (landUnit.localeCompare('Square Feet')  === 0){
+              areaOfLand /= 107640;
+            }
+            // 1 Ha = 260 sq miles
+            else if (landUnit.localeCompare('Square Miles')  === 0){
+              areaOfLand *= 260;
+            }
 
-            newPromises.push(this.materialUseManager.get(materialUse['materialId']).then((material) => {
+            const quantityPerArea = Number.parseFloat(materialUse['quantityUsed']) / areaOfLand; // (1)
+            areaOfLand = Number.parseFloat(areaOfLand).toFixed(2); // (2)
+            const costPerMaterial = Number.parseFloat(materialUse['costPerMaterial']); // (3)
+            const monthlyExpense = quantityPerArea * areaOfLand * costPerMaterial; // 1 * 2 * 3 //TODO Should be monthly but we calculating total at the moment
 
-              let newRow = [
-                noString,
-                cycle['crop'],
-                material['name'],
-                quantityPerAreaString,
-                areaOfLandString,
-                materialUse['costPerMaterial'],
-                materialUse['totalCost']
+            const areaOfLandString = areaOfLand + "";
+            let quantityPerAreaString = quantityPerArea.toFixed(2) + "";
+
+            // Request the meta data for this material record. When the data is retrieved, build the row and add to list of records
+            CycleRecordPromises.push(this.materialUseManager.get(materialUse['materialId']).then((material) => {
+              //
+              const row = [
+                noString, // No.
+                cycle['crop'], // Crop
+                material['name'], // Input description
+                quantityPerAreaString, // Quantity per Ha (1).
+                areaOfLandString, // Area Exploited in (Ha.s) (2)
+                costPerMaterial, // Price in Soles/Unit (3)
+                monthlyExpense // Monthly Expense (in soles)
               ];
 
-              list.push(newRow);
-              console.log(newRow);
+              records.push(row);
             }));
 
           });
         });
-        return Promise.all(newPromises).then(() => {
-          return list;
-        })
+        return Promise.all(CycleRecordPromises).then(() => {
+          return records;
+        });
       })
 
     })
@@ -252,23 +276,20 @@ export class ReportCreator {
 
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       console.log('Saving file in browser...');
-      return new Promise<boolean>((resolve, reject) => {
-          const result = this.saveInBrowser(blob, filename);
-          if (result == true) resolve(result);
-          else {
-            const reason = new Error('Error creating file in browser');
-            reject(reason);
-          }
-        }
-      );
+      return this.saveInBrowser(blob, filename);
     }
     else {
-      console.log('Saving file on device...');
-      return this.saveOnDevice(blob, filename).then((result) => {
-        return result;
-      }).catch((error) => {
-        return false;
-      });
+      if (this.platform){
+        console.log('Saving file on device...');
+        return this.saveOnDevice(blob, filename).then((result) => {
+          return result;
+        }).catch((error) => {
+          return false;
+        });
+      }else{
+        return this.saveInBrowser(blob, filename);
+      }
+
     }
   }
 
@@ -418,21 +439,28 @@ export class ReportCreator {
     });
   }
 
-  private saveInBrowser(blob: Blob, filename: string): boolean {
-    console.log('Save in browser function');
-    console.log(blob);
-
-    let a = document.createElement("a");
-    document.body.appendChild(a);
-
-    let url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    return true;
+  // noinspection JSMethodCanBeStatic
+  private saveInBrowser(blob: Blob, filename: string): Promise<boolean> {
+    return new Promise<boolean>(function(resolve, reject) {
+      console.log('Save in browser function');
+      console.log(blob);
+      try{
+        let a = document.createElement("a");
+        document.body.appendChild(a);
+        let url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        resolve(true);
+      }catch (e) {
+        console.error(e);
+        reject(false);
+      }
+    });
   }
 
+  // noinspection JSMethodCanBeStatic
   convertToCsv(manager: DataManager): Promise<string> {
     return manager.getAll().then((data) => {
       let csvString = '';
