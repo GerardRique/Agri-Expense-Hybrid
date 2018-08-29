@@ -15,8 +15,8 @@
 
 <ion-content padding>
 
-  
-  <ion-list> 
+
+  <ion-list>
     <ion-card>
       <!-- <ion-card-title padding>Total expenses for {{selectedCycle.name}}</ion-card-title> -->
       <h2 padding>Total expenses for {{selectedCycle.name}}</h2>
@@ -25,32 +25,32 @@
           <ion-avatar item-start>
               <img src="{{material.imagePath}}">
           </ion-avatar>
-          <h4>{{material.name}}:</h4><h4 item-end>${{ material.total | number: '.2-2'}}</h4>
+          <h4 class="h4-prop">{{material.name}}:</h4><h4 item-end>${{ material.total | number: '.2-2'}}</h4>
         </ion-item>
 
         <ion-item>
           <ion-avatar item-start>
             <img src="assets/img/labour_icon.png">
           </ion-avatar>
-          <h4>Labour:</h4><h4 item-end>${{totalSpentOnLabour | number: '.2-2'}}</h4>
+          <h4 class="h4-prop">Labour:</h4><h4 item-end>${{totalSpentOnLabour | number: '.2-2'}}</h4>
         </ion-item>
 
         <ion-item>
           <ion-avatar item-start>
             <img src="assets/img/expenses_icon.png">
           </ion-avatar>
-          <h4>Total expenses: </h4><h4 item-end>${{totalAmountSpent | number: '.2-2'}}</h4>
+          <h4 class="h4-prop">Total expenses: </h4><h4 item-end>${{totalAmountSpent | number: '.2-2'}}</h4>
         </ion-item>
 
         <ion-item>
           <ion-avatar item-start>
               <img src="assets/img/sale_icon.jpg">
           </ion-avatar>
-          <h4>Total made from sales:</h4><h4 item-end>${{totalMadeFromSales | number: '.2-2'}}</h4>
+          <h4 class="h4-prop">Total made from sales:</h4><h4 item-end>${{totalMadeFromSales | number: '.2-2'}}</h4>
         </ion-item>
       </ion-list>
     </ion-card>
-    
+
     <ion-card *ngFor="let material of materialList" [ngStyle]="{'background-color': material.color}">
       <ion-card-title ion-text color="light" padding>{{material.name}}</ion-card-title>
       <ion-card-content>

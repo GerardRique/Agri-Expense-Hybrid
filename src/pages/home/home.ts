@@ -56,7 +56,7 @@ export class HomePage {
     this.content.resize();
     this.cycleManager.getAll().then((list) => {
 
-      //Sort cycles by date as they are retrieved from storage. 
+      //Sort cycles by date as they are retrieved from storage.
       this.cycleListing = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePlanted']).valueOf() - Date.parse(a['datePlanted']).valueOf()
       });
@@ -99,12 +99,12 @@ export class HomePage {
         {
           text: 'Yes',
           handler: () => {
-            //If the user selects yes, the selected cycle will be set to closed. 
+            //If the user selects yes, the selected cycle will be set to closed.
             this.closeCycle(cycleId, index);
           }
         },
         {
-          //If the user selected no, the function will be ended. 
+          //If the user selected no, the function will be ended.
           text: 'No',
           handler: () => {
             console.log('Close cycle operation cancled by user...');
@@ -159,7 +159,7 @@ export class HomePage {
         'title': 'Edit',
         'iosIcon': 'md-create',
         'mdIcon': 'md-create'
-        
+
       },
       {
         'title': 'Delete',
@@ -172,7 +172,7 @@ export class HomePage {
         'mdIcon': 'md-basket'
       },
       {
-        'title': 'Close',
+        'title': 'Close Cycle',
         'iosIcon': 'md-close',
         'mdIcon': 'md-close'
       }
@@ -197,7 +197,7 @@ export class HomePage {
         this.deleteCycle(cycle.id, index);
       }
       else if(data.options.localeCompare('Harvest') === 0){
-        this.goToNewHarvestPage(cycle);   
+        this.goToNewHarvestPage(cycle);
       }
       else if(data.options.localeCompare('Close') === 0){
         console.log('Closing cycle: ' + cycle.name + ' ID: ' + cycle.id);

@@ -165,7 +165,8 @@ export class ReportListingPage {
   }
 
   public openReport(fileEntry: Entry){
-    this.reportCreator.openReport(fileEntry);
+    this.shareManager.share("Agri Expense Report", "Share Test", fileEntry.nativeURL, "");
+    // this.reportCreator.openReport(fileEntry);
   }
 
   public deleteFile(fileEntry: Entry, index: number){
@@ -175,7 +176,7 @@ export class ReportListingPage {
       position: 'middle'
     });
     this.reportCreator.deleteFile(fileEntry).then((result) => {
-      
+
       if(result === true){
         toast.setMessage('File successfully deleted');
         toast.present();
