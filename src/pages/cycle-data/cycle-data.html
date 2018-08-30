@@ -52,8 +52,8 @@
     </ion-card>
 
     <ion-card *ngFor="let material of materialList" [ngStyle]="{'background-color': material.color}">
-      <ion-card-title ion-text color="light" padding>{{material.name}}</ion-card-title>
-      <ion-card-content>
+      <ion-card-title ion-text color="light" (click)="goToViewCycleUsePage(material.id, material.name)" padding>{{material.name}}</ion-card-title>
+      <ion-card-content (click)="goToViewCycleUsePage(material.id, material.name)">
         <p ion-text color="light">Total spent: ${{material.total | number: '.2-2'}}</p>
       </ion-card-content>
       <ion-row>
@@ -68,13 +68,13 @@
                 <ion-icon name="add-circle"></ion-icon>
                 <div>Use material</div>
               </button>
-            </ion-col>
-        </ion-row>
+          </ion-col>
+      </ion-row>
     </ion-card>
 
     <ion-card [ngStyle]="{'background-color': '#ffcc00'}">
-        <ion-card-title ion-text color="light" padding>Labour</ion-card-title>
-        <ion-card-content>
+        <ion-card-title ion-text color="light" (click)="goToTaskListingPage()" padding>Labour</ion-card-title>
+        <ion-card-content (click)="goToTaskListingPage()">
           <p ion-text color="light">${{totalSpentOnLabour | number: '.2-2'}}</p>
         </ion-card-content>
         <ion-row>
@@ -94,8 +94,8 @@
       </ion-card>
 
       <ion-card [ngStyle]="{'background-color': '#F7190E'}">
-        <ion-card-title ion-text color="light" padding>Harvests</ion-card-title>
-        <ion-card-content>
+        <ion-card-title ion-text color="light" (click)="goToHarvestListingPage()" padding>Harvests</ion-card-title>
+        <ion-card-content (click)="goToHarvestListingPage()">
           <p ion-text color="light" >{{numHarvests}} harvests.</p>
         </ion-card-content>
         <ion-row>

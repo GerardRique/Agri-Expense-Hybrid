@@ -15,7 +15,7 @@
 
 <ion-content padding>
 
-  <p text-center *ngIf="displayNoHarvestMessage">No Harvests to be displayed</p>
+  <p text-center *ngIf="displayNoHarvestMessage">No Harvests to be displayed, Must create Harvests to make a sale.</p>
 
   <ion-list>
     <ion-card *ngFor="let harvest of harvestListing">
@@ -32,7 +32,7 @@
     </ion-card>
   </ion-list>
 
-  <ion-fab right bottom *ngIf="receivedCycleId" (click)="goToNewHarvestPage()"> 
+  <ion-fab right bottom *ngIf="receivedCycleId" (click)="goToNewHarvestPage()">
     <button ion-fab color="myGreen"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
