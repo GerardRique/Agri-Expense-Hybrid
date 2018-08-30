@@ -199,7 +199,7 @@ export class HomePage {
       else if(data.options.localeCompare('Harvest') === 0){
         this.goToNewHarvestPage(cycle);
       }
-      else if(data.options.localeCompare('Close') === 0){
+      else if(data.options.localeCompare('Close Cycle') === 0){
         console.log('Closing cycle: ' + cycle.name + ' ID: ' + cycle.id);
         this.displayClosedCycleConfirmAlert(cycle.id, index);
       }

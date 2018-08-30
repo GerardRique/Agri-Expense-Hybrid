@@ -32,7 +32,7 @@
       <div (click)="goToCycleDataPage(cycle.id)">
         <p>Name: {{cycle.name}}</p>
         <p>Crop: {{cycle.crop}}</p>
-        <p>{{cycle.landQuantity}} {{cycle.landUnit}}s</p>
+        <p>{{cycle.landQuantity}} {{cycle.landUnit}}</p>
         <p>{{cycle.datePlanted | date: 'fullDate'}}</p>
         <p class="closed-display" *ngIf="cycle.active === false">Closed</p>
       </div>

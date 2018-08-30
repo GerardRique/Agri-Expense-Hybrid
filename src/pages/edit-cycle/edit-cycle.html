@@ -31,7 +31,7 @@
     <ion-item>
       <ion-label color="primary" stacked>Land Type</ion-label>
       <ion-select formControlName="landUnit">
-        <ion-option *ngFor="let unit of landUnitList">{{unit}}</ion-option>
+        <ion-option *ngFor="let unit of landUnitList" [value]="unit.value">{{unit.name}}</ion-option>
       </ion-select>
     </ion-item>
 

@@ -20,8 +20,21 @@ export class EditCyclePage {
   private editedCycle: FormGroup;
 
   public plantMaterialList: Array<Object>;
-  //TODO: Create class for units. 
-  // private landUnitList = ['Acre', 'Bed', 'Hectare'];
+  //TODO: Create class for units.
+  private landUnitList = [
+  { value:'Acre',
+    name:'Acre'},
+    { value:'Bed(sq metre)',
+      name:'Bed(sq metre)'},
+      { value:'Hectare',
+        name:'Hectare'},
+        { value:'Square Feet',
+          name:'Square Feet'},
+          { value:'Square Metres',
+            name:'Square Metres'},
+            { value:'Square Miles',
+              name:'Square Miles'}
+  ]
 
   private selectedCycle: Object;
 
