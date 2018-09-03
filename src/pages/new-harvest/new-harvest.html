@@ -17,14 +17,14 @@
 
   <form [formGroup]="newHarvest">
     <ion-item>
-      <ion-label color="primary" stacked>Units used to measure Harvest</ion-label>
+      <ion-label color="primary" stacked>Select Unit to measure Harvest</ion-label>
       <ion-select formControlName="unitsHarvested">
         <ion-option *ngFor="let unit of unitList">{{unit}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Number of units harvested</ion-label>
+      <ion-label color="primary" stacked>Enter number of units harvested</ion-label>
       <ion-input type="number" name="quantityHarvested" formControlName="quantityHarvested"></ion-input>
     </ion-item>
 
