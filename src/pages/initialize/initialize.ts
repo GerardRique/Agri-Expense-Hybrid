@@ -11,7 +11,7 @@ import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
 /**
-This page is a setup up page that will be run after the Application is first installed. 
+This page is a setup up page that will be run after the Application is first installed.
  */
 
 @IonicPage()
@@ -34,6 +34,7 @@ export class InitializePage {
   // Sign-in configuration
   private displaySignInButton: boolean;
   private userSignedIn: boolean;
+  private countryCheck: boolean;
 
   constructor(public storage: Storage,
               public platform: Platform,
@@ -52,14 +53,15 @@ export class InitializePage {
     this.countryManager.initialize().then(result => {
       // When we initialise the country manager, we configure defaults before requsting countries
 
-      // We set the alarm time (to be displayed and default) to the current time
-      this.alarmTime = moment(new Date()).format(); // Use the current time to set alarm
-      this.chosenHours = new Date().getHours();
-      this.chosenMinutes = new Date().getMinutes();
+      // We set the alarm time (to be displayed and default) to 4:00 pm
+      this.alarmTime = new Date("2018-09-03T16:00:21.123Z").toISOString();
+      this.chosenHours = 4;
+      this.chosenMinutes = 0;
       // Configure the default sync time to the current time
-      this.userDataSyncTime = new Date().toISOString();
+      this.userDataSyncTime = new Date("2018-09-03T16:00:21.123Z").toISOString();
 
       this.counties = Array<string>();
+      this.countryCheck = true;
       this.userCounty = "";
       this.subDivisionTitle = "Area";
 
@@ -174,6 +176,7 @@ export class InitializePage {
 
   selectCountry(){
     this.userCounty = "";
+    this.countryCheck = false;
     this.subDivisionTitle = this.userCountry['subDivisionTitle'];
 
     this.countryManager.getCounties(this.userCountry['id']).then((list) => {
@@ -227,7 +230,7 @@ export class InitializePage {
         this.navCtrl.pop();
       }
     })
-    
+
   }
 
 }

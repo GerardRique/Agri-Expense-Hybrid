@@ -26,8 +26,8 @@
 
     <ion-item>
       <ion-label color="primary" stacked>Select Your {{subDivisionTitle  | titlecase}}</ion-label>
-      <ion-select [(ngModel)]="userCounty" name="myCounty" >
-        <ion-option [disabled]="!userCountry.id" *ngFor="let county of counties" [value]="county">{{county| titlecase}}</ion-option>
+      <ion-select [(ngModel)]="userCounty" name="myCounty" [disabled]="countryCheck">
+        <ion-option *ngFor="let county of counties" [value]="county">{{county| titlecase}}</ion-option>
       </ion-select>
     </ion-item>
 
