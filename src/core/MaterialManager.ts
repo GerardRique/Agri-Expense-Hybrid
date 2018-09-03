@@ -25,7 +25,7 @@ export class MaterialManager extends DataManager{
 
     public static SOIL_AMMENDMENTS = "Soil Amendment";
 
-    public static OTHER_MATERIAL = "Other Material"
+    public static OTHER_MATERIAL = "Other Expenses"
 
     constructor(private materialStorage: Storage, private materialUUID: UUID){
         super(materialStorage, materialUUID);

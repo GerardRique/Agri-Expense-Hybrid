@@ -10,6 +10,8 @@ import {TaskManager} from '../../core/TaskManager';
 import {HarvestManager} from '../../core/HarvestManager';
 import {HarvestListingPage} from '../harvest-listing/harvest-listing';
 import {SaleManager} from '../../core/SaleManager';
+import {NewHarvestPage} from '../new-harvest/new-harvest';
+import { App } from 'ionic-angular';
 
 /**
  * Generated class for the CycleDataPage page.
@@ -41,16 +43,20 @@ export class CycleDataPage {
 
   totalMadeFromSales: number;
 
+  newNav: any;
+
   //The material use map represents a one that maps material id's to a list of corresponding material use objects that have the same material id.
   materialUseMap: Map<string, Array<Object>>;
 
   totalSpentOnLabour: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager, private saleManager: SaleManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager, private saleManager: SaleManager, private app: App) {
     this.selectedCycle = {};
   }
 
   ionViewDidEnter(){
+
+    this.newNav = this.app.getRootNav();
 
     this.totalAmountSpent = 0.0;
 
@@ -58,7 +64,7 @@ export class CycleDataPage {
 
     this.totalMadeFromSales = 0.0;
 
-    //Retrieve the selected cycle's unique id provided by the previos page. 
+    //Retrieve the selected cycle's unique id provided by the previos page.
     this.cycleId = this.navParams.get('cycleId');
     console.log('Cycle ID: ' + this.cycleId);
     this.materialManager.get(this.cycleId).then((cycle) => {
@@ -73,7 +79,7 @@ export class CycleDataPage {
 
     this.calculateTotalMadeFromSales();
 
-    
+
 
     //Retrieve list of materials from ionic storage using the material manager.
     this.materialManager.getAll().then((materialList) => {
@@ -86,14 +92,14 @@ export class CycleDataPage {
       this.materialUseManager.getByCycleId(this.cycleId).then((list) => {
         this.materialUseList = list;
 
-        //the following loop traverses through each material and gets the total amount of money spent for each material to be displayed to the user. Each total is also added to get the total amount spent on the crop cycle. 
+        //the following loop traverses through each material and gets the total amount of money spent for each material to be displayed to the user. Each total is also added to get the total amount spent on the crop cycle.
         for(let material of this.materialList){
           this.totalAmountSpent += this.getMaterialTotal(material);
         }
       });
     });
 
-    //Retrieve all the tasks associated with the selected crop cycle. 
+    //Retrieve all the tasks associated with the selected crop cycle.
     this.taskManager.getByCycleId(this.cycleId).then((myTaskList) => {
       this.taskList = myTaskList;
 
@@ -107,7 +113,7 @@ export class CycleDataPage {
     })
   }
 
-  //When the page loads, the total amount spent on each material for the selected crop cycle will be set to 0. The is achieved by adding another attribute to the materialList associative array. 
+  //When the page loads, the total amount spent on each material for the selected crop cycle will be set to 0. The is achieved by adding another attribute to the materialList associative array.
   private initializeMaterialUseTotals(){
     for(let material of this.materialList){
       material['total'] = 0.0;
@@ -128,10 +134,10 @@ export class CycleDataPage {
     let total = 0;
     let list = Array<Object>();
 
-    //Get the id of the given material. 
+    //Get the id of the given material.
     const materialId = JSON.stringify(material['id']);
 
-    //For every item in the material use list, if the material used matches the given material id, the cost is added to the total cost used for the material on the selected cycle. 
+    //For every item in the material use list, if the material used matches the given material id, the cost is added to the total cost used for the material on the selected cycle.
     for(let item of this.materialUseList){
       const id = JSON.stringify(item['materialId']);
 
@@ -184,6 +190,14 @@ export class CycleDataPage {
       }
     };
     this.navCtrl.push(HarvestListingPage, bundle);
+  }
+
+  public goToNewHarvestPage(cycle: Object){
+    let data = {
+      'cycleData': cycle,
+      // callback: this.loadPageData.bind(this)
+    };
+    this.newNav.push(NewHarvestPage, data);
   }
 
 }

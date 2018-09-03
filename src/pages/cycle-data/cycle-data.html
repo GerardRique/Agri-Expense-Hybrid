@@ -66,7 +66,7 @@
           <ion-col>
               <button ion-button icon-left clear small color="light" (click)="goToSelectPurchasePage(material.id)">
                 <ion-icon name="add-circle"></ion-icon>
-                <div>Use material</div>
+                <div>Use {{material.name}}</div>
               </button>
           </ion-col>
       </ion-row>
@@ -104,6 +104,12 @@
               <ion-icon name="eye"></ion-icon>
               <div>View</div>
             </button>
+          </ion-col>
+          <ion-col>
+              <button ion-button icon-left clear small color="light" (click)="goToNewHarvestPage(selectedCycle)">
+                <ion-icon name="add-circle"></ion-icon>
+                <div>Add Harvests</div>
+              </button>
           </ion-col>
         </ion-row>
       </ion-card>
