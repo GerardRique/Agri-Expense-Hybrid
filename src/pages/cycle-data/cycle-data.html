@@ -20,35 +20,41 @@
     <ion-card>
       <!-- <ion-card-title padding>Total expenses for {{selectedCycle.name}}</ion-card-title> -->
       <h2 padding>Total expenses for {{selectedCycle.name}}</h2>
-      <ion-list>
-        <ion-item *ngFor="let material of materialList">
+      <ion-list class="list1">
+        <ion-item class="itemList" *ngFor="let material of materialList">
           <ion-avatar item-start>
               <img src="{{material.imagePath}}">
           </ion-avatar>
-          <h4 class="h4-prop">{{material.name}}:</h4><h4 item-end>${{ material.total | number: '.2-2'}}</h4>
+          <p class="h5-prop">{{material.name}}:</p><p item-end>${{ material.total | number: '.2-2'}}</p>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="itemList">
           <ion-avatar item-start>
             <img src="assets/img/labour_icon.png">
           </ion-avatar>
-          <h4 class="h4-prop">Labour:</h4><h4 item-end>${{totalSpentOnLabour | number: '.2-2'}}</h4>
+          <p class="h5-prop">Labour:</p><p item-end>${{totalSpentOnLabour | number: '.2-2'}}</p>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="itemList">
           <ion-avatar item-start>
             <img src="assets/img/expenses_icon.png">
           </ion-avatar>
-          <h4 class="h4-prop">Total expenses: </h4><h4 item-end>${{totalAmountSpent | number: '.2-2'}}</h4>
+          <p class="h5-prop">Total expenses: </p><p item-end>${{totalAmountSpent | number: '.2-2'}}</p>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="itemList">
           <ion-avatar item-start>
               <img src="assets/img/sale_icon.jpg">
           </ion-avatar>
-          <h4 class="h4-prop">Total made from sales:</h4><h4 item-end>${{totalMadeFromSales | number: '.2-2'}}</h4>
+          <p class="h5-prop">Total made from sales:</p><p item-end>${{totalMadeFromSales | number: '.2-2'}}</p>
         </ion-item>
       </ion-list>
+      <h2 padding>Total Harvests for {{selectedCycle.name}}</h2>
+        <ion-list>
+          <ion-item class="itemList2">
+            <p>{{numHarvests}} harvests.</p>
+          </ion-item>
+        </ion-list>
     </ion-card>
 
     <ion-card *ngFor="let material of materialList" [ngStyle]="{'background-color': material.color}">
