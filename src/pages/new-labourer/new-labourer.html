@@ -17,17 +17,17 @@
   <form [formGroup]="newLabourer">
     <ion-item>
       <ion-label color="primary" stacked>First Name</ion-label>
-      <ion-input type="text" placeholder="Enter Labourer First Name" name="firstName" formControlName="firstName"></ion-input>
+      <ion-input type="text" placeholder="Enter First Name" name="firstName" formControlName="firstName"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label color="primary" stacked>Last Name</ion-label>
-      <ion-input type="text" placeholder="Enter Labourer Last Name" name="lastName" formControlName="lastName"></ion-input>
+      <ion-input type="text" placeholder="Enter Last Name" name="lastName" formControlName="lastName"></ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label color="primary" stacked>Contact Number</ion-label>
-        <ion-input type="tel" placeholder="Enter Labourer phone Number" name="contactNumber" formControlName="contactNumber"></ion-input>
+        <ion-label color="primary" stacked>Contact Number(Optional)</ion-label>
+        <ion-input type="tel" placeholder="Enter phone Number" name="contactNumber" formControlName="contactNumber"></ion-input>
     </ion-item>
 
     <button ion-button block [disabled]="!newLabourer.valid" (click)="submit()" color="myGreen">Done</button>

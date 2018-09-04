@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="myGreen">
-    <ion-title>Select Purchase</ion-title>
+    <ion-title>Select {{materialName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -27,7 +27,7 @@
       <p>Cost per {{purchase.units}}: ${{purchase.cost | number: '.2-2'}}</p>
     </ion-card-content>
     <ion-row padding >
-        <button ion-button block (click)="goToUseMaterialPage(purchase.id)" color="myGreen">Use <ion-icon name="share-alt"></ion-icon></button>
+        <button ion-button block (click)="goToUseMaterialPage(purchase.id,purchase.typeName)" color="myGreen">Use <ion-icon name="share-alt"></ion-icon></button>
     </ion-row>
   </ion-card>
 </ion-content>

@@ -29,7 +29,7 @@ export class NewLabourerPage {
     this.newLabourer = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      contactNumber: ['', Validators.required]
+      contactNumber: [''] //Gerard check to see if i did this correctly, I just removed the Validators.required
     });
   }
 

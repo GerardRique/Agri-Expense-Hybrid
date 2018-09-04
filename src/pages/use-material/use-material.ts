@@ -20,6 +20,7 @@ import { App } from 'ionic-angular';
 })
 export class UseMaterialPage {
 
+  private purchaseName: string;
   private purchaseId: string;
   private cycleId: string;
   private materialId: string;
@@ -51,6 +52,7 @@ export class UseMaterialPage {
   }
 
   ionViewDidEnter(){
+    this.purchaseName = this.navParams.get('purchaseName');
     this.cycleId = this.navParams.get('cycleId');
     console.log('Cycle Id: ' + this.cycleId);
     this.purchaseId = this.navParams.get('purchaseId');

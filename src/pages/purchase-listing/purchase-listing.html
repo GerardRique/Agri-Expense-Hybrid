@@ -28,7 +28,7 @@
       <p>{{purchase.typeName}}</p>
       <p>Purchased: {{purchase.quantityPurchased}} {{purchase.units}}</p>
       <p>Remaining: {{purchase.quantityRemaining}} {{purchase.units}}</p>
-      <p>Cost: ${{purchase.cost | number: '.2-2'}}</p>
+      <p>Unit Cost: ${{purchase.cost | number: '.2-2'}}</p>
       <p>{{purchase.datePurchased | date: 'fullDate'}}</p>
 
       <button ion-button item-right clear icon-only (click)="openPurchaseOptionsPopover($event, purchase, i)" color="main">

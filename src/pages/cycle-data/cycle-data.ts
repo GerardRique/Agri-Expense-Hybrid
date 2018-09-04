@@ -163,8 +163,9 @@ export class CycleDataPage {
     this.navCtrl.push(LabourerListingPage);
   }
 
-  goToSelectPurchasePage(materialId: string){
+  goToSelectPurchasePage(materialId: string,materialName: string){
     const data = {
+      'materialName': materialName,
       'materialId': materialId,
       'cycleId': this.cycleId
     };

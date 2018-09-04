@@ -18,6 +18,7 @@ import { UseMaterialPage } from '../use-material/use-material';
 })
 export class SelectPurchasePage {
 
+  materialName: string;
   materialId: string;
   cycleId: string;
   avaialblePurchaseListing: Array<Object>;
@@ -25,7 +26,7 @@ export class SelectPurchasePage {
   displayNoPurchaseMessage: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public purchaseManager: PurchaseManager, public materialManager: MaterialManager){
-    
+
   }
 
   ionViewDidLoad() {
@@ -34,6 +35,7 @@ export class SelectPurchasePage {
 
   ionViewDidEnter(){
 
+    this.materialName = this.navParams.get('materialName');
     this.materialId = this.navParams.get('materialId');
     this.cycleId = this.navParams.get('cycleId');
     console.log('Material ID: ' + this.materialId);
@@ -49,7 +51,7 @@ export class SelectPurchasePage {
           console.log('Displaying plant material purchases.');
           console.log('Filtering by the selected cycle.');
           this.filterPlantMaterial(list).then((filteredList) => {
-            
+
             this.avaialblePurchaseListing = filteredList;
             if(this.avaialblePurchaseListing.length === 0){
               this.displayNoPurchaseMessage = true;
@@ -69,7 +71,7 @@ export class SelectPurchasePage {
           })
         }
       })
-      
+
     })
   }
 
@@ -89,7 +91,7 @@ export class SelectPurchasePage {
       console.log(newList);
       return newList;
     })
-    
+
   }
 
   getData(): Promise<void>{
@@ -105,9 +107,10 @@ export class SelectPurchasePage {
     });
   }
 
-  goToUseMaterialPage(purchaseId: string){
+  goToUseMaterialPage(purchaseId: string,purchaseName: string){
     console.log('Purchase Id: ' + purchaseId);
     let data = {
+      'purchaseName': purchaseName,
       'purchaseId': purchaseId,
       'cycleId': this.cycleId
     }
