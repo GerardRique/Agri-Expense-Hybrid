@@ -7,13 +7,15 @@
 <ion-header>
 
   <ion-navbar color="myGreen">
-    <ion-title>Choose Cycles to Assign</ion-title>
+    <ion-title>Assign Labour</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <p text-center *ngIf="displayEmptyListMessage">Create a Cycle to assign Labour.</p>
 
   <ion-list>
     <ion-item *ngFor="let cycle of cycleListing; let i = index">

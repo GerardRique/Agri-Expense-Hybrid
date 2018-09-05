@@ -30,7 +30,10 @@
         <ion-input type="tel" placeholder="Enter phone Number" name="contactNumber" formControlName="contactNumber"></ion-input>
     </ion-item>
 
-    <button ion-button block [disabled]="!newLabourer.valid" (click)="submit()" color="myGreen">Done</button>
+    <!-- <button ion-button block [disabled]="!newLabourer.valid" (click)="submit()" color="myGreen">Done</button> -->
+    <ion-fab right bottom>
+      <button ion-fab [disabled]="!newLabourer.valid" (click)="submit()" color="myGreen"><ion-icon ios="md-basket" md="md-basket"></ion-icon></button>
+    </ion-fab>
   </form>
 
 </ion-content>

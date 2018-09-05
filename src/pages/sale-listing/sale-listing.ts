@@ -50,7 +50,7 @@ export class SaleListingPage {
   public loadData(){
     // Start the Spinner for loading content (will be dismissed when information returned successfully)
     const loadingSpinner = this.loadingCtrl.create({
-      content: 'Loading Labourers',
+      content: 'Loading Sales',
       enableBackdropDismiss: false,
       showBackdrop: false
     });

@@ -31,21 +31,21 @@
   </ng-template>
 
   <ng-template #selectMaterialUnitsTemplate>
-    <h5>Select Units of material</h5>
+    <h5>Select Type of Units for {{materialName}}</h5>
     <ion-list>
       <button ion-item *ngFor="let unit of materialUnitsTemplate.listData" (click)="goToSubmitTemplate(unit)">{{unit}}</button>
     </ion-list>
   </ng-template>
 
   <ng-template #submitDataTemplate>
-    <h4>Select Quantity of product to be purchased</h4>
+    <h4>Select Quantity of {{materialName}} to be purchased</h4>
     <form [formGroup]="newPurchase">
       <ion-item>
-        <ion-label color="primary" stacked>Quantity</ion-label>
+        <ion-label color="primary" stacked>Quantity({{unitsOfPurchase}})</ion-label>
         <ion-input type="number" placeholder="Quantity of purchased" name="quantity" formControlName="quantity"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" stacked>Cost</ion-label>
+        <ion-label color="primary" stacked>Total Cost</ion-label>
         <ion-input type="number" placeholder="Enter total cost of purchase" name="cost" formControlName="cost"></ion-input>
       </ion-item>
       <ion-item>
@@ -62,7 +62,7 @@
   <div *ngIf="materialTypeTemplate.isActive() === true;then selectMaterialTypeTemplate"></div>
   <div *ngIf="materialUnitsTemplate.isActive() === true;then selectMaterialUnitsTemplate"></div>
   <div *ngIf="submitTemplate.isActive() === true;then submitDataTemplate"></div>
-  
+
 </ion-content>
 
 <ion-fab right bottom *ngIf="materialTypeTemplate.isActive() === true" (click)="presentPromptForMaterialType()">

@@ -21,21 +21,25 @@ export class SelectCyclePage {
   selectedCyclesMap: Map<string, Object>
   showContinueButton: boolean;
   labourerId: string;
+  displayEmptyListMessage: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager) {
     this.cycleListing = new Array<Object>();
+    this.displayEmptyListMessage = true;
     this.cycleManager.getAll().then((list) => {
       //this.cycleListing = list;
       //Traverse through the list of cycles retrieved from the cycle manager. If the cycle is active, it will be displayed in the cycle listing.
       for(let cycle of list){
         if(cycle['active'] === true){
           this.cycleListing.push(cycle);
+          this.displayEmptyListMessage = false
         }
       }
     })
 
     this.selectedCyclesMap = new Map<string, Object>();
     this.labourerId = this.navParams.get('id');
+    console.log(this.cycleListing.length);
   }
 
   ionViewDidLoad() {
@@ -57,7 +61,7 @@ export class SelectCyclePage {
   }
 
   goToNewTaskDataPage(){
-    
+
     let cycleIds = Array.from(this.selectedCyclesMap.keys());
     let data = {
       'labourerId': this.labourerId,

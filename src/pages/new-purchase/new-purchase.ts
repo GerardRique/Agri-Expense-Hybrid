@@ -28,7 +28,7 @@ import { Firebase } from '@ionic-native/firebase';
 export class NewPurchasePage {
 
   materialList = Array<Object>();
-  
+
   materialListTemplate: ListTemplate;
   materialTypeTemplate: ListTemplate;
   materialUnitsTemplate: ListTemplate;
@@ -43,6 +43,8 @@ export class NewPurchasePage {
   private measurableDataManager: MeasurableDataManager;
 
   selectedMaterial: string;
+
+  materialName: string;
 
   callback: any;
 
@@ -61,7 +63,7 @@ export class NewPurchasePage {
 
     this.unitsOfPurchase = '';
 
-    
+
     this.materialListTemplate = new ListTemplate('Material List', 'selectMaterialTypeTemplate');
 
     this.materialTypeTemplate = new ListTemplate('Select Type of material to be purchased', 'selectMaterialTypeTemplate');
@@ -118,7 +120,7 @@ export class NewPurchasePage {
     this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
     this.newPurchase.controls['materialId'].setValue(material.id);
 
-  
+
     this.measurableDataManager = this.materialManager.getManager(material.name);
     this.measurableDataManager.getAll().then((list) => {
       console.log('Successfully retrieved ' + list.length + ' materials');
@@ -168,6 +170,7 @@ export class NewPurchasePage {
 
   goToSelectMaterialUnits(materialType){
     console.log(materialType);
+    this.materialName = materialType.name;
     this.materialTypeTemplate.deactivate();
     this.materialUnitsTemplate.activate();
     this.newPurchase.controls['typeName'].setValue(materialType.name);
