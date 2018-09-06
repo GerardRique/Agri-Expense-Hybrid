@@ -41,11 +41,11 @@
     <h4>Select Quantity of {{materialName}} to be purchased</h4>
     <form [formGroup]="newPurchase">
       <ion-item>
-        <ion-label color="primary" stacked>Quantity({{unitsOfPurchase}})</ion-label>
+        <ion-label color="primary" stacked>Quantity ({{unitsOfPurchase}}) (Required)</ion-label>
         <ion-input type="number" placeholder="Quantity of purchased" name="quantity" formControlName="quantity"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" stacked>Total Cost</ion-label>
+        <ion-label color="primary" stacked>Total Cost (Required)</ion-label>
         <ion-input type="number" placeholder="Enter total cost of purchase" name="cost" formControlName="cost"></ion-input>
       </ion-item>
       <ion-item>

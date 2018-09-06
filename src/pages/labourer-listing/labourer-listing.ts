@@ -57,7 +57,11 @@ export class LabourerListingPage {
     loadingSpinner.present();
 
     this.labourManager.getAll().then((list) => {
-      this.labourerListing = list;
+      this.labourerListing = list.sort((a: Object, b: Object) => {
+        if(a['firstName'] < b['firstName']) return -1;
+        if(a['firstName'] > b['firstName']) return 1;
+        return 0;
+      });
       console.log('Successfully retrieved ' + list.length + ' labourers');
       this.content.resize();
       this.displayEmptyListMessage = this.labourerListing.length === 0;
@@ -67,7 +71,6 @@ export class LabourerListingPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LabourerListingPage');
-
     this.searchControl.valueChanges.debounceTime(700).subscribe((search) => {
       this.filterLabourers();
     });

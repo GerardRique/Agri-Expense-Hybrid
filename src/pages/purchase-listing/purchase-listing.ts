@@ -7,9 +7,10 @@ import { App } from 'ionic-angular';
 import { NewPurchasePage } from '../new-purchase/new-purchase';
 import { Content } from 'ionic-angular/components/content/content';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import { PurchaseOrderPage } from '../../core/UIComponents/PurchaseOrderPage';
 import { PopoverPage } from '../../core/UIComponents/PopoverPage';
 
-//Included to display currencies and dates on ios devices. 
+//Included to display currencies and dates on ios devices.
 import 'intl';
 import 'intl/locale-data/jsonp/en.js';
 import { Firebase } from '@ionic-native/firebase';
@@ -89,7 +90,7 @@ export class PurchaseListingPage {
 
     popover.onDidDismiss((data) => {
       if(data === null)
-        return 
+        return
       if(data.options.localeCompare('Delete') === 0){
         this.deletePurchase(purchase['id'], index, purchase['used']);
       }
@@ -208,6 +209,41 @@ export class PurchaseListingPage {
       ]
     });
     alert.present();
+  }
+
+  public presentPopover(myEvent) {
+    let popover = this.popOverCtrl.create(PurchaseOrderPage);
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data === null)
+        return;
+      if(data.localeCompare('date') === 0){
+        console.log('sort by date');
+        this.dateSort();
+        // console.log(this.purchaseList);
+      }
+      else if(data.localeCompare('alphabetical') === 0){
+        console.log('sort by alphabetical order');
+        this.alphaSort();
+      }
+    })
+  }
+
+  public dateSort(){
+    this.purchaseList.sort(function(a: Object,b: Object){
+      return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf();
+    });
+  }
+
+  public alphaSort(){
+    this.purchaseList.sort(function(a: Object,b: Object){
+      if(a['typeName'] < b['typeName']) return -1;
+      if(a['typeName'] > b['typeName']) return 1;
+      return 0;
+    });
   }
 
 }

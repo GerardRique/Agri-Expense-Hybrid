@@ -17,12 +17,12 @@
 
   <form>
     <ion-item>
-      <ion-label color="primary" stacked>Number of Units sold</ion-label>
+      <ion-label color="primary" stacked>Number of Units sold (Required)</ion-label>
       <ion-input type="number" name="quantityOfUnitsSold" [(ngModel)]="quantityOfUnitsSold" (ionChange)="updateNumberOfUnitsSold()"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked> Cost per unit</ion-label>
+      <ion-label color="primary" stacked> Cost per unit (Required)</ion-label>
       <ion-input type="number" name="costPerUnitSold" [(ngModel)]="costPerUnitSold" (ionChange)="updateTotalMadeFromSale()"></ion-input>
     </ion-item>
 
@@ -34,12 +34,12 @@
     <ion-item>
         <p>Quantity Remaining: {{selectedHarvest.quantityRemaining}}</p>
         <p>Total made from sale: ${{totalMadeFromSale | number: '.2-2'}}</p>
-    
+
         <p ion-text color="danger" *ngIf="displayInsufficientHarvestMessage === true">Not enough in harvest</p>
     </ion-item>
   </form>
 
-  
+
 
   <ion-fab right bottom *ngIf="displayConfirmButton === true">
     <button ion-fab (click)="submitNewSale()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>

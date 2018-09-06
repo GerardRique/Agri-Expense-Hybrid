@@ -5,6 +5,8 @@ import { App } from 'ionic-angular';
 import { SaleManager } from '../../core/SaleManager';
 import { HarvestManager } from '../../core/HarvestManager';
 import { Firebase } from '@ionic-native/firebase';
+import { SalesOrderPage } from '../../core/UIComponents/SalesOrderPage';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 
 /**
  * Generated class for the SaleListingPage page.
@@ -33,6 +35,7 @@ export class SaleListingPage {
               private app: App,
               private saleManager: SaleManager,
               private harvestManager: HarvestManager,
+              public popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private firebase: Firebase) {
@@ -103,6 +106,42 @@ export class SaleListingPage {
         });
       }
     })
+  }
+
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(SalesOrderPage);
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data === null)
+        return;
+      if(data.localeCompare('date') === 0){
+        console.log('sort by date');
+        // console.log(this.saleListing);
+        this.dateSort();
+      }
+      else if(data.localeCompare('alphabetical') === 0){
+        console.log('sort by alphabetical order');
+        this.alphaSort();
+      }
+    })
+
+  }
+
+  public dateSort(){
+    this.saleListing.sort(function(a: Object,b: Object){
+      return Date.parse(b['dateSold']).valueOf() - Date.parse(a['dateSold']).valueOf();
+    });
+  }
+
+  public alphaSort(){
+    this.saleListing.sort(function(a: Object,b: Object){
+      if(a['crop'] < b['crop']) return -1;
+      if(a['crop'] > b['crop']) return 1;
+      return 0;
+    });
   }
 
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NewTaskPage } from '../../pages/new-task/new-task';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
+import { CycleOrderPage } from '../../core/UIComponents/CycleOrderPage';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 
 /**
  * Generated class for the SelectCyclePage page.
@@ -23,7 +25,7 @@ export class SelectCyclePage {
   labourerId: string;
   displayEmptyListMessage: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager, public popoverCtrl: PopoverController) {
     this.cycleListing = new Array<Object>();
     this.displayEmptyListMessage = true;
     this.cycleManager.getAll().then((list) => {
@@ -71,6 +73,41 @@ export class SelectCyclePage {
     console.log(data);
 
     this.navCtrl.push(NewTaskPage, data);
+  }
+
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(CycleOrderPage);
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data === null)
+        return;
+      if(data.localeCompare('date') === 0){
+        console.log('sort by date');
+        this.dateSort();
+      }
+      else if(data.localeCompare('alphabetical') === 0){
+        console.log('sort by alphabetical order');
+        this.alphaSort();
+      }
+    })
+
+  }
+
+  public dateSort(){
+    this.cycleListing.sort(function(a: Object,b: Object){
+      return Date.parse(b['datePlanted']).valueOf() - Date.parse(a['datePlanted']).valueOf();
+    });
+  }
+
+  public alphaSort(){
+    this.cycleListing.sort(function(a: Object,b: Object){
+      if(a['name'] < b['name']) return -1;
+      if(a['name'] > b['name']) return 1;
+      return 0;
+    });
   }
 
 }

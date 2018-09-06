@@ -3,6 +3,7 @@ import { NavController, AlertController, ToastController, LoadingController } fr
 import { EditCyclePage } from '../edit-cycle/edit-cycle';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import { PopoverPage } from '../../core/UIComponents/PopoverPage';
+import { CycleOrderPage } from '../../core/UIComponents/CycleOrderPage';
 import { NewCyclePage } from '../new-cycle/new-cycle';
 import { CycleDataPage } from '../cycle-data/cycle-data';
 import { App } from 'ionic-angular';
@@ -245,5 +246,41 @@ export class HomePage {
     });
     alert.present();
   }
+
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(CycleOrderPage);
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data === null)
+        return;
+      if(data.localeCompare('date') === 0){
+        console.log('sort by date');
+        this.dateSort();
+      }
+      else if(data.localeCompare('alphabetical') === 0){
+        console.log('sort by alphabetical order');
+        this.alphaSort();
+      }
+    })
+
+  }
+
+  public dateSort(){
+    this.cycleListing.sort(function(a: Object,b: Object){
+      return Date.parse(b['datePlanted']).valueOf() - Date.parse(a['datePlanted']).valueOf();
+    });
+  }
+
+  public alphaSort(){
+    this.cycleListing.sort(function(a: Object,b: Object){
+      if(a['name'] < b['name']) return -1;
+      if(a['name'] > b['name']) return 1;
+      return 0;
+    });
+  }
+
 
 }
