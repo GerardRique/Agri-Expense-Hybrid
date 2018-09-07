@@ -14,14 +14,14 @@ import { NewHarvestPage } from '../new-harvest/new-harvest';
 
 
 /**
- * The Harvest listing page takes in an optional Object parameter that has the following attributes: 
+ * The Harvest listing page takes in an optional Object parameter that has the following attributes:
  *    Param                   Type        Details
- * 
- *    cycleId                 string      Specifies the cycle associates with the harvest displayed. Once this paramter is supplied, only harvests from the given cycle will be listed. 
- * 
- *    displayMakeSaleButton   boolean     If this paratemer is supplied as false, a make sale button will not be displayed for each harvest. The button will be displayed otherwise. 
- * 
- * 
+ *
+ *    cycleId                 string      Specifies the cycle associates with the harvest displayed. Once this paramter is supplied, only harvests from the given cycle will be listed.
+ *
+ *    displayMakeSaleButton   boolean     If this paratemer is supplied as false, a make sale button will not be displayed for each harvest. The button will be displayed otherwise.
+ *
+ *
  */
 
 @IonicPage()
@@ -64,7 +64,7 @@ export class HarvestListingPage {
         this.cycleId = this.NO_CYCLE_INDICATOR;
         this.receivedCycleId = false;
       }
-  
+
       if('displayMakeSaleButton' in bundle){
         console.log("Found display make sale button paramter");
         if(typeof bundle.displayMakeSaleButton === "boolean"){
@@ -97,7 +97,7 @@ export class HarvestListingPage {
       }
 
       if(this.harvestListing.length > 0)
-        this,this.displayNoHarvestMessage = false;
+        this.displayNoHarvestMessage = false;
       else this.displayNoHarvestMessage = true;
     })
   }

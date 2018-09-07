@@ -6,7 +6,7 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
     template: `
       <ion-list>
         <ion-list-header>Order By:</ion-list-header>
-        <button ion-item (click)="close('date')">Date</button>
+        <button ion-item (click)="close('date')">Date Created</button>
         <button ion-item (click)="close('alphabetical')">Alphabetical</button>
       </ion-list>
     `

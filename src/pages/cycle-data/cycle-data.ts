@@ -50,8 +50,11 @@ export class CycleDataPage {
 
   totalSpentOnLabour: number;
 
+  cycleActive: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public materialManager: MaterialManager, public materialUseManager: MaterialUseManager, public taskManager: TaskManager, private harvestManager: HarvestManager, private saleManager: SaleManager, private app: App) {
     this.selectedCycle = {};
+    this.cycleActive = true;
   }
 
   ionViewDidEnter(){
@@ -69,6 +72,7 @@ export class CycleDataPage {
     console.log('Cycle ID: ' + this.cycleId);
     this.materialManager.get(this.cycleId).then((cycle) => {
       this.selectedCycle = cycle;
+      this.cycleActive = cycle.active;
     });
 
     this.harvestManager.getByCycleId(this.cycleId).then((harvestList) => {

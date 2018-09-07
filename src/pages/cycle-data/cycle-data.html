@@ -14,11 +14,11 @@
 
 
 <ion-content padding>
-
-
+  <ion-card>
+    <div class="closed-display2" *ngIf="!cycleActive">Cycle is Closed</div>
+  </ion-card>
   <ion-list>
     <ion-card>
-      <!-- <ion-card-title padding>Total expenses for {{selectedCycle.name}}</ion-card-title> -->
       <h2 padding>Total expenses for {{selectedCycle.name}}</h2>
       <ion-list class="list1">
         <ion-item class="itemList" *ngFor="let material of materialList">
@@ -70,7 +70,7 @@
             </button>
           </ion-col>
           <ion-col>
-              <button ion-button icon-left clear small color="light" (click)="goToSelectPurchasePage(material.id,material.name)">
+              <button ion-button icon-left clear small color="light" (click)="goToSelectPurchasePage(material.id,material.name)" [disabled]="!cycleActive">
                 <ion-icon name="add-circle"></ion-icon>
                 <div>Use {{material.name}}</div>
               </button>
@@ -91,7 +91,7 @@
               </button>
             </ion-col>
             <ion-col>
-                <button ion-button icon-left clear small color="light" (click)="goToLabourListingPage()">
+                <button ion-button icon-left clear small color="light" (click)="goToLabourListingPage()" [disabled]="!cycleActive">
                   <ion-icon name="add-circle"></ion-icon>
                   <div>Assign Labour</div>
                 </button>
@@ -112,7 +112,7 @@
             </button>
           </ion-col>
           <ion-col>
-              <button ion-button icon-left clear small color="light" (click)="goToNewHarvestPage(selectedCycle)">
+              <button ion-button icon-left clear small color="light" (click)="goToNewHarvestPage(selectedCycle)" [disabled]="!cycleActive">
                 <ion-icon name="add-circle"></ion-icon>
                 <div>Add Harvests</div>
               </button>

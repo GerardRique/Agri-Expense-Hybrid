@@ -27,7 +27,8 @@
       <p>Cost per {{purchase.units}}: ${{purchase.cost | number: '.2-2'}}</p>
     </ion-card-content>
     <ion-row padding >
-        <button ion-button block (click)="goToUseMaterialPage(purchase.id,purchase.typeName)" color="myGreen">Use <ion-icon name="share-alt"></ion-icon></button>
+        <p ion-text color="danger" *ngIf="purchase.quantityRemaining<=0">Not enough in stock</p>
+        <button ion-button block *ngIf="purchase.quantityRemaining>0" (click)="goToUseMaterialPage(purchase.id,purchase.typeName)" color="myGreen">Use <ion-icon name="share-alt"></ion-icon></button>
     </ion-row>
   </ion-card>
 </ion-content>
