@@ -8,27 +8,27 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
         <ion-list-header>Filter By:</ion-list-header>
         <ion-item>
           <ion-label>Plant Material</ion-label>
-          <ion-radio value="plantMaterial"></ion-radio>
+          <ion-radio value="plantMaterial" (click)="close1()"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>Chemical</ion-label>
-          <ion-radio value="chemical"></ion-radio>
+          <ion-radio value="chemical" (click)="close1()"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>Fertilizer</ion-label>
-          <ion-radio value="fertilizer"></ion-radio>
+          <ion-radio value="fertilizer" (click)="close1()"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>Soil Amendment</ion-label>
-          <ion-radio value="soilAmendment"></ion-radio>
+          <ion-radio value="soilAmendment" (click)="close1()"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>Other Expenses</ion-label>
-          <ion-radio value="other"></ion-radio>
+          <ion-radio value="other" (click)="close1()"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>All</ion-label>
-          <ion-radio value="all"></ion-radio>
+          <ion-radio value="all" (click)="close1()"></ion-radio>
         </ion-item>
       </ion-list>
       <ion-list radio-group [(ngModel)]="order">

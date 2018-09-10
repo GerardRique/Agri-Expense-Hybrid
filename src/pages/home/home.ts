@@ -21,7 +21,7 @@ export class HomePage {
 
   newNav: any;
 
-  other: string;
+  order: string;
 
   displayNoCyclesMadeMessage: boolean;
 

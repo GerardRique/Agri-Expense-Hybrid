@@ -2,12 +2,12 @@ import { Serializeable } from "./Serializeable";
 import { UUID } from "angular2-uuid";
 
 export class Purchase implements Serializeable{
-    
+
     private id: string;
     private quantityRemaining: number;
     // private used: boolean
 
-    constructor(private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string){
+    constructor(private materialName: string,private materialId: string, private typeId: string, private units: string, private quantityPurchased: number, private cost: number, private datePurchased: string){
         this.id = UUID.UUID();
         this.quantityRemaining = this.quantityPurchased;
         // this.used = false;
@@ -21,6 +21,10 @@ export class Purchase implements Serializeable{
 
     public getId(): string{
         return this.id;
+    }
+
+    public getMaterialName(): string{
+      return this.materialName;
     }
 
     public getMaterialId(): string{

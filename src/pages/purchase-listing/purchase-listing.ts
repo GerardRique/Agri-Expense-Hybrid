@@ -33,6 +33,8 @@ export class PurchaseListingPage {
 
   purchaseList: Array<Object>;
 
+  fullPurchaseList: Array<Object>;
+
   displayEmptyListMessage: boolean;
 
   rootNav: any;
@@ -127,6 +129,7 @@ export class PurchaseListingPage {
       this.purchaseList = list.sort((a: Object, b: Object) => {
         return Date.parse(b['datePurchased']).valueOf() - Date.parse(a['datePurchased']).valueOf()
       });
+      this.fullPurchaseList = this.purchaseList;
       this.displayEmptyListMessage = this.purchaseList.length === 0;
       this.getData().then(() => {
         loadingSpinner.dismiss();
@@ -224,8 +227,45 @@ export class PurchaseListingPage {
     });
 
     popover.onDidDismiss((data) => {
+      // console.log(this.purchaseList);
       if(data === null)
         return;
+
+      if (data.filter.localeCompare('fertilizer') === 0){
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+        this.purchaseList = this.purchaseList.filter(function(type){
+          return type['materialName'] == "Fertilizer";
+        });
+      }else if (data.filter.localeCompare('chemical') === 0){
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+        this.purchaseList = this.purchaseList.filter(function(type){
+          return type['materialName'] == "Chemical";
+        });
+      }else if (data.filter.localeCompare('plantMaterial') === 0){
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+        this.purchaseList = this.purchaseList.filter(function(type){
+          return type['materialName'] == "Plant material";
+        });
+      }else if (data.filter.localeCompare('soilAmendment') === 0){
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+        this.purchaseList = this.purchaseList.filter(function(type){
+          return type['materialName'] == "Soil amendment";
+        });
+      }else if (data.filter.localeCompare('other') === 0){
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+        this.purchaseList = this.purchaseList.filter(function(type){
+          return type['materialName'] == "Other expenses";
+        });
+      }else {
+        this.filter = data.filter;
+        this.purchaseList = this.fullPurchaseList;
+      }
+
       if(data.order.localeCompare('date') === 0){
         this.order = data.order;
         this.dateSort();
