@@ -19,9 +19,13 @@ export class HomePage {
 
   cycleListing: Array<any>;
 
+  fullCycleListing: Array<any>;
+
   newNav: any;
 
   order: string;
+
+  filter: string;
 
   displayNoCyclesMadeMessage: boolean;
 
@@ -37,6 +41,7 @@ export class HomePage {
               private firebase: Firebase) { // End of Constructor parameters
     // In the constructor
     this.order = 'date';
+    this.filter = 'all';
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
@@ -66,6 +71,7 @@ export class HomePage {
       });
       console.log("Successfully retrieved " + this.cycleListing.length + " cycles");
       // Updates whether the instruction message should displayed
+      this.fullCycleListing = this.cycleListing;
       this.displayNoCyclesMadeMessage = this.cycleListing.length === 0;
       // Dismiss spinner
       loadingSpinner.dismiss();
@@ -251,20 +257,39 @@ export class HomePage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(CycleOrderPage,{param1: this.order});
+    let popover = this.popoverCtrl.create(CycleOrderPage,{param1: this.order, param2: this.filter});
     popover.present({
       ev: myEvent
     });
 
     popover.onDidDismiss((data) => {
+      // console.log(this.cycleListing);
       if(data === null)
         return;
-      if(data.localeCompare('date') === 0){
-        this.order = data;
+
+      if (data.filter.localeCompare('open') === 0){
+        this.filter = data.filter;
+        this.cycleListing = this.fullCycleListing;
+        this.cycleListing = this.cycleListing.filter(function(type){
+          return type['active'] == true ;
+        });
+      }else if (data.filter.localeCompare('close') === 0){
+        this.filter = data.filter;
+        this.cycleListing = this.fullCycleListing;
+        this.cycleListing = this.cycleListing.filter(function(type){
+          return type['active'] == false;
+        });
+      }else{
+        this.filter = data.filter;
+        this.cycleListing = this.fullCycleListing;
+      }
+
+      if(data.order.localeCompare('date') === 0){
+        this.order = data.order;
         this.dateSort();
       }
-      else if(data.localeCompare('alphabetical') === 0){
-        this.order = data;
+      else if(data.order.localeCompare('alphabetical') === 0){
+        this.order = data.order;
         this.alphaSort();
       }
     })

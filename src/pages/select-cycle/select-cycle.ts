@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NewTaskPage } from '../../pages/new-task/new-task';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
-import { CycleOrderPage } from '../../core/UIComponents/CycleOrderPage';
+import { SelectCycleOrderPage } from '../../core/UIComponents/SelectCycleOrderPage';
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 
 /**
@@ -38,6 +38,7 @@ export class SelectCyclePage {
           this.displayEmptyListMessage = false
         }
       }
+      this.alphaSort();
     })
 
     this.selectedCyclesMap = new Map<string, Object>();
@@ -46,7 +47,7 @@ export class SelectCyclePage {
   }
 
   ionViewDidLoad() {
-    this.order = 'date';
+    this.order = 'alphabetical';
     console.log('ionViewDidLoad SelectCyclePage');
   }
 
@@ -78,7 +79,7 @@ export class SelectCyclePage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(CycleOrderPage,{param1: this.order});
+    let popover = this.popoverCtrl.create(SelectCycleOrderPage,{param1: this.order});
     popover.present({
       ev: myEvent
     });

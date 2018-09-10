@@ -21,6 +21,7 @@ import { NewTaskPage } from '../pages/new-task/new-task';
 import { ReportsPage } from '../pages/reports/reports';
 import { PopoverPage } from '../core/UIComponents/PopoverPage';
 import { CycleOrderPage } from '../core/UIComponents/CycleOrderPage';
+import { SelectCycleOrderPage } from '../core/UIComponents/SelectCycleOrderPage';
 import { PurchaseOrderPage } from '../core/UIComponents/PurchaseOrderPage';
 import { SalesOrderPage } from '../core/UIComponents/SalesOrderPage';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
@@ -100,6 +101,7 @@ import { Firebase } from '@ionic-native/firebase';
     ReportsPage,
     PopoverPage,
     CycleOrderPage,
+    SelectCycleOrderPage,
     PurchaseOrderPage,
     SalesOrderPage,
     CycleDataPage,
@@ -148,6 +150,7 @@ import { Firebase } from '@ionic-native/firebase';
     ReportsPage,
     PopoverPage,
     CycleOrderPage,
+    SelectCycleOrderPage,
     PurchaseOrderPage,
     SalesOrderPage,
     CycleDataPage,
