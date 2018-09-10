@@ -15,63 +15,63 @@ export class FertilizerManager extends MeasurableDataManager{
         super(fertilizerStorage, fertilizerUUID);
         this.DATA_ID = "Fertilizer";
         this.unitList = [
-            'Bags', 
-            'ounces(oz)', 
-            'pounds(lb)', 
-            'grams(g)', 
-            'Kilograms(kg)', 
-            'Litres(L)', 
-            'millilitres(ml)', 
+            'Bags',
+            'ounces(oz)',
+            'pounds(lb)',
+            'grams(g)',
+            'Kilograms(kg)',
+            'Litres(L)',
+            'millilitres(ml)',
             'Gallons (GAL)'
         ];
         this.dataList = [
             {
-                "name": "CYTOKIN 2-1-6"
+                "name": "Cytokin 2-1-6"
             },
             {
-                "name": "CYTOPLEX"
+                "name": "Cytoplex"
             },
             {
-                "name": "FOLIAR BORON (OMEX)"
+                "name": "Foliar boron (omex)"
             },
             {
-                "name": "GREENSTIM 2-8-14"
+                "name": "Greenstim 2-8-14"
             },
             {
-                "name": "KING FOIL ZINC (OMEX)"
+                "name": "King foil zinc (omex)"
             },
             {
-                "name": "LIQUID LITTER"
+                "name": "Liquid litter"
             },
             {
-                "name": "NUTRIENT EXPRESS 4-41-27"
+                "name": "Nutrient express 4-41-27"
             },
             {
-                "name": "PHORTIFY"
+                "name": "Phortify"
             },
             {
-                "name": "POWERGIZER"
+                "name": "Powergizer"
             },
             {
-                "name": "SOL-U-GRO 12-48-8"
+                "name": "Sol-u-gro 12-48-8"
             },
             {
-                "name": "SUGAR EXPRESS 4-10-40"
+                "name": "Sugar express 4-10-40"
             },
             {
-                "name": "OMEX BIO 20"
+                "name": "Omex bio 20"
             },
             {
-                "name": "UREA 46-0-0"
+                "name": "Urea 46-0-0"
             },
             {
-                "name": "Techni-Grow (7.12.27 + TE)"
+                "name": "Techni-grow (7.12.27 + te)"
             },
             {
-                "name": "Plant Prod (7.12.27)"
+                "name": "Plant prod (7.12.27)"
             },
             {
-                "name": "Magic Grow (7.12.40 + TE HYDROPHONIC)"
+                "name": "Magic grow (7.12.40 + te hydrophonic)"
             }
         ];
     }

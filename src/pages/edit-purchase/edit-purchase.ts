@@ -11,7 +11,7 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
  * Generated class for the EditPurchasePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation. 
+ * Ionic pages and navigation.
  */
 
 @IonicPage()
@@ -64,7 +64,7 @@ export class EditPurchasePage {
       units: [this.navParams.get('units'), Validators.required],
       quantity: [this.navParams.get('quantity'), Validators.required],
       cost: [this.navParams.get('cost'), Validators.required],
-      
+
     })
 
     this.materialManager.getAll().then((list) => {
@@ -74,8 +74,7 @@ export class EditPurchasePage {
     this.selectedPurchase = this.navParams.get('purchase');
 
     this.materialManager.get(this.selectedPurchase['materialId']).then((material) => {
-      console.log(material);
-      this.selectedMaterial = material['name'];
+      this.selectedMaterial = this.selectedPurchase['materialName'];
       this.initialize();
 
       this.quantityPurchased = this.selectedPurchase['quantityPurchased'];
@@ -86,9 +85,9 @@ export class EditPurchasePage {
 
       this.selectedMaterialUnits = this.selectedPurchase['units'];
     })
-    console.log(this.selectedPurchase);
+    // console.log(this.selectedPurchase);
 
-    
+
   }
 
   initialize(){
@@ -171,7 +170,7 @@ export class EditPurchasePage {
       this.navCtrl.pop();
 
     }
-    
+
 
   }
 

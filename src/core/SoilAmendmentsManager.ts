@@ -20,19 +20,19 @@ export class SoilAmendmentsManager extends MeasurableDataManager{
                 "name": "Calphos"
             },
             {
-                "name": "Chicken Manure"
+                "name": "Chicken manure"
             },
             {
                 "name": "Compost"
             },
             {
-                "name": "Cow Manure"
+                "name": "Cow manure"
             },
             {
                 "name": "Gypsum"
             },
             {
-                "name": "Horse Manure"
+                "name": "Horse manure"
             },
             {
                 "name": "Limestone"

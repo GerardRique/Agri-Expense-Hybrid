@@ -24,8 +24,8 @@ export class EditCyclePage {
   private landUnitList = [
   { value:'Acre',
     name:'Acre'},
-    { value:'Bed(sq metre)',
-      name:'Bed(sq metre)'},
+    { value:'Bed (sq metre)',
+      name:'Bed (sq metre)'},
       { value:'Hectare',
         name:'Hectare'},
         { value:'Square Feet',

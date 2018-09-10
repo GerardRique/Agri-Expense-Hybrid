@@ -17,313 +17,313 @@ export class PlantMaterialManager extends MeasurableDataManager{
         this.unitList = [ 'Barks', 'Heads','Leaf Fibers', 'Roots', 'Seeds', 'Seedlings', 'Slips','Stems', 'Sticks', 'Tubes'].sort();
         this.dataList = [
             {
-                "name": "ANISE SEED",
+                "name": "Anise seed",
                 "imagePath": "assets/img/cropImages/anise_seed.jpg"
             },
             {
-                "name": "AVOCADO",
+                "name": "Avocado",
                 "imagePath": "assets/img/cropImages/avocado.jpeg"
             },
             {
-                "name": "BANANA",
+                "name": "Banana",
                 "imagePath": "assets/img/cropImages/banana.jpg"
             },
             {
-                "name": "BASIL",
+                "name": "Basil",
                 "imagePath": "assets/img/cropImages/basil.jpg"
             },
             {
-                "name": "Bay Leaf",
+                "name": "Bay leaf",
                 "imagePath": "assets/img/cropImages/bay_leaf.jpg"
             },
             {
-                "name": "BEET",
+                "name": "Beet",
                 "imagePath": "assets/img/cropImages/beet.jpg"
             },
             {
-                "name": "BHAGI",
+                "name": "Bhagi",
                 "imagePath": "assets/img/cropImages/bhagi.jpg"
             },
             {
-                "name": "BORA (Bodi) BEAN",
+                "name": "Bora (bodi) bean",
                 "imagePath": "assets/img/cropImages/bodi_bean.jpg"
             },
             {
-                "name": "BREADFRUIT",
+                "name": "Breadfruit",
                 "imagePath": "assets/img/cropImages/breadfruit.jpg"
             },
             {
-                "name":"BREADNUT (CHATAIGNE)",
+                "name":"Breadnut (chataigne)",
                 "imagePath": "assets/img/cropImages/chataigne.jpg"
             },
             {
-                "name":"BROCCOLI",
+                "name":"Broccoli",
                 "imagePath": "assets/img/cropImages/broccoli.jpg"
             },
             {
-                "name":"CABBAGE",
+                "name":"Cabbage",
                 "imagePath": "assets/img/cropImages/cabbage.jpg"
             },
             {
-                "name":"CABBAGE (PURPLE)",
+                "name":"Cabbage (purple)",
                 "imagePath": "assets/img/cropImages/purple_cabbage.png"
             },
             {
-                "name":"CARAILLI",
+                "name":"Caraille",
                 "imagePath": "assets/img/cropImages/caraillie.jpg"
             },
             {
-                "name":"CARAMBOLA",
+                "name":"Carambola",
                 "imagePath": "assets/img/cropImages/carambola.jpg"
             },
             {
-                "name":"CARROTS",
+                "name":"Carrots",
                 "imagePath": "assets/img/cropImages/carrot.jpg"
             },
             {
-                "name":"CASSAVA",
+                "name":"Cassava",
                 "imagePath": "assets/img/cropImages/cassava.jpg"
            },
            {
-                "name":"CAULIFLOWER",
+                "name":"Cauliflower",
                 "imagePath": "assets/img/cropImages/cauliflower.jpg"
            },
            {
-                "name":"CELERY",
+                "name":"Celery",
                 "imagePath": "assets/img/cropImages/celery.jpg"
            },
            {
-                "name":"CHERRY",
+                "name":"Cherry",
                 "imagePath": "assets/img/cropImages/bajan_cherry.jpg"
            },
            {
-                "name":"CHIVE",
+                "name":"Chive",
                 "imagePath": "assets/img/cropImages/chive.jpg"
            },
            {
-                "name":"CHRISTOPHENE",
+                "name":"Christophene",
                 "imagePath": "assets/img/cropImages/christophene.jpg"
            },
            {
-                "name":"COCOA",
+                "name":"Cocoa",
                 "imagePath": "assets/img/cropImages/cocoa.jpg"
            },
            {
-                "name":"COCONUT",
+                "name":"Coconut",
                 "imagePath": "assets/img/cropImages/coconut.jpg"
            },
            {
-                "name":"CORN",
+                "name":"Corn",
                 "imagePath": "assets/img/cropImages/corn.jpg"
            },
            {
-                "name":"CUCUMBER",
+                "name":"Cucumber",
                 "imagePath": "assets/img/cropImages/cucumber.jpg"
            },
            {
-                "name":"CULANTRO (SHADON BENI / BANDANIA)",
+                "name":"Culantro (shado beni / bandania)",
                 "imagePath": "assets/img/cropImages/shadon_beni.jpg"
            },
            {
-                "name":"DASHEEN",
+                "name":"Dasheen",
                 "imagePath": "assets/img/cropImages/dasheen.jpg"
            },
            {
-                "name":"DASHEEN BUSH",
+                "name":"Dasheen bush",
                 "imagePath": "assets/img/cropImages/dasheen_bush.jpg"
            },
            {
-                "name":"EDDOES",
+                "name":"Eddoes",
                 "imagePath": "assets/img/cropImages/eddoe.jpg"
            },
            {
-                "name":"EGGPLANT",
+                "name":"Eggplant",
                 "imagePath": "assets/img/cropImages/eggplant.jpg"
            },
            {
-                "name":"ESCALLION",
+                "name":"Escallion",
                 "imagePath": "assets/img/cropImages/escallion.jpg"
            },
            {
-                "name":"GINGER",
+                "name":"Ginger",
                 "imagePath": "assets/img/cropImages/ginger.jpg"
            },
            {
-                "name":"GRAPEFRUIT",
+                "name":"Grapefruit",
                 "imagePath": "assets/img/cropImages/grapefruit.jpg"
            },
            {
-                "name":"GREEN FIG",
+                "name":"Green fig",
                 "imagePath": "assets/img/cropImages/banana.jpg"
            },
            {
-                "name":"HOT PEPPER",
+                "name":"Hot pepper",
                 "imagePath": "assets/img/cropImages/hot_pepper.jpg"
            },
            {
-                "name":"KALE",
+                "name":"Kale",
                 "imagePath": "assets/img/cropImages/kale.jpg"
             },
            {
-                "name":"LETTUCE",
+                "name":"Lettuce",
                 "imagePath": "assets/img/cropImages/lettuce.jpg"
            },
            {
-                "name":"LETTUCE (BUTTER)",
+                "name":"Lettuce (butter)",
                 "imagePath": "assets/img/cropImages/lettuce_butter.jpg"
             },
            {
-                "name":"LIME",
+                "name":"Lime",
                 "imagePath": "assets/img/cropImages/lime.jpg"
            },
            {
-                "name":"MAIZE (CORN)",
+                "name":"Maize (corn)",
                 "imagePath": "assets/img/cropImages/corn.jpg"
            },
            {
-                "name":"MANGO",
+                "name":"Mango",
                 "imagePath": "assets/img/cropImages/mango.jpg"
            },
            {
-                "name":"MELONGENE (BAIGAN)",
+                "name":"Melongene (baigan)",
                 "imagePath": "assets/img/cropImages/melongene.jpg"
             },
            {
-                "name":"MINT",
+                "name":"Mint",
                 "imagePath": "assets/img/cropImages/mint.jpg"
            },
            {
-                "name":"NUTMEG",
+                "name":"Nutmeg",
                 "imagePath": "assets/img/cropImages/nutmeg.jpg"
            },
            {
-                "name":"OCHRO",
+                "name":"Ochro",
                 "imagePath": "assets/img/cropImages/ochro.jpg"
            },
            {
-                "name":"ORANGES",
+                "name":"Oranges",
                 "imagePath": "assets/img/cropImages/orange.jpg"
            },
            {
-                "name":"PARSLEY",
+                "name":"Parsley",
                 "imagePath": "assets/img/cropImages/parsley.jpg"
             },
            {
-                "name":"PATCHOI",
+                "name":"Patchoi",
                 "imagePath": "assets/img/cropImages/patchoi.jpg"
             },
            {
-                "name":"PAW PAW",
+                "name":"Paw paw",
                 "imagePath": "assets/img/cropImages/paw_paw.jpg"
            },
            {
-                "name":"PEANUTS",
+                "name":"Peanuts",
                 "imagePath": "assets/img/cropImages/peanuts.jpg"
            },
            {
-                "name":"PIGEON PEAS",
+                "name":"Pigeon peas",
                 "imagePath": "assets/img/cropImages/pigeon_pea.jpg"
            },
            {
-                "name":"PIMENTO PEPPER",
+                "name":"Pimento pepper",
                 "imagePath": "assets/img/cropImages/pimento.jpg"
            },
            {
-                "name":"PINEAPPLE",
+                "name":"Pineapple",
                 "imagePath": "assets/img/cropImages/pineapple.jpg"
            },
            {
-                "name":"PLANTAIN",
+                "name":"Plantain",
                 "imagePath": "assets/img/cropImages/plantain.jpg"
            },
            {
-                "name":"PORTUGAL",
+                "name":"Portugal",
                 "imagePath": "assets/img/cropImages/portugal.jpg"
            },
            {
-                "name":"PUMPKIN",
+                "name":"Pumpkin",
                 "imagePath": "assets/img/cropImages/pumpkin.jpg"
            },
            {
-                "name":"RICE",
+                "name":"Rice",
                 "imagePath": "assets/img/cropImages/rice.jpg"
            },
            {
-                "name":"SEIM",
+                "name":"Seim",
                 "imagePath": "assets/img/cropImages/seim_bean.jpg"
            },
            {
-                "name":"SILK FIG",
+                "name":"Silk fig",
                 "imagePath": "assets/img/cropImages/silk_fig.jpg"
             },
            {
-                "name":"SORREL",
+                "name":"Sorrel",
                 "imagePath": "assets/img/cropImages/sorrel.jpg"
            },
            {
-                "name":"SOYABEAN",
+                "name":"Soyabean",
                 "imagePath": "assets/img/cropImages/soybean.jpg"
            },
            {
-                "name":"SQUASH",
+                "name":"Squash",
                 "imagePath": "assets/img/cropImages/squash.jpg"
            },
            {
-                "name":"STRING BEANS",
+                "name":"String beans",
                 "imagePath": "assets/img/cropImages/string_beans.jpg"
             },
            {
-                "name":"SWEET PEPPER",
+                "name":"Sweet pepper",
                 "imagePath": "assets/img/cropImages/sweet_pepper.jpg"
            },
            {
-                "name":"SWEET POTATO",
+                "name":"Sweet potato",
                 "imagePath": "assets/img/cropImages/sweet_potato.jpg"
            },
            {
-                "name":"THYME - FINE",
+                "name":"Thyme - fine",
                 "imagePath": "assets/img/cropImages/thyme.jpg"
            },
            {
-                "name":"THYME - FRENCH",
+                "name":"Thyme - french",
                 "imagePath": "assets/img/cropImages/thyme.jpg"
            },
            {
-                "name":"THYME - SPANISH",
+                "name":"Thyme - spanish",
                 "imagePath": "assets/img/cropImages/thyme.jpg"
            },
            {
-                "name":"TOMATO",
+                "name":"Tomato",
                 "imagePath": "assets/img/cropImages/tomato.jpg"
            },
            {
-                "name":"TOMATO (CHERRY)",
+                "name":"Tomato (cherry)",
                 "imagePath": "assets/img/cropImages/tomato.jpg"
             },
            {
-                "name":"TUMERIC (SAFFRON)",
+                "name":"Tumeric (saffron)",
                 "imagePath": "assets/img/cropImages/turmeric.jpg"
            },
            {
-                "name":"VINE SPINACH (POI BHAGI)",
+                "name":"Vine spinach (poi bhagi)",
                 "imagePath": "assets/img/cropImages/spinach.jpg"
            },
            {
-                "name":"WATERCRESS",
+                "name":"Watercress",
                 "imagePath": "assets/img/cropImages/watercress.jpg"
            },
            {
-                "name":"WATERMELON",
+                "name":"Watermelon",
                 "imagePath": "assets/img/cropImages/watermelon.jpg"
            },
            {
-                "name":"YAM",
+                "name":"Yam",
                 "imagePath": "assets/img/cropImages/yam.jpg"
            }
         ];
     }
 
-    //The getData function returns a promise that contains an object that contains data on a plant material given the id of the plant material. 
+    //The getData function returns a promise that contains an object that contains data on a plant material given the id of the plant material.
     public getData(key: string): Promise<Object>{
         return this.storage.ready().then(() => {
             return this.storage.get(key).then((materialString) => {
