@@ -43,11 +43,11 @@ export class SaleListingPage {
               private firebase: Firebase) {
 
     this.rootNav = this.app.getRootNav();
-    this.order = 'date';
     this.displayEmptyListMessage = false;
   }
 
   ionViewDidEnter(){
+    this.order = 'date';
     this.loadData();
     this.firebase.logEvent("sale_listing", {content_type: "page_view", item_id: "sale_listing_page"});
   }

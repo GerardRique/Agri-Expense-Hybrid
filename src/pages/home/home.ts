@@ -40,8 +40,7 @@ export class HomePage {
               private loadingCtrl: LoadingController,
               private firebase: Firebase) { // End of Constructor parameters
     // In the constructor
-    this.order = 'date';
-    this.filter = 'all';
+
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
@@ -49,6 +48,8 @@ export class HomePage {
   // The ionViewWillEnter will run when the page is fully entered and is now the active page.
   // The event will fire whether it was the first load or a cached page.
   ionViewDidEnter(){
+    this.order = 'date';
+    this.filter = 'all';
     this.firebase.logEvent("cycle_listing", {content_type: "page_view", item_id: "cycle_listing_page"});
     this.loadPageData();
   }

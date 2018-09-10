@@ -47,8 +47,11 @@ export class SelectCyclePage {
   }
 
   ionViewDidLoad() {
-    this.order = 'alphabetical';
     console.log('ionViewDidLoad SelectCyclePage');
+  }
+
+  ionViewDidEnter(){
+    this.order = 'alphabetical';
   }
 
   addCycle(index: number, cycleId: string): void{

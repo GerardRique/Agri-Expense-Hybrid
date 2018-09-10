@@ -61,8 +61,6 @@ export class PurchaseListingPage {
   }
 
   ionViewDidLoad() {
-    this.order = 'date';
-    this.filter = 'all';
     console.log('ionViewDidLoad PurchaseListingPage');
 
     this.firebase.logEvent("purchase_listing", {content_type: "page_view", item_id: "purchase_listing_page"});
@@ -110,6 +108,8 @@ export class PurchaseListingPage {
   }
 
   ionViewDidEnter(){
+    this.order = 'date';
+    this.filter = 'all';
     this.loadData();
   }
 
