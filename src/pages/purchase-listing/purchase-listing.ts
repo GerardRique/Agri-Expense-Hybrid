@@ -39,6 +39,8 @@ export class PurchaseListingPage {
 
   order: string;
 
+  filter: string;
+
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController,
@@ -58,6 +60,7 @@ export class PurchaseListingPage {
 
   ionViewDidLoad() {
     this.order = 'date';
+    this.filter = 'all';
     console.log('ionViewDidLoad PurchaseListingPage');
 
     this.firebase.logEvent("purchase_listing", {content_type: "page_view", item_id: "purchase_listing_page"});
@@ -215,7 +218,7 @@ export class PurchaseListingPage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popOverCtrl.create(PurchaseOrderPage, {param1: this.order});
+    let popover = this.popOverCtrl.create(PurchaseOrderPage, {param1: this.order,param2: this.filter});
     popover.present({
       ev: myEvent
     });
@@ -223,15 +226,12 @@ export class PurchaseListingPage {
     popover.onDidDismiss((data) => {
       if(data === null)
         return;
-      if(data.localeCompare('date') === 0){
-        this.order = data;
-        // console.log('sort by date');
+      if(data.order.localeCompare('date') === 0){
+        this.order = data.order;
         this.dateSort();
-        // console.log(this.purchaseList);
       }
-      else if(data.localeCompare('alphabetical') === 0){
-        this.order = data;
-        // console.log('sort by alphabetical order');
+      else if(data.order.localeCompare('alphabetical') === 0){
+        this.order = data.order;
         this.alphaSort();
       }
     })

@@ -24,6 +24,7 @@ export class SelectCyclePage {
   showContinueButton: boolean;
   labourerId: string;
   displayEmptyListMessage: boolean;
+  order: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private cycleManager: CycleManager, public popoverCtrl: PopoverController) {
     this.cycleListing = new Array<Object>();
@@ -45,6 +46,7 @@ export class SelectCyclePage {
   }
 
   ionViewDidLoad() {
+    this.order = 'date';
     console.log('ionViewDidLoad SelectCyclePage');
   }
 
@@ -76,7 +78,7 @@ export class SelectCyclePage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(CycleOrderPage);
+    let popover = this.popoverCtrl.create(CycleOrderPage,{param1: this.order});
     popover.present({
       ev: myEvent
     });
@@ -85,11 +87,11 @@ export class SelectCyclePage {
       if(data === null)
         return;
       if(data.localeCompare('date') === 0){
-        console.log('sort by date');
+        this.order = data;
         this.dateSort();
       }
       else if(data.localeCompare('alphabetical') === 0){
-        console.log('sort by alphabetical order');
+        this.order = data;
         this.alphaSort();
       }
     })

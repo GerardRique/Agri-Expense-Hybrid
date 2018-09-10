@@ -52,11 +52,15 @@ export class PurchaseOrderPage{
 
     constructor(public viewCtrl: ViewController, public navParams: NavParams){
       this.order = navParams.get('param1');
+      this.filter = navParams.get('param2');
     }
     ionViewDidLoad(){
-      this.filter="all";
     }
     close1(){
-        this.viewCtrl.dismiss(this.order);
+        let data = {
+          'order': this.order,
+          'filter': this.filter
+        };
+        this.viewCtrl.dismiss(data);
     }
 }

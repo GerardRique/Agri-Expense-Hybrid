@@ -28,6 +28,8 @@ export class SaleListingPage {
 
   displayEmptyListMessage: boolean;
 
+  order: string;
+
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController,
@@ -41,7 +43,7 @@ export class SaleListingPage {
               private firebase: Firebase) {
 
     this.rootNav = this.app.getRootNav();
-
+    this.order = 'date';
     this.displayEmptyListMessage = false;
   }
 
@@ -109,7 +111,7 @@ export class SaleListingPage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(SalesOrderPage);
+    let popover = this.popoverCtrl.create(SalesOrderPage,{param1: this.order});
     popover.present({
       ev: myEvent
     });
@@ -118,12 +120,11 @@ export class SaleListingPage {
       if(data === null)
         return;
       if(data.localeCompare('date') === 0){
-        console.log('sort by date');
-        // console.log(this.saleListing);
+        this.order = data;
         this.dateSort();
       }
       else if(data.localeCompare('alphabetical') === 0){
-        console.log('sort by alphabetical order');
+        this.order = data;
         this.alphaSort();
       }
     })

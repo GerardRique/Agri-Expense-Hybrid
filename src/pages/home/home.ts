@@ -21,6 +21,8 @@ export class HomePage {
 
   newNav: any;
 
+  other: string;
+
   displayNoCyclesMadeMessage: boolean;
 
   @ViewChild(Content) content: Content;
@@ -34,6 +36,7 @@ export class HomePage {
               private loadingCtrl: LoadingController,
               private firebase: Firebase) { // End of Constructor parameters
     // In the constructor
+    this.order = 'date';
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();
   }
@@ -248,7 +251,7 @@ export class HomePage {
   }
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(CycleOrderPage);
+    let popover = this.popoverCtrl.create(CycleOrderPage,{param1: this.order});
     popover.present({
       ev: myEvent
     });
@@ -257,11 +260,11 @@ export class HomePage {
       if(data === null)
         return;
       if(data.localeCompare('date') === 0){
-        console.log('sort by date');
+        this.order = data;
         this.dateSort();
       }
       else if(data.localeCompare('alphabetical') === 0){
-        console.log('sort by alphabetical order');
+        this.order = data;
         this.alphaSort();
       }
     })
