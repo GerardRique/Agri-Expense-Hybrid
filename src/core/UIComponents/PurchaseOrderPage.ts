@@ -5,7 +5,7 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
 @Component({
     template: `
       <ion-list radio-group [(ngModel)]="filter">
-        <ion-list-header>Filter By:</ion-list-header>
+        <ion-list-header>Filter Purchases By:</ion-list-header>
         <ion-item>
           <ion-label>Plant Material</ion-label>
           <ion-radio value="plantMaterial" (click)="close1()"></ion-radio>
@@ -32,7 +32,7 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
         </ion-item>
       </ion-list>
       <ion-list radio-group [(ngModel)]="order">
-        <ion-list-header>Order By:</ion-list-header>
+        <ion-list-header>Order Purchases By:</ion-list-header>
         <ion-item>
           <ion-label>Date Purchased</ion-label>
           <ion-radio value="date" (click)="close1()"></ion-radio>

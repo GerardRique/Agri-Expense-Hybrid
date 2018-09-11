@@ -5,7 +5,7 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
 @Component({
     template: `
       <ion-list radio-group [(ngModel)]="order">
-        <ion-list-header>Order By:</ion-list-header>
+        <ion-list-header>Order Sales By:</ion-list-header>
         <ion-item>
           <ion-label>Date Created</ion-label>
           <ion-radio value="date" (click)="close()"></ion-radio>

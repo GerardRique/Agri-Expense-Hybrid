@@ -24,6 +24,7 @@ import { CycleOrderPage } from '../core/UIComponents/CycleOrderPage';
 import { SelectCycleOrderPage } from '../core/UIComponents/SelectCycleOrderPage';
 import { PurchaseOrderPage } from '../core/UIComponents/PurchaseOrderPage';
 import { SalesOrderPage } from '../core/UIComponents/SalesOrderPage';
+import { HarvestOrderPage } from '../core/UIComponents/HarvestOrderPage';
 import { PlantMaterialManager } from '../core/PlantMaterialManager';
 import { ChemicalsManager } from '../core/ChemicalsManager';
 import { FertilizerManager } from '../core/FertilizerManager';
@@ -104,6 +105,7 @@ import { Firebase } from '@ionic-native/firebase';
     SelectCycleOrderPage,
     PurchaseOrderPage,
     SalesOrderPage,
+    HarvestOrderPage,
     CycleDataPage,
     TaskListingPage,
     SelectPurchasePage,
@@ -153,6 +155,7 @@ import { Firebase } from '@ionic-native/firebase';
     SelectCycleOrderPage,
     PurchaseOrderPage,
     SalesOrderPage,
+    HarvestOrderPage,
     CycleDataPage,
     TaskListingPage,
     SelectPurchasePage,

@@ -20,7 +20,7 @@ import { NavParams } from "ionic-angular/navigation/nav-params";
         </ion-item>
       </ion-list>
       <ion-list radio-group [(ngModel)]="order">
-        <ion-list-header>Order By:</ion-list-header>
+        <ion-list-header>Order Cycles By:</ion-list-header>
         <ion-item>
           <ion-label>Date Created</ion-label>
           <ion-radio value="date" (click)="close()"></ion-radio>

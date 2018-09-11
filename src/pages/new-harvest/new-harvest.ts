@@ -58,7 +58,7 @@ export class NewHarvestPage {
       cropId: [selectedCropId, Validators.required],
       crop: [selectedCrop, Validators.required],
       quantityHarvested: ['', Validators.required],
-      unitsHarvested: ['', Validators.required],
+      unitsHarvested: ['Bags', Validators.required],
       dateHarvested: [new Date().toISOString(), Validators.required]
     });
   }

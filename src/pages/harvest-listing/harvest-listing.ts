@@ -4,6 +4,8 @@ import { HarvestManager } from '../../core/HarvestManager';
 import { NewSalePage } from '../new-sale/new-sale';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
+import { HarvestOrderPage } from '../../core/UIComponents/HarvestOrderPage';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 
 /**
  * Generated class for the HarvestListingPage page.
@@ -33,6 +35,8 @@ export class HarvestListingPage {
 
   harvestListing: Array<Object>;
 
+  order: string;
+
   private cycleId: string;
 
   private displayMakeSaleButton: boolean;
@@ -45,7 +49,7 @@ export class HarvestListingPage {
 
   @ViewChild (Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public harvestManager: HarvestManager, private cycleManager: CycleManager){
+  constructor(public navCtrl: NavController, public navParams: NavParams, public harvestManager: HarvestManager, private cycleManager: CycleManager,public popoverCtrl: PopoverController){
 
     this.displayNoHarvestMessage = true;
 
@@ -86,11 +90,14 @@ export class HarvestListingPage {
   }
 
   ionViewDidEnter(){
+    this.order = 'date';
     this.harvestManager.getAll().then((data) => {
       this.harvestListing = data;
       let filteredList = null;
       if(this.cycleId.localeCompare(this.NO_CYCLE_INDICATOR) === 0){
-        this.harvestListing = data;
+        this.harvestListing = data.sort((a: Object, b: Object) => {
+          return Date.parse(b['dateHarvested']).valueOf() - Date.parse(a['dateHarvested']).valueOf();
+        });
       }
       else {
         this.harvestListing = data.filter(harvest => this.cycleId.localeCompare(harvest['cycleId']) === 0);
@@ -125,6 +132,41 @@ export class HarvestListingPage {
       };
       this.navCtrl.push(NewHarvestPage, data);
     })
+  }
+
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(HarvestOrderPage,{param1: this.order});
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss((data) => {
+      if(data === null)
+        return;
+      if(data.localeCompare('date') === 0){
+        this.order = data;
+        this.dateSort();
+      }
+      else if(data.localeCompare('alphabetical') === 0){
+        this.order = data;
+        this.alphaSort();
+      }
+    })
+
+  }
+
+  public dateSort(){
+    this.harvestListing.sort(function(a: Object,b: Object){
+      return Date.parse(b['dateHarvested']).valueOf() - Date.parse(a['dateHarvested']).valueOf();
+    });
+  }
+
+  public alphaSort(){
+    this.harvestListing.sort(function(a: Object,b: Object){
+      if(a['crop'] < b['crop']) return -1;
+      if(a['crop'] > b['crop']) return 1;
+      return 0;
+    });
   }
 
 }
