@@ -7,7 +7,7 @@ export class Harvest implements Serializeable{
 
     // private quantityRemaining;
 
-    constructor(private cycleId: string, private cropId: string, private crop: string, private quantityHarvested: number, private unitsHarvested: string, private dateHarvested: string){
+    constructor(private cycleId: string, private cropId: string, private crop: string, private quantityHarvested: number, private quantityRemaining: number, private unitsHarvested: string, private dateHarvested: string){
         this.id = UUID.UUID();
         // this.quantityRemaining = this.quantityHarvested;
     }
@@ -30,6 +30,10 @@ export class Harvest implements Serializeable{
 
     public getQuantityHarvested(): number{
         return this.quantityHarvested;
+    }
+
+    public getQuantityRemaining(): number{
+        return this.quantityRemaining;
     }
 
     public getUnitsHarvested(): string{

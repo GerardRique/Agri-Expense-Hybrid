@@ -24,6 +24,8 @@ export class NewHarvestPage {
 
   private newHarvest: FormGroup;
 
+  private quantityRemaining: number;
+
   private selectedCycleId: string;
 
   private unitList: Array<string>;
@@ -77,7 +79,8 @@ export class NewHarvestPage {
       position: 'middle'
     })
 
-    let myHarvest = new Harvest(this.newHarvest.get('cycleId').value, this.newHarvest.get('cropId').value, this.newHarvest.get('crop').value, this.newHarvest.get('quantityHarvested').value, this.newHarvest.get('unitsHarvested').value, this.newHarvest.get('dateHarvested').value);
+    this.quantityRemaining = this.newHarvest.get('quantityHarvested').value;
+    let myHarvest = new Harvest(this.newHarvest.get('cycleId').value, this.newHarvest.get('cropId').value, this.newHarvest.get('crop').value, this.newHarvest.get('quantityHarvested').value, this.quantityRemaining, this.newHarvest.get('unitsHarvested').value, this.newHarvest.get('dateHarvested').value);
     console.log(myHarvest);
 
     this.harvestManager.add(myHarvest).then((result) => {

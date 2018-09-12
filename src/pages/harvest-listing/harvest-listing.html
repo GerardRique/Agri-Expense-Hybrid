@@ -33,7 +33,7 @@
 
       <ion-row padding *ngIf="displayMakeSaleButton">
           <p ion-text color="danger" *ngIf="harvest.quantityRemaining<=0">Not enough in stock to sell</p>
-          <button ion-button block *ngIf="harvest.quantityRemaining==null || harvest.quantityRemaining>0" (click)="goToNewSalePage(harvest)" color="myGreen">Make Sale <ion-icon name="pricetags"></ion-icon></button>
+          <button ion-button block *ngIf="harvest.quantityRemaining>0" (click)="goToNewSalePage(harvest)" color="myGreen">Make Sale <ion-icon name="pricetags"></ion-icon></button>
       </ion-row>
     </ion-card>
   </ion-list>
