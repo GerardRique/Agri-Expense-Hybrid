@@ -38,17 +38,17 @@
 
     <ion-item>
       <ion-label color="primary" stacked>Quantity purchases</ion-label>
-      <ion-input  [(ngModel)]="quantityPurchased" type="number" placeholder="Quantity purchased" name="quantity" ></ion-input>
+      <ion-input  [(ngModel)]="quantityPurchased" type="number" placeholder="Quantity purchased" name="quantity" (ionChange)="checkValidity()"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label color="primary" stacked>Total cost of Purchase</ion-label>
-      <ion-input [(ngModel)]="totalCostOfPurchase" type="number" placeholder="Total cost of purchase" name="cost" ></ion-input>
+      <ion-input [(ngModel)]="totalCostOfPurchase" type="number" placeholder="Total cost of purchase" name="cost" (ionChange)="checkValidity()"></ion-input>
     </ion-item>
   </form>
 
   <ion-fab right bottom >
-    <button ion-fab  color="myGreen" (click)="submit()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab  color="myGreen" (click)="submit()" [disabled]="!valid"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

@@ -5,6 +5,7 @@ import { HarvestManager } from '../../core/HarvestManager';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Harvest } from '../../core/Harvest';
 import { Firebase } from '@ionic-native/firebase';
+import { RangeValidator } from  '../../validators/RangeValidator';
 
 /**
  * Generated class for the NewHarvestPage page.
@@ -59,7 +60,7 @@ export class NewHarvestPage {
       cycleId: [this.selectedCycleId, Validators.required],
       cropId: [selectedCropId, Validators.required],
       crop: [selectedCrop, Validators.required],
-      quantityHarvested: ['', Validators.required],
+      quantityHarvested: ['', [Validators.required, RangeValidator]],
       unitsHarvested: ['Bags', Validators.required],
       dateHarvested: [new Date().toISOString(), Validators.required]
     });

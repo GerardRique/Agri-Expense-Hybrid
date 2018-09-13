@@ -6,6 +6,7 @@ import { MeasurableDataManager } from '../../core/MeasurableDataManager';
 import { MaterialManager } from '../../core/MaterialManager';
 import { PurchaseManager } from '../../core/PurchaseManager';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
+import { RangeValidator } from  '../../validators/RangeValidator';
 
 /**
  * Generated class for the EditPurchasePage page.
@@ -47,6 +48,8 @@ export class EditPurchasePage {
 
   changedPurchase: boolean;
 
+  valid: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private materialManager: MaterialManager, private purchaseManager: PurchaseManager, private toastCtrl: ToastController) {
     this.materialTypeList = new Array<Object>();
 
@@ -62,8 +65,8 @@ export class EditPurchasePage {
       typeName: [this.navParams.get('typeName'), Validators.required],
       typeID: [this.navParams.get('typeID'), Validators.required],
       units: [this.navParams.get('units'), Validators.required],
-      quantity: [this.navParams.get('quantity'), Validators.required],
-      cost: [this.navParams.get('cost'), Validators.required],
+      quantity: [this.navParams.get('quantity'), [Validators.required, RangeValidator]],
+      cost: [this.navParams.get('cost'), [Validators.required, RangeValidator]],
 
     })
 
@@ -87,7 +90,7 @@ export class EditPurchasePage {
     })
     // console.log(this.selectedPurchase);
 
-
+    this.valid = true;
   }
 
   initialize(){
@@ -171,7 +174,13 @@ export class EditPurchasePage {
 
     }
 
-
   }
 
+  checkValidity(){
+    if (this.quantityPurchased > 0 && this.totalCostOfPurchase > 0){
+      this.valid = true;
+    }else{
+      this.valid = false;
+    }
+  }
 }

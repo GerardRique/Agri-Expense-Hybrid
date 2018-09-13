@@ -60,14 +60,20 @@ export class NewSalePage {
 
   updateTotalMadeFromSale(){
     this.totalMadeFromSale = this.quantityOfUnitsSold * this.costPerUnitSold;
+
+    this.checkValidNumber();
   }
 
   updateNumberOfUnitsSold(){
-
-    let quantityRemaining = parseInt(this.selectedHarvest['quantityRemaining']);
     this.updateTotalMadeFromSale();
+    this.checkValidNumber();
+  }
 
-    if(this.quantityOfUnitsSold > 0){
+  checkValidNumber(){
+    let quantityRemaining = parseInt(this.selectedHarvest['quantityRemaining']);
+    if(this.costPerUnitSold < 1){
+      this.displayConfirmButton = false;
+    }else if(this.quantityOfUnitsSold > 0){
       if(this.quantityOfUnitsSold > quantityRemaining){
         this.displayInsufficientHarvestMessage = true;
         this.displayConfirmButton = false;

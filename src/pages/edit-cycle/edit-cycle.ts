@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PlantMaterialManager } from '../../core/PlantMaterialManager';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
+import { RangeValidator } from  '../../validators/RangeValidator';
+
 /**
  * Generated class for the EditCyclePage page.
  *
@@ -55,7 +57,7 @@ export class EditCyclePage {
       cropId: [this.selectedCycle['cropId'], Validators.required],
       cropImagePath: [''],
       landUnit: [this.selectedCycle['landUnit'], Validators.required],
-      landQuantity: [this.selectedCycle['landQuantity'], Validators.required],
+      landQuantity: [this.selectedCycle['landQuantity'], [Validators.required, RangeValidator]],
       datePlanted: [this.selectedCycle['datePlanted'], Validators.required],
       harvested: [this.selectedCycle['harvested']],
       ongoing: [this.selectedCycle['ongoing']]

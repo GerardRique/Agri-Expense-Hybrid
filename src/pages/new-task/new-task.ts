@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, Content, ToastController } from 'i
 import { Task } from '../../core/Task';
 import { TaskManager } from '../../core/TaskManager';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
+import { RangeValidator } from  '../../validators/RangeValidator';
 
 /**
  * Generated class for the NewTaskPage page.
@@ -36,8 +37,8 @@ export class NewTaskPage {
     this.newTask = this.formBuilder.group({
       dateStarted: [new Date().toISOString(), Validators.required],
       rateOfPay: ['', Validators.required],
-      salary: [0.0, Validators.required],
-      quantity: [0.0, Validators.required],
+      salary: [0.0, [Validators.required, RangeValidator]],
+      quantity: [0.0, [Validators.required, RangeValidator]],
       description: ['', Validators.required]
     });
 
@@ -87,7 +88,7 @@ export class NewTaskPage {
       promises.push(this.taskManager.add(task).then((result) => {
         console.log("Task " + task.getId() + " Has been added");
       }));
-      
+
     }
 
     let toast = this.toastCtrl.create({

@@ -41,8 +41,8 @@
 
 
 
-  <ion-fab right bottom *ngIf="displayConfirmButton === true">
-    <button ion-fab (click)="submitNewSale()" color="myGreen"><ion-icon name="checkmark"></ion-icon></button>
+  <ion-fab right bottom>
+    <button ion-fab (click)="submitNewSale()" color="myGreen"  [disabled]="!displayConfirmButton"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

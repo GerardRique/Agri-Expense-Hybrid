@@ -13,6 +13,7 @@ import { PurchaseManager } from '../../core/PurchaseManager';
 import { Purchase } from '../../core/Purchase';
 import { PlantingMaterial } from '../../core/Models/Plantingmaterial';
 import { Firebase } from '@ionic-native/firebase';
+import { RangeValidator } from  '../../validators/RangeValidator';
 /**
  * Generated class for the NewPurchasePage page.
  *
@@ -79,8 +80,8 @@ export class NewPurchasePage {
       typeName: ['', Validators.required],
       typeID: ['', Validators.required],
       units: ['', Validators.required],
-      quantity: ['', Validators.required],
-      cost: ['', Validators.required],
+      quantity: ['', [Validators.required, RangeValidator]],
+      cost: ['', [Validators.required, RangeValidator]],
       datePurchased: [new Date().toISOString(), Validators.required]
     });
 

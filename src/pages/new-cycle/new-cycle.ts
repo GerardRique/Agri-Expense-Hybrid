@@ -8,6 +8,7 @@ import { Cycle } from '../../core/CyclesModule/Cycle';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { ToastController } from 'ionic-angular';
 import { Firebase } from '@ionic-native/firebase';
+import { RangeValidator } from  '../../validators/RangeValidator';
 /**
  * Generated class for the NewCyclePage page.
  *
@@ -21,7 +22,7 @@ import { Firebase } from '@ionic-native/firebase';
   templateUrl: 'new-cycle.html',
 })
 export class NewCyclePage {
-  
+
   seeds = Array<Object>();
   readonly landTypes = ['Acre', 'Bed (sq metre)', 'Hectare', 'Square Feet', 'Square Metres', 'Square Miles']; // TODO -
   selectSeedTemplate = true;
@@ -63,7 +64,7 @@ export class NewCyclePage {
       cropId: ['', Validators.required],
       cropImagePath: ['', Validators.required],
       landUnit: ['', Validators.required],
-      landQuantity: ['', Validators.required],
+      landQuantity: ['', [Validators.required, RangeValidator]],
       datePlanted: [new Date().toISOString(), Validators.required],
       harvested: [0.0, Validators.required],
       ongoing: [true, Validators.required]
@@ -72,7 +73,7 @@ export class NewCyclePage {
 
   ionViewWillEnter(){
     this.callback = this.navParams.get('callback');
-    
+
   }
 
   ionViewDidLoad() {
@@ -121,7 +122,7 @@ export class NewCyclePage {
               this.seeds.push(plantMaterial);
             }
             console.log(data);
-          } 
+          }
         }
       ]
     });
