@@ -20,10 +20,13 @@
 
   <ion-list>
     <ion-item-sliding *ngFor="let labourer of labourerListing | filter: searchLabourer">
-      <ion-item (click)="assignTask(labourer)">
+      <ion-item>
         <h2>{{labourer.firstName}} {{labourer.lastName}}</h2>
+        <ion-icon name="clipboard" (click)="assignTask(labourer)" item-end></ion-icon>
+        <ion-icon name="call" item-end class="phone"></ion-icon>
       </ion-item>
-      <ion-item-options side="left">
+
+      <!-- <ion-item-options side="left">
           <button ion-button color="primary">
             <ion-icon name="text"></ion-icon>
             Text
@@ -32,7 +35,7 @@
             <ion-icon name="call"></ion-icon>
             Call
           </button>
-        </ion-item-options>
+      </ion-item-options> -->
     </ion-item-sliding>
   </ion-list>
 
