@@ -20,7 +20,7 @@ import { ReportListingPage } from '../report-listing/report-listing';
 export class ReportsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
-    
+
   }
 
   generateStandardReport(){
@@ -33,7 +33,7 @@ export class ReportsPage {
   }
 
   generateADBReport(){
-    this.reportCreator.generateADBOutflowReport(this.cycleManager).then((data) => {
+    this.reportCreator.generateADBOutflowReport().then((data) => {
       let dataString = JSON.stringify(data);
       let adbData = { 'tableData': dataString };
       this.navCtrl.push(ReportListingPage, adbData);

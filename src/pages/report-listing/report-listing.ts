@@ -59,7 +59,7 @@ export class ReportListingPage {
     if(dataString != null){
       this.dataList = JSON.parse(dataString);
       //Create an excel spreadsheet with the data supplied;
-      this.reportCreator.createExcelSpreadSheet(this.dataList).then((result) => {
+      this.reportCreator.createExcelSpreadSheet(this.dataList[0],this.dataList[1],this.dataList[2],this.dataList[3]).then((result) => {
         console.log('File successfully created');
         this.updateFileList();
       }).catch((error) => {

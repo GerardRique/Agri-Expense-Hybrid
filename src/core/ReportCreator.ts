@@ -10,16 +10,22 @@ import * as XLSX from 'xlsx';
 import {CycleManager} from './CyclesModule/CycleManager';
 import {DataManagerFactory} from './DataManagerFactory';
 import {MaterialUseManager} from './MaterialUseManager';
+import {PurchaseManager} from './PurchaseManager';
+import {SaleManager} from './SaleManager';
+import {HarvestManager} from './HarvestManager';
 
 @Injectable()
 export class ReportCreator {
 
   ws: XLSX.WorkSheet;
+  ws1: XLSX.WorkSheet;
+  ws2: XLSX.WorkSheet;
+  ws3: XLSX.WorkSheet;
   wb: XLSX.WorkBook;
   wbout: string;
   readonly directory: string = "AgriExpense";
 
-  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager) {
+  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager, private purchaseManager: PurchaseManager, private saleManager: SaleManager, private harvestManager: HarvestManager) {
     this.wb = XLSX.utils.book_new();
   }
 
@@ -71,22 +77,120 @@ export class ReportCreator {
     });
   }
 
-  public generateADBOutflowReport(cycleManager: CycleManager): Promise<Array<Array<string>>> {
-    const records = Array<Array<string>>();
+  public generateADBOutflowReport(): Promise<Array<Array<Array<string>>>>{
+    const recordsGroup = Array<Array<Array<string>>>();
+    const transactions = Array<Array<string>>();
+    const income = Array<Array<string>>();
+    const inventory = Array<Array<string>>();
+    const byMonthSummary = Array<Array<string>>();
+
+    let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (dd-mm-yy)'];
+    income.push(incomeHeadings);
+    let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (dd-mm-yy)'];
+    inventory.push(inventoryHeadings);
+    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','Total Used'];
+    byMonthSummary.push(byMonthSummaryHeadings);
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
 
+// ------------------------------------- Income --------------------------------------------
+    this.saleManager.getAll().then((saleListing) => {
+      let count2 = 1;
+      saleListing.forEach((sale) => {
+        console.log(sale);
+        let noString2 = count2 + "";
+        count2 += 1;
+        this.harvestManager.get(sale['harvestId']).then((harvest) =>{
+          console.log(harvest);
+          this.cycleManager.get(sale['cycleId']).then((cycle) =>{
+
+            let areaOfLand = cycle['landQuantity'];
+            const landUnit = cycle['landUnit'];
+
+            // Acre to Hectare
+            if (landUnit.localeCompare('Acre') === 0) {
+              areaOfLand *= 0.404686;
+            }
+            // Square Meter to Hectare
+            else if (landUnit.localeCompare('Bed (sq metre)') === 0){
+              areaOfLand *= 0.00001;
+            }
+            else if (landUnit.localeCompare('Square Metres') === 0){
+              areaOfLand *= 0.00001;
+            }
+            // 107640 sqft = 1 Ha
+            else if (landUnit.localeCompare('Square Feet')  === 0){
+              areaOfLand /= 107640;
+            }
+            // 1 Ha = 260 sq miles
+            else if (landUnit.localeCompare('Square Miles')  === 0){
+              areaOfLand *= 260;
+            }
+
+            areaOfLand = Number.parseFloat(areaOfLand).toFixed(2); // (2)
+            const areaOfLandString = areaOfLand + "";
+
+            const row2 = [
+              noString2,
+              sale['crop'],
+              areaOfLandString,
+              harvest['quantityHarvested'],
+              harvest['unitsHarvested'],
+              sale['quantityOfUnitsSold'],
+              sale['unitsSoldBy'],
+              sale['dateSold'].slice(0,10)
+            ];
+
+            income.push(row2);
+          })
+        })
+      })
+    })
+// --------------------------------------------------------------------------------------------
+
+// ------------------------------------- Inventory --------------------------------------------
+    this.purchaseManager.getAll().then((purchaseListing) => {
+      let count1 = 1;
+
+      purchaseListing.forEach((purchase) =>{
+        let noString1 = count1 + "";
+        count1 += 1;
+        let valueInStock = purchase['cost']*purchase['quantityRemaining'];
+        // let date = new Date(purchase['datePurchased']);
+        // let dd = date.getDate();
+        // let mm = date.getMonth()+1;
+        // let yyyy = date.getFullYear();
+        // date = dd+'-'+mm+'-'+yyyy;
+        // console.log(date);
+        this.materialUseManager.get(purchase['typeId']).then((material) => {
+          const row1 = [
+            noString1,
+            material['name'],
+            purchase['materialName'],
+            purchase['quantityPurchased'],
+            purchase['units'],
+            purchase['cost'],
+            purchase['quantityRemaining'],
+            valueInStock,
+            purchase['datePurchased'].slice(0,10)
+          ];
+
+          inventory.push(row1);
+        })
+      })
+    })
+// --------------------------------------------------------------------------------------------
+
+// ------------------------------------ Transactions ------------------------------------------
     let cycleDataMap = new Map<string, Array<Object>>();
     // Current retrieves all of the cycles available in the database - //TODO - Need to provide interface for user to specify timeframe
     return this.cycleManager.getAll().then((cycleListing) => {
-      let headings = ['No.', 'Crop', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Beginning Month', 'Beginning Year'];
-      let subHeadings = ['No.', 'Crop', 'Input Description', 'QtyPerArea', 'Area', 'UnitCPrice', 'Outflows', 'Beginning Month', 'Beginning Year'];
+      let transactionsHeadings = ['No.', 'Crops', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Date Entered (dd-mm-yy)'];
       let count = 1;
 
       const materialUsedPromises = [];
 
-      records.push(headings);
-      records.push(subHeadings);
+      transactions.push(transactionsHeadings);
 
       // For each cycle, retrieve the materials used
       cycleListing.forEach((cycle) => {
@@ -95,7 +199,7 @@ export class ReportCreator {
           cycleDataMap.set(cycle['id'], materialUseList);
         }));
       });
-
+      // console.log(materialUsedPromises);
       // When all of the promises (to retrieve materials) are successfully processed
       return Promise.all(materialUsedPromises).then(() => {
         let CycleRecordPromises = [];
@@ -152,17 +256,24 @@ export class ReportCreator {
                 monthlyExpense // Monthly Expense (in soles)
               ];
 
-              records.push(row);
+              transactions.push(row);
             }));
 
           });
         });
         return Promise.all(CycleRecordPromises).then(() => {
-          return records;
+          // console.log(records);
+          recordsGroup.push(transactions);
+          recordsGroup.push(income);
+          recordsGroup.push(inventory);
+          recordsGroup.push(byMonthSummary);
+          console.log(recordsGroup)
+          return recordsGroup;
         });
       })
 
     })
+// --------------------------------------------------------------------------------------------
   }
 
   public getPurchases(materialList: Array<Object>): Promise<Array<Object>> {
@@ -253,12 +364,16 @@ export class ReportCreator {
     });
   }
 
-  public createExcelSpreadSheet(data: Array<Array<any>>): Promise<boolean> {
+  public createExcelSpreadSheet(data: Array<Array<any>>,data1: Array<Array<any>>,data2: Array<Array<any>>,data3: Array<Array<any>>): Promise<boolean> {
     this.ws = XLSX.utils.aoa_to_sheet(data);
-
+    this.ws1 = XLSX.utils.aoa_to_sheet(data1);
+    this.ws2 = XLSX.utils.aoa_to_sheet(data2);
+    this.ws3 = XLSX.utils.aoa_to_sheet(data3);
     this.wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(this.wb, this.ws, 'Sheet1');
-
+    XLSX.utils.book_append_sheet(this.wb, this.ws, 'Transactions');
+    XLSX.utils.book_append_sheet(this.wb, this.ws1, 'Income');
+    XLSX.utils.book_append_sheet(this.wb, this.ws2, 'Inventory');
+    XLSX.utils.book_append_sheet(this.wb, this.ws3, 'ByMonthSummary');
     this.wbout = XLSX.write(this.wb, {bookType: 'xlsx', type: 'array'});
 
     console.log('Creating excel...');
