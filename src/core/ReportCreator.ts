@@ -88,20 +88,41 @@ export class ReportCreator {
     income.push(incomeHeadings);
     let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (dd-mm-yy)'];
     inventory.push(inventoryHeadings);
-    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','Total Used'];
+    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Report Start Date (dd-mm-yy)','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','Total Used'];
     byMonthSummary.push(byMonthSummaryHeadings);
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
+
+
+// ------------------------------------- ByMonthSummary --------------------------------------------
+    this.cycleManager.getAll().then((cycleListing) => {
+      let count3 = 1;
+      cycleListing.forEach((cycle) => {
+        let noString3 = count3 + "";
+        count3 += 1;
+
+        const row3 = [
+          noString3,
+          cycle['crop'],
+          cycle['datePlanted'].slice(0,10),
+          cycle['datePlanted'].slice(0,10)
+        ];
+
+        byMonthSummary.push(row3);
+      })
+    })
+
+// -------------------------------------------------------------------------------------------------
 
 // ------------------------------------- Income --------------------------------------------
     this.saleManager.getAll().then((saleListing) => {
       let count2 = 1;
       saleListing.forEach((sale) => {
-        console.log(sale);
+        // console.log(sale);
         let noString2 = count2 + "";
         count2 += 1;
         this.harvestManager.get(sale['harvestId']).then((harvest) =>{
-          console.log(harvest);
+          // console.log(harvest);
           this.cycleManager.get(sale['cycleId']).then((cycle) =>{
 
             let areaOfLand = cycle['landQuantity'];
@@ -208,7 +229,7 @@ export class ReportCreator {
           let materialUseListing = cycleDataMap.get(cycle['id']);
           materialUseListing.forEach((materialUse) => {
             console.log("Processing: " + JSON.stringify(materialUse));
-
+            // console.log(materialUse);
             let noString = count + "";
             count += 1;
 
@@ -245,7 +266,7 @@ export class ReportCreator {
 
             // Request the meta data for this material record. When the data is retrieved, build the row and add to list of records
             CycleRecordPromises.push(this.materialUseManager.get(materialUse['materialId']).then((material) => {
-              //
+
               const row = [
                 noString, // No.
                 cycle['crop'], // Crop
@@ -253,7 +274,8 @@ export class ReportCreator {
                 quantityPerAreaString, // Quantity per Ha (1).
                 areaOfLandString, // Area Exploited in (Ha.s) (2)
                 costPerMaterial, // Price in Soles/Unit (3)
-                monthlyExpense // Monthly Expense (in soles)
+                monthlyExpense, // Monthly Expense (in soles)
+                materialUse['dateUsed'].slice(0,10)
               ];
 
               transactions.push(row);
