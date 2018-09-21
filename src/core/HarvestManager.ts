@@ -20,7 +20,7 @@ export class HarvestManager extends MeasurableDataManager{
 
         this.DATA_ID = "Harvest";
 
-        this.unitList = ["100's", "5lb Bundle", "Bags", "Bundles", "Heads", "Kilograms(Kg)", "pounds(lb)"];
+        this.unitList = ["5lb Bundle", "Kilograms(Kg)", "pounds(lb)"];
 
         this.dataList = [];
     }

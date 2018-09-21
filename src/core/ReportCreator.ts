@@ -100,7 +100,6 @@ export class ReportCreator {
       cycleListing.forEach((cycle) => {
         let noString3 = count3 + "";
         count3 += 1;
-
         const row3 = [
           noString3,
           cycle['crop'],
@@ -110,7 +109,11 @@ export class ReportCreator {
 
         byMonthSummary.push(row3);
       })
+      this.materialUseManager.getAll().then((material) => {
+        console.log(material);
+      })
     })
+
 
 // -------------------------------------------------------------------------------------------------
 
@@ -157,7 +160,7 @@ export class ReportCreator {
             }else if (harvest['unitsHarvested'].localeCompare('Kilograms(Kg)')){
               yieldTonnes *= 0.001;
             }else {
-              yieldTonnes *= 0.000453592;
+              yieldTonnes *= 0.000453592 * 5;
             }
             yieldTonnes = yieldTonnes.toFixed(6);
 
@@ -167,7 +170,7 @@ export class ReportCreator {
             }else if (sale['unitsSoldBy'].localeCompare('Kilograms(Kg)')){
               saleTonnes *= 0.001;
             }else {
-              saleTonnes *= 0.000453592;
+              saleTonnes *= 0.000453592 * 5;
             }
             saleTonnes = saleTonnes.toFixed(6);
 
@@ -177,6 +180,7 @@ export class ReportCreator {
             }else if (sale['unitsSoldBy'].localeCompare('Kilograms(Kg)')){
               salePerTonnes *= 1000;
             }else {
+              salePerTonnes /= 5;
               salePerTonnes *= 2204.62;
             }
             salePerTonnes = salePerTonnes.toFixed(2);

@@ -61,7 +61,7 @@ export class NewHarvestPage {
       cropId: [selectedCropId, Validators.required],
       crop: [selectedCrop, Validators.required],
       quantityHarvested: ['', [Validators.required, RangeValidator]],
-      unitsHarvested: ['Bags', Validators.required],
+      unitsHarvested: ['pounds(lb)', Validators.required],
       dateHarvested: [new Date().toISOString(), Validators.required]
     });
   }
