@@ -151,15 +151,48 @@ export class ReportCreator {
             areaOfLand = Number.parseFloat(areaOfLand).toFixed(2); // (2)
             const areaOfLandString = areaOfLand + "";
 
+            let yieldTonnes = harvest['quantityHarvested'];
+            if (harvest['unitsHarvested'].localeCompare('pounds(lb)')){
+              yieldTonnes *= 0.000453592;
+            }else if (harvest['unitsHarvested'].localeCompare('Kilograms(Kg)')){
+              yieldTonnes *= 0.001;
+            }else {
+              yieldTonnes *= 0.000453592;
+            }
+            yieldTonnes = yieldTonnes.toFixed(6);
+
+            let saleTonnes = sale['quantityOfUnitsSold'];
+            if (sale['unitsSoldBy'].localeCompare('pounds(lb)')){
+              saleTonnes *= 0.000453592;
+            }else if (sale['unitsSoldBy'].localeCompare('Kilograms(Kg)')){
+              saleTonnes *= 0.001;
+            }else {
+              saleTonnes *= 0.000453592;
+            }
+            saleTonnes = saleTonnes.toFixed(6);
+
+            let salePerTonnes = sale['costPerunit'];
+            if (sale['unitsSoldBy'].localeCompare('pounds(lb)')){
+              salePerTonnes *= 2204.62;
+            }else if (sale['unitsSoldBy'].localeCompare('Kilograms(Kg)')){
+              salePerTonnes *= 1000;
+            }else {
+              salePerTonnes *= 2204.62;
+            }
+            salePerTonnes = salePerTonnes.toFixed(2);
+
             const row2 = [
               noString2,
-              sale['crop'],
-              areaOfLandString,
-              harvest['quantityHarvested'],
-              harvest['unitsHarvested'],
-              sale['quantityOfUnitsSold'],
-              sale['unitsSoldBy'],
-              sale['dateSold'].slice(0,10)
+              sale['crop'], // crop name
+              areaOfLandString,//Area exploited in (Ha.s)
+              harvest['quantityHarvested'],// total yield recorded
+              harvest['unitsHarvested'], // yield unit
+              yieldTonnes,// yield in tonnes
+              sale['quantityOfUnitsSold'], //Sale recorded
+              sale['unitsSoldBy'], // sale unit
+              saleTonnes,//sale in tonnes
+              salePerTonnes,
+              sale['dateSold'].slice(0,10) // date sold
             ];
 
             income.push(row2);
@@ -396,6 +429,44 @@ export class ReportCreator {
     XLSX.utils.book_append_sheet(this.wb, this.ws1, 'Income');
     XLSX.utils.book_append_sheet(this.wb, this.ws2, 'Inventory');
     XLSX.utils.book_append_sheet(this.wb, this.ws3, 'ByMonthSummary');
+    this.wbout = XLSX.write(this.wb, {bookType: 'xlsx', type: 'array'});
+
+    console.log('Creating excel...');
+
+    let blob: Blob = new Blob([this.wbout]);
+
+    let filename = new Date().toDateString();
+
+    let expression = / /gi;
+
+    filename = filename.replace(expression, '-');
+
+    filename += '.xlsx';
+    console.log(filename);
+
+    if (this.platform.is('core') || this.platform.is('mobileweb')) {
+      console.log('Saving file in browser...');
+      return this.saveInBrowser(blob, filename);
+    }
+    else {
+      if (this.platform){
+        console.log('Saving file on device...');
+        return this.saveOnDevice(blob, filename).then((result) => {
+          return result;
+        }).catch((error) => {
+          return false;
+        });
+      }else{
+        return this.saveInBrowser(blob, filename);
+      }
+
+    }
+  }
+
+  public createExcelSpreadSheet1(data: Array<Array<any>>): Promise<boolean> {
+    this.ws = XLSX.utils.aoa_to_sheet(data);
+    this.wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(this.wb, this.ws, 'Standard Report');
     this.wbout = XLSX.write(this.wb, {bookType: 'xlsx', type: 'array'});
 
     console.log('Creating excel...');
