@@ -12,7 +12,7 @@ export class ReportModalPage {
   endDate: any;
   check: boolean;
   check2: boolean;
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
   }
 
@@ -25,8 +25,9 @@ export class ReportModalPage {
   dismiss() {
     let startDate1 = new Date(this.startDate);
     let endDate1 = new Date(this.endDate);
-
-    if (endDate1 < startDate1){
+    console.log(startDate1);
+    console.log(endDate1);
+    if (endDate1 < startDate1 || startDate1.toDateString() === endDate1.toDateString()){
       this.check2 = true;
     }else if(this.endDate == null || this.startDate == null){
       this.check = true;
