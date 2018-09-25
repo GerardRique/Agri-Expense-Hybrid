@@ -77,7 +77,10 @@ export class ReportCreator {
     });
   }
 
-  public generateADBOutflowReport(): Promise<Array<Array<Array<string>>>>{
+  public generateADBOutflowReport(startDate: any, endDate: any): Promise<Array<Array<Array<string>>>>{
+    console.log(startDate);
+    console.log(endDate);
+
     const recordsGroup = Array<Array<Array<string>>>();
     const transactions = Array<Array<string>>();
     const income = Array<Array<string>>();
@@ -93,7 +96,8 @@ export class ReportCreator {
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
 
-
+    let endDate1 = new Date(endDate);
+    let startDate1 = new Date(startDate);
 // ------------------------------------- ByMonthSummary --------------------------------------------
     this.cycleManager.getAll().then((cycleListing) => {
       let count3 = 1;
@@ -106,11 +110,12 @@ export class ReportCreator {
           cycle['datePlanted'].slice(0,10),
           cycle['datePlanted'].slice(0,10)
         ];
-
-        byMonthSummary.push(row3);
+        let newDate = new Date(cycle['datePlanted']);
+        if (newDate > startDate1 && newDate < endDate1)
+          byMonthSummary.push(row3);
       })
       this.materialUseManager.getAll().then((material) => {
-        console.log(material);
+        // console.log(material);
       })
     })
 
@@ -198,8 +203,10 @@ export class ReportCreator {
               salePerTonnes,
               sale['dateSold'].slice(0,10) // date sold
             ];
+            let newDate = new Date(sale['dateSold']);
+            if (newDate > startDate1 && newDate < endDate1)
+              income.push(row2);
 
-            income.push(row2);
           })
         })
       })
@@ -232,8 +239,10 @@ export class ReportCreator {
             valueInStock,
             purchase['datePurchased'].slice(0,10)
           ];
+          let newDate = new Date(purchase['datePurchased']);
+          if (newDate > startDate1 && newDate < endDate1)
+            inventory.push(row1);
 
-          inventory.push(row1);
         })
       })
     })
@@ -314,8 +323,10 @@ export class ReportCreator {
                 monthlyExpense, // Monthly Expense (in soles)
                 materialUse['dateUsed'].slice(0,10)
               ];
+              let newDate = new Date(materialUse['dateUsed']);
+              if (newDate > startDate1 && newDate < endDate1)
+                transactions.push(row);
 
-              transactions.push(row);
             }));
 
           });

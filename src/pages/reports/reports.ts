@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ReportCreator } from '../../core/ReportCreator';
 import { LabourManager } from '../../core/LabourManager';
 import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { ReportListingPage } from '../report-listing/report-listing';
-
+import { ReportModalPage } from '../report-modal/report-modal';
 /**
  * Generated class for the ReportsPage page.
  *
@@ -19,7 +19,7 @@ import { ReportListingPage } from '../report-listing/report-listing';
 })
 export class ReportsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public reportCreator: ReportCreator, public labourManager: LabourManager, public cycleManager: CycleManager) {
 
   }
 
@@ -33,11 +33,21 @@ export class ReportsPage {
   }
 
   generateADBReport(){
-    this.reportCreator.generateADBOutflowReport().then((data) => {
-      let dataString = JSON.stringify(data);
-      let adbData = { 'tableData': dataString };
-      this.navCtrl.push(ReportListingPage, adbData);
+    this.navCtrl.pop();
+    let modal = this.modalCtrl.create(ReportModalPage);
+    modal.onDidDismiss(data=> {
+      if (data.check){
+        this.reportCreator.generateADBOutflowReport(data.startDate,data.endDate).then((data) => {
+          let dataString = JSON.stringify(data);
+          let adbData = { 'tableData': dataString };
+          this.navCtrl.pop();
+          this.navCtrl.push(ReportListingPage, adbData);
+        });
+      }else{
+
+      }
     });
+    modal.present();
   }
 
 }

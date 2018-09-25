@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar color="myGreen">
+    <ion-title>Choose Date Range</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="close()">
+        <span ion-text showWhen="ios">Close</span>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="close()">
+        <span ion-text showWhen="android,windows">Close</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Start Date</ion-label>
+    <ion-datetime displayFormat="MMMM YYYY" [(ngModel)]="startDate" placeholder="Choose Start Date"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>End Date</ion-label>
+    <ion-datetime displayFormat="MMMM YYYY" [(ngModel)]="endDate" placeholder="Choose End Date"></ion-datetime>
+  </ion-item>
+  <div padding>
+    <p class="check1" *ngIf="check">All fields are required.</p>
+    <p class="check1" *ngIf="check2">Start Date must occur before End Date</p>
+    <p class="note">NB: End Date must be the following month. For example if you want to generate a report from September 2017 to September 2018, the start date must be September 2017 and the end date must be October 2018.</p>
+  </div>
+  <button ion-button block outline (click)="dismiss()" color="myGreen">Generate ADB Report</button>
+</ion-content>
