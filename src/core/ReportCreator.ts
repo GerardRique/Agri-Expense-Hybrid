@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 import {CycleManager} from './CyclesModule/CycleManager';
 import {DataManagerFactory} from './DataManagerFactory';
 import {MaterialUseManager} from './MaterialUseManager';
+import {MaterialManager} from './MaterialManager';
 import {PurchaseManager} from './PurchaseManager';
 import {SaleManager} from './SaleManager';
 import {HarvestManager} from './HarvestManager';
@@ -25,7 +26,7 @@ export class ReportCreator {
   wbout: string;
   readonly directory: string = "AgriExpense";
 
-  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager, private purchaseManager: PurchaseManager, private saleManager: SaleManager, private harvestManager: HarvestManager) {
+  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager, private purchaseManager: PurchaseManager, private saleManager: SaleManager, private harvestManager: HarvestManager, private materialManager: MaterialManager) {
     this.wb = XLSX.utils.book_new();
   }
 
@@ -77,50 +78,137 @@ export class ReportCreator {
     });
   }
 
+  public generateByMonthSummary(startDate: any, endDate: any): Promise<Array<Array<string>>>{
+    let endDate1 = new Date(endDate);
+    let startDate1 = new Date(startDate);
+
+    let sYear = startDate1.getFullYear();
+    let sDate = startDate1.getDate();
+    let sMonth = startDate1.getMonth();
+    sMonth += 1;
+    let fsDate = "";
+    let fsMonth = "";
+
+    if (sDate < 10) {
+      fsDate = "0" + sDate;
+    }else fsDate = sDate.toString();
+
+    if (sMonth < 10) {
+      fsMonth = "0" + sMonth;
+    }else fsMonth = sMonth.toString();
+
+    let startDate2 = sYear+"-"+fsMonth+"-"+fsDate;
+
+    const byMonthSummary = Array<Array<any>>();
+
+    const dateArray = Array<Array<number>>();
+    const sumArray = Array<number>();
+
+    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)'];
+
+    let cDate = new Date();
+    let cYear = cDate.getFullYear();
+    let cMonth = cDate.getMonth();
+    cMonth += 1;
+    let tempMonth = sMonth;
+    let tempYear = sYear;
+    while (tempYear != cYear || tempMonth != cMonth){
+      if (tempMonth>12){
+        tempMonth = 1;
+        tempYear += 1;
+      }
+      let dd = [tempMonth+1,tempYear];
+      dateArray.push(dd);
+      let tm = tempMonth+1;
+      byMonthSummaryHeadings.push(tm+"-"+tempYear);
+      tempMonth+=1;
+    }
+    sumArray.length=dateArray.length;
+    // console.log(sumArray.length);
+    for(let i=0;i<sumArray.length;i++) sumArray[i]=0;
+    // console.log(dateArray);
+    byMonthSummaryHeadings.push("Total Cost");
+    byMonthSummary.push(byMonthSummaryHeadings);
+
+    let CycleRecordPromises = [];
+    return this.cycleManager.getAll().then((cycleListing) => {
+      return this.materialManager.getAll().then((materialList) => {
+        CycleRecordPromises.push(this.materialUseManager.getAll().then((materialListing) => {
+          let count3 = 1;
+          let subCount = 0;
+          cycleListing.forEach((cycle) => {
+            let newDate = new Date(cycle['datePlanted']);
+            if (newDate > startDate1 && newDate < endDate1) {
+
+                materialList.forEach((material) => {
+                    materialListing.forEach((item) => {
+                      if (item['materialId'].localeCompare(material['id'])==0 && cycle['id'].localeCompare(item['cycleId'])==0){
+                        let dateUsed = new Date(item['dateUsed']);
+                        let tMonth = dateUsed.getMonth();
+                        tMonth+=1;
+                        let tYear = dateUsed.getFullYear();
+                        for (let i = 0;i<dateArray.length;i++){
+                          if ( tMonth == dateArray[i][0] && tYear == dateArray[i][1]){
+                            sumArray[i] += item['totalCost'];
+                          }
+                        }
+                      }
+                    })
+                    let noString3 = "";
+                    subCount += 1;
+                    if (subCount%5 == 0) count3 += 1;
+                    if(subCount%5 == 1) noString3 = count3 + "";
+                    if (!(material['name'].localeCompare('Other expenses')==0)) {
+                      let row3 = [
+                        noString3, // cycle number count
+                        cycle['crop'], // cycle crop, you can change it to cycle['name'] if it is more approriate
+                        cycle['datePlanted'].slice(0,10), // date cycle was planted
+                        material['name'], // name of type of material used (eg. chemical, fertilizer, etc.)
+                        startDate2 // start date of report being created
+                      ];
+                      let totalSum = 0;
+
+                      for (let i = 0;i<sumArray.length; i++){
+                        row3.push(sumArray[i]); // pushes sum of total money spent on a particular month for each month in the period specified
+                        totalSum += sumArray[i];
+                      }
+                      row3.push(totalSum); // pushes total sum of all money spent in the entire period specified
+                      byMonthSummary.push(row3); // pushes row of data to byMonthSummary table
+                    }
+                    for(let i=0;i<sumArray.length;i++) sumArray[i]=0;
+
+
+                })
+
+            }
+          })
+        }))
+        return Promise.all(CycleRecordPromises).then(() => {
+          return byMonthSummary;
+        });
+      })
+    })
+
+  }
+
   public generateADBOutflowReport(startDate: any, endDate: any): Promise<Array<Array<Array<string>>>>{
-    console.log(startDate);
-    console.log(endDate);
+
+    let endDate1 = new Date(endDate);
+    let startDate1 = new Date(startDate);
 
     const recordsGroup = Array<Array<Array<string>>>();
     const transactions = Array<Array<string>>();
     const income = Array<Array<string>>();
     const inventory = Array<Array<string>>();
-    const byMonthSummary = Array<Array<string>>();
 
     let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (dd-mm-yy)'];
     income.push(incomeHeadings);
     let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (dd-mm-yy)'];
     inventory.push(inventoryHeadings);
-    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Report Start Date (dd-mm-yy)','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','Total Used'];
-    byMonthSummary.push(byMonthSummaryHeadings);
+
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
 
-    let endDate1 = new Date(endDate);
-    let startDate1 = new Date(startDate);
-// ------------------------------------- ByMonthSummary --------------------------------------------
-    this.cycleManager.getAll().then((cycleListing) => {
-      let count3 = 1;
-      cycleListing.forEach((cycle) => {
-        let noString3 = count3 + "";
-        count3 += 1;
-        const row3 = [
-          noString3,
-          cycle['crop'],
-          cycle['datePlanted'].slice(0,10),
-          cycle['datePlanted'].slice(0,10)
-        ];
-        let newDate = new Date(cycle['datePlanted']);
-        if (newDate > startDate1 && newDate < endDate1)
-          byMonthSummary.push(row3);
-      })
-      this.materialUseManager.getAll().then((material) => {
-        // console.log(material);
-      })
-    })
-
-
-// -------------------------------------------------------------------------------------------------
 
 // ------------------------------------- Income --------------------------------------------
     this.saleManager.getAll().then((saleListing) => {
@@ -332,13 +420,14 @@ export class ReportCreator {
           });
         });
         return Promise.all(CycleRecordPromises).then(() => {
-          // console.log(records);
-          recordsGroup.push(transactions);
-          recordsGroup.push(income);
-          recordsGroup.push(inventory);
-          recordsGroup.push(byMonthSummary);
-          console.log(recordsGroup)
-          return recordsGroup;
+            return this.generateByMonthSummary(startDate,endDate).then((summary)=>{
+              recordsGroup.push(transactions);
+              recordsGroup.push(income);
+              recordsGroup.push(inventory);
+              recordsGroup.push(summary);
+              console.log(recordsGroup);
+              return recordsGroup;
+            })
         });
       })
 
@@ -450,7 +539,8 @@ export class ReportCreator {
 
     let blob: Blob = new Blob([this.wbout]);
 
-    let filename = new Date().toDateString();
+    let filename = "adb_report_";
+    filename += new Date().toDateString();
 
     let expression = / /gi;
 
@@ -488,7 +578,8 @@ export class ReportCreator {
 
     let blob: Blob = new Blob([this.wbout]);
 
-    let filename = new Date().toDateString();
+    let filename = "s_report_";
+    filename += new Date().toDateString();
 
     let expression = / /gi;
 

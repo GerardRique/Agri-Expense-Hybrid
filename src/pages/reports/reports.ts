@@ -26,6 +26,12 @@ export class ReportsPage {
   generateStandardReport(){
     this.reportCreator.getCycleSpreadsheetData(this.cycleManager).then((cycleData) => {
       let dataString = JSON.stringify(cycleData);
+      this.reportCreator.createExcelSpreadSheet1(JSON.parse(dataString)).then((result) => {
+        console.log('standard report');
+        console.log('File successfully created');
+      }).catch((error) => {
+        console.log(JSON.stringify(error));
+      });
       let data = { 'tableData': dataString };
       this.navCtrl.push(ReportListingPage, data);
     });
@@ -37,11 +43,20 @@ export class ReportsPage {
     let modal = this.modalCtrl.create(ReportModalPage);
     modal.onDidDismiss(data=> {
       if (data.check){
-        this.reportCreator.generateADBOutflowReport(data.startDate,data.endDate).then((data) => {
-          let dataString = JSON.stringify(data);
-          let adbData = { 'tableData': dataString };
+        this.reportCreator.generateADBOutflowReport(data.startDate,data.endDate).then((data1) => {
+          // let dataString = JSON.stringify(data1[2][1]);
+          // let dataList = JSON.parse(dataString);
+          // console.log(data1[3]);
+          this.reportCreator.createExcelSpreadSheet(data1[0],data1[1],data1[2],data1[3]).then((result) => {
+            console.log('adb report');
+            console.log('File successfully created');
+          }).catch((error) => {
+            console.log(JSON.stringify(error));
+          });
+
+          // let adbData = { 'tableData': dataString };
           this.navCtrl.pop();
-          this.navCtrl.push(ReportListingPage, adbData);
+          this.navCtrl.push(ReportListingPage);
         });
       }else{
 

@@ -52,31 +52,31 @@ export class ReportListingPage {
   }
 
   ionViewDidEnter(){
-    let dataString = this.navParams.get('tableData');
+    // let dataString = this.navParams.get('tableData');
 
     this.updateFileList();
 
-    if(dataString != null){
-      this.dataList = JSON.parse(dataString);
-      //Create an excel spreadsheet with the data supplied;
-      if (this.dataList.length == 2){
-        console.log('standard report');
-        this.reportCreator.createExcelSpreadSheet1(this.dataList).then((result) => {
-          console.log('File successfully created');
-          this.updateFileList();
-        }).catch((error) => {
-          console.log(JSON.stringify(error));
-        });
-      }else {
-        console.log('adb report');
-        this.reportCreator.createExcelSpreadSheet(this.dataList[0],this.dataList[1],this.dataList[2],this.dataList[3]).then((result) => {
-          console.log('File successfully created');
-          this.updateFileList();
-        }).catch((error) => {
-          console.log(JSON.stringify(error));
-        });
-      }
-    }
+    // if(dataString != null){
+    //   this.dataList = JSON.parse(dataString);
+    //   //Create an excel spreadsheet with the data supplied;
+    //   if (!check){
+    //     console.log('standard report');
+    //     this.reportCreator.createExcelSpreadSheet1(this.dataList).then((result) => {
+    //       console.log('File successfully created');
+    //       this.updateFileList();
+    //     }).catch((error) => {
+    //       console.log(JSON.stringify(error));
+    //     });
+    //   }else {
+    //     console.log('adb report');
+    //     this.reportCreator.createExcelSpreadSheet(this.dataList[0],this.dataList[1],this.dataList[2],this.dataList[3]).then((result) => {
+    //       console.log('File successfully created');
+    //       this.updateFileList();
+    //     }).catch((error) => {
+    //       console.log(JSON.stringify(error));
+    //     });
+    //   }
+    // }
   }
 
   public updateFileList(){

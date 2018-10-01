@@ -25,12 +25,10 @@ export class ReportModalPage {
   dismiss() {
     let startDate1 = new Date(this.startDate);
     let endDate1 = new Date(this.endDate);
-    console.log(startDate1);
-    console.log(endDate1);
-    if (endDate1 < startDate1 || startDate1.toDateString() === endDate1.toDateString()){
-      this.check2 = true;
-    }else if(this.endDate == null || this.startDate == null){
+    if (this.endDate == null || this.startDate == null){
       this.check = true;
+    }else if(endDate1 < startDate1 || startDate1.toDateString() === endDate1.toDateString()){
+      this.check2 = true;
     }else {
       this.viewCtrl.dismiss({
         startDate: this.startDate,
