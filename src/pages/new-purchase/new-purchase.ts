@@ -43,6 +43,8 @@ export class NewPurchasePage {
 
   private measurableDataManager: MeasurableDataManager;
 
+  otherCheck: boolean;
+
   selectedMaterial: string;
 
   materialName: string;
@@ -53,6 +55,7 @@ export class NewPurchasePage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private purchaseManager: PurchaseManager, private dataManagerFactory: DataManagerFactory, private materialManager: MaterialManager, private measurableDataManagerFactory: MeasurableDataManagerFactory, public toastCtrl: ToastController, public alertCtrl: AlertController, private firebase: Firebase) {
+    this.otherCheck = false;
 
     materialManager.retrieveAll().then((list) => {
       this.materialList = list;
@@ -95,7 +98,12 @@ export class NewPurchasePage {
     console.log('ionViewDidLoad NewPurchasePage');
 
     this.navbar.backButtonClick = () => {
-      if(this.submitTemplate.isActive() === true){
+      if (this.submitTemplate.isActive() === true && this.otherCheck === true){
+        this.submitTemplate.deactivate();
+        this.materialListTemplate.activate();
+        this.otherCheck = false;
+      }
+      else if(this.submitTemplate.isActive() === true){
         this.submitTemplate.deactivate();
         this.materialUnitsTemplate.activate();
       }
@@ -114,22 +122,35 @@ export class NewPurchasePage {
   }
 
   selectMaterial(material){
-    this.materialListTemplate.deactivate();
-    this.materialTypeTemplate.activate();
-    this.newPurchase.controls['material'].setValue(material.name);
-    this.selectedMaterial = material.name;
-    this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
-    this.newPurchase.controls['materialId'].setValue(material.id);
+    if(material.name.localeCompare("Other expenses") == 0){
+      this.otherCheck = true;
+      this.newPurchase.controls['typeName'].setValue("");
+      this.newPurchase.controls['units'].setValue("");
+      this.selectedMaterial = material.name;
+      this.newPurchase.controls['material'].setValue(material.name);
+      this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
+      this.newPurchase.controls['materialId'].setValue(material.id);
+      this.newPurchase.controls['typeID'].setValue("other");
+      this.materialListTemplate.deactivate();
+      this.submitTemplate.activate();
+    }else {
+      this.otherCheck = false;
+      this.materialListTemplate.deactivate();
+      this.materialTypeTemplate.activate();
+      this.newPurchase.controls['material'].setValue(material.name);
+      this.selectedMaterial = material.name;
+      this.newPurchase.controls['materialImagePath'].setValue(material.imagePath);
+      this.newPurchase.controls['materialId'].setValue(material.id);
 
-
-    this.measurableDataManager = this.materialManager.getManager(material.name);
-    this.measurableDataManager.getAll().then((list) => {
-      console.log('Successfully retrieved ' + list.length + ' materials');
-      this.materialTypeTemplate.listData = list;
-    });
-    this.measurableDataManager.getUnitsList().then((units) => {
-      this.materialUnitsTemplate.setList(units.slice());
-    })
+      this.measurableDataManager = this.materialManager.getManager(material.name);
+      this.measurableDataManager.getAll().then((list) => {
+        console.log('Successfully retrieved ' + list.length + ' materials');
+        this.materialTypeTemplate.listData = list;
+      });
+      this.measurableDataManager.getUnitsList().then((units) => {
+        this.materialUnitsTemplate.setList(units.slice());
+      })
+    }
   }
 
   presentPromptForMaterialType(){
@@ -180,7 +201,6 @@ export class NewPurchasePage {
 
   goToSubmitTemplate(unit){
     this.materialUnitsTemplate.deactivate();
-    this.newPurchase.controls['cost'].setValue
     this.submitTemplate.activate();
     this.newPurchase.controls['units'].setValue(unit);
     this.unitsOfPurchase = unit;

@@ -38,8 +38,17 @@
   </ng-template>
 
   <ng-template #submitDataTemplate>
-    <h4>Select Quantity of {{materialName}} to be purchased</h4>
+    <h4 *ngIf="!otherCheck">Select Quantity of {{materialName}} to be purchased</h4>
+    <h4 *ngIf="otherCheck">Select {{selectedMaterial}} purchase details</h4>
     <form [formGroup]="newPurchase">
+      <ion-item *ngIf="otherCheck">
+        <ion-label color="primary" stacked>Enter Name of Item Purchased (Required)</ion-label>
+        <ion-input type="text" placeholder="Name" name="name" formControlName="typeName"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="otherCheck">
+        <ion-label color="primary" stacked>Enter Unit of Purchase (Required)</ion-label>
+        <ion-input type="text" placeholder="Unit" name="unit" formControlName="units"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label color="primary" stacked>Quantity ({{unitsOfPurchase}}) (Required)</ion-label>
         <ion-input type="number" placeholder="Quantity of purchased" name="quantity" formControlName="quantity"></ion-input>
@@ -57,6 +66,7 @@
       </ion-fab>
     </form>
   </ng-template>
+
 
   <div *ngIf="materialListTemplate.isActive() === true;then selectMaterialTemplate"></div>
   <div *ngIf="materialTypeTemplate.isActive() === true;then selectMaterialTypeTemplate"></div>

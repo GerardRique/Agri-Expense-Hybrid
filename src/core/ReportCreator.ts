@@ -14,6 +14,7 @@ import {MaterialManager} from './MaterialManager';
 import {PurchaseManager} from './PurchaseManager';
 import {SaleManager} from './SaleManager';
 import {HarvestManager} from './HarvestManager';
+import {TaskManager} from './TaskManager';
 
 @Injectable()
 export class ReportCreator {
@@ -26,7 +27,7 @@ export class ReportCreator {
   wbout: string;
   readonly directory: string = "AgriExpense";
 
-  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager, private purchaseManager: PurchaseManager, private saleManager: SaleManager, private harvestManager: HarvestManager, private materialManager: MaterialManager) {
+  constructor(private platform: Platform, private file: File, private fileOpener: FileOpener, private dataManagerFactory: DataManagerFactory, private toastCtrl: ToastController, private cycleManager: CycleManager, private materialUseManager: MaterialUseManager, private purchaseManager: PurchaseManager, private saleManager: SaleManager, private harvestManager: HarvestManager, private materialManager: MaterialManager, private taskManager: TaskManager) {
     this.wb = XLSX.utils.book_new();
   }
 
@@ -104,7 +105,7 @@ export class ReportCreator {
     const dateArray = Array<Array<number>>();
     const sumArray = Array<number>();
 
-    let byMonthSummaryHeadings = ['No.','Crop (Cycle)','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)'];
+    let byMonthSummaryHeadings = ['No.','Cycle Name','Crop','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)'];
 
     let cDate = new Date();
     let cYear = cDate.getFullYear();
@@ -158,9 +159,10 @@ export class ReportCreator {
                     subCount += 1;
                     if (subCount%5 == 0) count3 += 1;
                     if(subCount%5 == 1) noString3 = count3 + "";
-                    if (!(material['name'].localeCompare('Other expenses')==0)) {
+                    // if (!(material['name'].localeCompare('Other expenses')==0)) {
                       let row3 = [
                         noString3, // cycle number count
+                        cycle['name'],
                         cycle['crop'], // cycle crop, you can change it to cycle['name'] if it is more approriate
                         cycle['datePlanted'].slice(0,10), // date cycle was planted
                         material['name'], // name of type of material used (eg. chemical, fertilizer, etc.)
@@ -174,7 +176,7 @@ export class ReportCreator {
                       }
                       row3.push(totalSum); // pushes total sum of all money spent in the entire period specified
                       byMonthSummary.push(row3); // pushes row of data to byMonthSummary table
-                    }
+                    // }
                     for(let i=0;i<sumArray.length;i++) sumArray[i]=0;
 
 
@@ -209,6 +211,9 @@ export class ReportCreator {
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
 
+    // this.taskManager.getAll().then((taskListing) => {
+    //   console.log(taskListing);
+    // })
 
 // ------------------------------------- Income --------------------------------------------
     this.saleManager.getAll().then((saleListing) => {
