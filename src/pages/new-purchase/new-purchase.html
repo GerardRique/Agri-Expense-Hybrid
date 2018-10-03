@@ -38,8 +38,8 @@
   </ng-template>
 
   <ng-template #submitDataTemplate>
-    <h4 *ngIf="!otherCheck">Select Quantity of {{materialName}} to be purchased</h4>
-    <h4 *ngIf="otherCheck">Select {{selectedMaterial}} purchase details</h4>
+    <h4 *ngIf="!otherCheck">Enter Quantity of {{materialName}} to be purchased</h4>
+    <h4 *ngIf="otherCheck">Enter {{selectedMaterial}} purchase details</h4>
     <form [formGroup]="newPurchase">
       <ion-item *ngIf="otherCheck">
         <ion-label color="primary" stacked>Enter Name of Item Purchased (Required)</ion-label>

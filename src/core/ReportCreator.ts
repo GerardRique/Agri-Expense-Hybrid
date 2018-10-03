@@ -107,9 +107,9 @@ export class ReportCreator {
 
     let byMonthSummaryHeadings = ['No.','Cycle Name','Crop','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)'];
 
-    let cDate = new Date();
-    let cYear = cDate.getFullYear();
-    let cMonth = cDate.getMonth();
+    // let cDate = new Date();
+    let cYear = endDate1.getFullYear();
+    let cMonth = endDate1.getMonth();
     cMonth += 1;
     let tempMonth = sMonth;
     let tempYear = sYear;
@@ -134,60 +134,82 @@ export class ReportCreator {
     let CycleRecordPromises = [];
     return this.cycleManager.getAll().then((cycleListing) => {
       return this.materialManager.getAll().then((materialList) => {
-        CycleRecordPromises.push(this.materialUseManager.getAll().then((materialListing) => {
-          let count3 = 1;
-          let subCount = 0;
-          cycleListing.forEach((cycle) => {
-            let newDate = new Date(cycle['datePlanted']);
-            if (newDate > startDate1 && newDate < endDate1) {
+        return this.taskManager.getAll().then((taskListing) => {
+          CycleRecordPromises.push(this.materialUseManager.getAll().then((materialListing) => {
+            let count3 = 1;
+            let subCount = 0;
+            cycleListing.forEach((cycle) => {
+              let newDate = new Date(cycle['datePlanted']);
+              if (newDate > startDate1 && newDate < endDate1) {
+                  let totalSalary = 0;
+                  taskListing.forEach((task) => {
+                    if (task['cycleId'].localeCompare(cycle['id']==0))
+                      totalSalary += (task['salary']*task['quantity']);
+                  })
 
-                materialList.forEach((material) => {
-                    materialListing.forEach((item) => {
-                      if (item['materialId'].localeCompare(material['id'])==0 && cycle['id'].localeCompare(item['cycleId'])==0){
-                        let dateUsed = new Date(item['dateUsed']);
-                        let tMonth = dateUsed.getMonth();
-                        tMonth+=1;
-                        let tYear = dateUsed.getFullYear();
-                        for (let i = 0;i<dateArray.length;i++){
-                          if ( tMonth == dateArray[i][0] && tYear == dateArray[i][1]){
-                            sumArray[i] += item['totalCost'];
+                  materialList.forEach((material) => {
+                      materialListing.forEach((item) => {
+                        if (item['materialId'].localeCompare(material['id'])==0 && cycle['id'].localeCompare(item['cycleId'])==0){
+                          let dateUsed = new Date(item['dateUsed']);
+                          let tMonth = dateUsed.getMonth();
+                          tMonth+=1;
+                          let tYear = dateUsed.getFullYear();
+                          for (let i = 0;i<dateArray.length;i++){
+                            if ( tMonth == dateArray[i][0] && tYear == dateArray[i][1]){
+                              sumArray[i] += item['totalCost'];
+                            }
                           }
                         }
-                      }
-                    })
-                    let noString3 = "";
-                    subCount += 1;
-                    if (subCount%5 == 0) count3 += 1;
-                    if(subCount%5 == 1) noString3 = count3 + "";
-                    // if (!(material['name'].localeCompare('Other expenses')==0)) {
-                      let row3 = [
-                        noString3, // cycle number count
-                        cycle['name'],
-                        cycle['crop'], // cycle crop, you can change it to cycle['name'] if it is more approriate
-                        cycle['datePlanted'].slice(0,10), // date cycle was planted
-                        material['name'], // name of type of material used (eg. chemical, fertilizer, etc.)
-                        startDate2 // start date of report being created
-                      ];
-                      let totalSum = 0;
+                      })
+                      let noString3 = "";
+                      subCount += 1;
+                      if (subCount%5 == 0) count3 += 1;
+                      if(subCount%5 == 1) noString3 = count3 + "";
+                      // if (!(material['name'].localeCompare('Other expenses')==0)) {
+                        let row3 = [
+                          noString3, // cycle number count
+                          cycle['name'],
+                          cycle['crop'], // cycle crop, you can change it to cycle['name'] if it is more approriate
+                          cycle['datePlanted'].slice(0,10), // date cycle was planted
+                          material['name'], // name of type of material used (eg. chemical, fertilizer, etc.)
+                          startDate2 // start date of report being created
+                        ];
+                        let totalSum = 0;
 
-                      for (let i = 0;i<sumArray.length; i++){
-                        row3.push(sumArray[i]); // pushes sum of total money spent on a particular month for each month in the period specified
-                        totalSum += sumArray[i];
-                      }
-                      row3.push(totalSum); // pushes total sum of all money spent in the entire period specified
-                      byMonthSummary.push(row3); // pushes row of data to byMonthSummary table
-                    // }
-                    for(let i=0;i<sumArray.length;i++) sumArray[i]=0;
+                        for (let i = 0;i<sumArray.length; i++){
+                          row3.push(sumArray[i]); // pushes sum of total money spent on a particular month for each month in the period specified
+                          totalSum += sumArray[i];
+                        }
+                        row3.push(totalSum); // pushes total sum of all money spent in the entire period specified
+                        byMonthSummary.push(row3); // pushes row of data to byMonthSummary table
+                      // }
+                      for(let i=0;i<sumArray.length;i++) sumArray[i]=0;
+                  })
 
-
-                })
-
-            }
-          })
-        }))
-        return Promise.all(CycleRecordPromises).then(() => {
-          return byMonthSummary;
-        });
+                  // Labour row
+                  let noString4="";
+                  let mName = "Labour";
+                  let row4 = [
+                    noString4,
+                    cycle['name'],
+                    cycle['crop'],
+                    cycle['datePlanted'],
+                    mName,
+                    startDate2,
+                    totalSalary
+                  ];
+                  for (let i = 0;i<sumArray.length-1; i++){
+                    row4.push(0);
+                  }
+                  row4.push(totalSalary);
+                  byMonthSummary.push(row4);
+              }
+            })
+          }))
+          return Promise.all(CycleRecordPromises).then(() => {
+            return byMonthSummary;
+          });
+        })
       })
     })
 
@@ -210,10 +232,6 @@ export class ReportCreator {
 
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
     // let purchaseDataMap = new Map<string, Object>();
-
-    // this.taskManager.getAll().then((taskListing) => {
-    //   console.log(taskListing);
-    // })
 
 // ------------------------------------- Income --------------------------------------------
     this.saleManager.getAll().then((saleListing) => {
@@ -323,7 +341,7 @@ export class ReportCreator {
         this.materialUseManager.get(purchase['typeId']).then((material) => {
           const row1 = [
             noString1,
-            material['name'],
+            purchase['typeName'],
             purchase['materialName'],
             purchase['quantityPurchased'],
             purchase['units'],

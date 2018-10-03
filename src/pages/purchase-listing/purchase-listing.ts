@@ -140,9 +140,13 @@ export class PurchaseListingPage {
   getData(): Promise<void>{
     let promises = [];
     for(let purchase of this.purchaseList){
-      promises.push(this.purchaseManager.get(purchase['typeId']).then((type) => {
-        purchase['typeName'] = type['name'];
-      }));
+      // console.log(purchase);
+      // promises.push(this.purchaseManager.get(purchase['typeId']).then((type) => {
+      //   if (purchase['typeName'].localeCompare('Other expenses')==0){
+      //     console.log(type);
+      //   }else purchase['typeName'] = type['name'];
+      //
+      // }));
 
       promises.push(this.materialManager.get(purchase['materialId']).then((material) => {
         purchase['materialImagePath'] = material['imagePath'];

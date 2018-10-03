@@ -210,7 +210,7 @@ export class NewPurchasePage {
 
     let costPerUnit = this.newPurchase.get('cost').value / this.newPurchase.get('quantity').value;
     this.firebase.logEvent("create_purchase", {content_type: "function_call", item_id: "new_purchase"})
-    let purchase = new Purchase(this.newPurchase.get('material').value,this.newPurchase.get('materialId').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, costPerUnit, this.newPurchase.get('datePurchased').value);
+    let purchase = new Purchase(this.newPurchase.get('material').value, this.newPurchase.get('materialId').value, this.newPurchase.get('typeName').value, this.newPurchase.get('typeID').value, this.newPurchase.get('units').value, this.newPurchase.get('quantity').value, costPerUnit, this.newPurchase.get('datePurchased').value);
 
     let toast = this.toastCtrl.create({
       message: 'Purchase Successully saved',

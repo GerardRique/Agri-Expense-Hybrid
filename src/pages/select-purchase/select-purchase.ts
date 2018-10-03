@@ -96,11 +96,11 @@ export class SelectPurchasePage {
 
   getData(): Promise<void>{
     let promises = [];
-    for(let purchase of this.avaialblePurchaseListing){
-      promises.push(this.purchaseManager.get(purchase['typeId']).then((type) => {
-        purchase['typeName'] = type['name'];
-      }));
-    }
+    // for(let purchase of this.avaialblePurchaseListing){
+    //   promises.push(this.purchaseManager.get(purchase['typeId']).then((type) => {
+    //     purchase['typeName'] = type['name'];
+    //   }));
+    // }
 
     return Promise.all(promises).then(() => {
       console.log('Successfully retrieved ' + this.avaialblePurchaseListing.length + ' purchases');
