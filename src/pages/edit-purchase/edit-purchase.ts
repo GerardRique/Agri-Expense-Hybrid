@@ -50,6 +50,8 @@ export class EditPurchasePage {
 
   valid: boolean;
 
+  otherCheck: boolean;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private materialManager: MaterialManager, private purchaseManager: PurchaseManager, private toastCtrl: ToastController) {
     this.materialTypeList = new Array<Object>();
 
@@ -58,6 +60,8 @@ export class EditPurchasePage {
     this.materialUnitsList = new Array<Object>();
 
     this.changedPurchase = false;
+
+    this.otherCheck = false;
 
     this.editedPurchase = this.formBuilder.group({
       id: [this.navParams.get('id'), Validators.required],
@@ -76,6 +80,10 @@ export class EditPurchasePage {
 
     this.selectedPurchase = this.navParams.get('purchase');
 
+    if (this.selectedPurchase['materialName'].localeCompare('Other expenses')==0){
+      this.otherCheck = true;
+    }
+
     this.materialManager.get(this.selectedPurchase['materialId']).then((material) => {
       this.selectedMaterial = this.selectedPurchase['materialName'];
       this.initialize();
@@ -84,7 +92,7 @@ export class EditPurchasePage {
       this.totalCostOfPurchase = this.selectedPurchase['cost'] * this.selectedPurchase['quantityPurchased'];
 
       this.selectedMaterialType = this.selectedPurchase['typeName'];
-      console.log(this.selectedMaterialType);
+      // console.log(this.selectedMaterialType);
 
       this.selectedMaterialUnits = this.selectedPurchase['units'];
     })
@@ -104,11 +112,14 @@ export class EditPurchasePage {
 
     this.measurableDataManager.getUnitsList().then((unitsList) => {
       this.materialUnitsList = unitsList;
-      console.log(this.materialUnitsList);
+      // console.log(this.materialUnitsList);
     })
   }
 
   materialChange(){
+    if (this.selectedMaterial.localeCompare('Other expenses')==0){
+      this.otherCheck = true;
+    } else this.otherCheck = false;
     this.changedPurchase = true;
     this.selectedMaterialType = "";
     this.selectedMaterialUnits = "";
@@ -120,7 +131,7 @@ export class EditPurchasePage {
 
     this.measurableDataManager.getUnitsList().then((unitsList) => {
       this.materialUnitsList = unitsList;
-      console.log(this.materialUnitsList);
+      // console.log(this.materialUnitsList);
     })
   }
 
@@ -151,21 +162,39 @@ export class EditPurchasePage {
       this.selectedPurchase['cost'] = this.totalCostOfPurchase / this.quantityPurchased;
       this.selectedPurchase['quantityPurchased'] = this.quantityPurchased;
       this.selectedPurchase['quantityRemaining'] = this.quantityPurchased;
+      if (this.otherCheck){
+        this.selectedPurchase['typeName'] = this.selectedMaterialType;
+        this.selectedPurchase['typeId'] = "other";
+
+      }else {
+        let materialType = this.findMaterialType(this.selectedMaterialType);
+        this.selectedPurchase['typeName'] = materialType['name'];
+        this.selectedPurchase['typeId'] = materialType['id'];
+        // console.log(materialType);
+      }
+      this.selectedPurchase['units'] = this.selectedMaterialUnits;
       this.purchaseManager.edit(this.selectedPurchase['id'], this.selectedPurchase);
       this.navCtrl.pop();
     }
     else {
 
       let material = this.findMaterial(this.selectedMaterial);
-      console.log(material);
+      // console.log(material);
       this.selectedPurchase['materialId'] = material['id'];
       this.selectedPurchase['materialImagePath'] = material['imagePath'];
 
-      let materialType = this.findMaterialType(this.selectedMaterialType);
-      this.selectedPurchase['typeName'] = materialType['name'];
-      this.selectedPurchase['typeId'] = materialType['id'];
+      if (this.otherCheck){
+        this.selectedPurchase['typeName'] = this.selectedMaterialType;
+        this.selectedPurchase['typeId'] = "other";
+
+      }else {
+        let materialType = this.findMaterialType(this.selectedMaterialType);
+        this.selectedPurchase['typeName'] = materialType['name'];
+        this.selectedPurchase['typeId'] = materialType['id'];
+        // console.log(materialType);
+      }
+
       this.selectedPurchase['units'] = this.selectedMaterialUnits;
-      console.log(materialType);
       this.selectedPurchase['cost'] = this.totalCostOfPurchase / this.quantityPurchased;
       this.selectedPurchase['quantityPurchased'] = this.quantityPurchased;
       this.selectedPurchase['quantityRemaining'] = this.quantityPurchased;

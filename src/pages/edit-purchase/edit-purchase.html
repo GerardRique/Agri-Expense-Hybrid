@@ -23,17 +23,20 @@
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Select {{selectedMaterial}}</ion-label>
-      <ion-select [(ngModel)]="selectedMaterialType" name="materialType">
+      <ion-label color="primary" stacked *ngIf="!otherCheck">Select {{selectedMaterial}}</ion-label>
+      <ion-label color="primary" stacked *ngIf="otherCheck">Enter Name of {{selectedMaterial}}</ion-label>
+      <ion-select [(ngModel)]="selectedMaterialType" name="materialType" *ngIf="!otherCheck">
         <ion-option *ngFor="let materialType of materialTypeList" [value]="materialType.name">{{materialType.name}}</ion-option>
       </ion-select>
+      <ion-input  [(ngModel)]="selectedMaterialType" type="text" placeholder="Name" name="materialType" *ngIf="otherCheck"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label color="primary" stacked>Units</ion-label>
-      <ion-select [(ngModel)]="selectedMaterialUnits" name="units">
+      <ion-select [(ngModel)]="selectedMaterialUnits" name="units" *ngIf="!otherCheck">
         <ion-option *ngFor="let unit of materialUnitsList" [value]="unit">{{unit}}</ion-option>
       </ion-select>
+      <ion-input  [(ngModel)]="selectedMaterialUnits" type="text" placeholder="Units" name="units" *ngIf="otherCheck"></ion-input>
     </ion-item>
 
     <ion-item>
