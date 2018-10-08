@@ -105,7 +105,7 @@ export class ReportCreator {
     const dateArray = Array<Array<number>>();
     const sumArray = Array<number>();
 
-    let byMonthSummaryHeadings = ['No.','Cycle Name','Crop','Date Planted (dd-mm-yy)','Category','Report Start Date (dd-mm-yy)'];
+    let byMonthSummaryHeadings = ['No.','Cycle Name','Crop','Date Planted (yyyy-mm-dd)','Category','Report Start Date (dd-mm-yy)'];
 
     // let cDate = new Date();
     let cYear = endDate1.getFullYear();
@@ -225,9 +225,9 @@ export class ReportCreator {
     const income = Array<Array<string>>();
     const inventory = Array<Array<string>>();
 
-    let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (dd-mm-yy)'];
+    let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (yyyy-mm-dd)'];
     income.push(incomeHeadings);
-    let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (dd-mm-yy)'];
+    let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (yyyy-mm-dd)'];
     inventory.push(inventoryHeadings);
 
     // let purchaseManager = this.dataManagerFactory.getManager(DataManagerFactory.PURCHASE);
@@ -363,7 +363,7 @@ export class ReportCreator {
     let cycleDataMap = new Map<string, Array<Object>>();
     // Current retrieves all of the cycles available in the database - //TODO - Need to provide interface for user to specify timeframe
     return this.cycleManager.getAll().then((cycleListing) => {
-      let transactionsHeadings = ['No.', 'Crops', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Date Entered (dd-mm-yy)'];
+      let transactionsHeadings = ['No.', 'Crops', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Date Entered (yyyy-mm-dd)'];
       let count = 1;
 
       const materialUsedPromises = [];
