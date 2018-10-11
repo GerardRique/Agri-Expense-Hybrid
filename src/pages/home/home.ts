@@ -11,6 +11,8 @@ import { CycleManager } from '../../core/CyclesModule/CycleManager';
 import { NewHarvestPage } from '../new-harvest/new-harvest';
 import { Content } from 'ionic-angular/components/content/content';
 import { Firebase } from '@ionic-native/firebase';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -38,8 +40,20 @@ export class HomePage {
               private cycleManager: CycleManager,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
+              private localNotifications: LocalNotifications,
               private firebase: Firebase) { // End of Constructor parameters
     // In the constructor
+    var d = new Date();
+    d.setHours(14);
+    d.setMinutes(0);
+    d.setSeconds(0);
+
+    this.localNotifications.schedule({
+      title: 'AgriExpense Notification',
+      text: 'Remember to upload your data and enter you Crop Cycles,Purchase and Sales daily!',
+      trigger: {firstAt: d},
+      every: "day"
+    });
 
     this.displayNoCyclesMadeMessage = false;
     this.newNav = this.app.getRootNav();

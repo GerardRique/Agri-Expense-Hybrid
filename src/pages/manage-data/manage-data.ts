@@ -26,24 +26,29 @@ import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notifica
 export class ManageDataPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataSynchronization: DataSynchronization, public authenticationService: AuthenticationService, public dataManagerFactory: DataManagerFactory , public cycleManager: CycleManager, public purchaseManager: PurchaseManager, public labourManager: LabourManager, private notification: PhonegapLocalNotification, private toastCtrl: ToastController) {
+    // var date
+    // this.notification.requestPermission().then(
+    //   (permission) => {
+    //     if (permission === 'granted') {
+    //
+    //       console.log('Permission granted');
+    //       var d = new Date();
+    //       d.setHours(14);
+    //       d.setMinutes(0);
+    //       d.setSeconds(0);
+    //       // Create the notification
+    //       this.notification.create('Agri Expense', {
+    //         tag: 'AgriExpense',
+    //         body: 'Agri Expense Reminder',
+    //         icon: 'assets/icon/icon.png',
+    //         repeat: 'daily',
+    //         date: d
+    //       });
+    //
+    //     }
+    //   }
+    // );
 
-    this.notification.requestPermission().then(
-      (permission) => {
-        if (permission === 'granted') {
-
-          console.log('Permission granted');
-    
-          // Create the notification
-          this.notification.create('Agri Expense', {
-            tag: 'AgriExpense',
-            body: 'Agri Expense Reminder',
-            icon: 'assets/icon/icon.png',
-          });
-    
-        }
-      }
-    );
-  
   }
 
   ionViewDidLoad() {
@@ -98,7 +103,7 @@ export class ManageDataPage {
     //         console.log('Error');
     //       }
     //     })
-        
+
     //   }
     // })
   }
