@@ -79,6 +79,7 @@ export class EditPurchasePage {
     })
 
     this.selectedPurchase = this.navParams.get('purchase');
+    console.log(this.selectedPurchase);
 
     if (this.selectedPurchase['materialName'].localeCompare('Other expenses')==0){
       this.otherCheck = true;
@@ -174,12 +175,14 @@ export class EditPurchasePage {
       }
       this.selectedPurchase['units'] = this.selectedMaterialUnits;
       this.purchaseManager.edit(this.selectedPurchase['id'], this.selectedPurchase);
+      console.log(this.selectedPurchase);
       this.navCtrl.pop();
     }
     else {
 
       let material = this.findMaterial(this.selectedMaterial);
-      // console.log(material);
+       console.log(material);
+       this.selectedPurchase['materialName'] = material['name'];
       this.selectedPurchase['materialId'] = material['id'];
       this.selectedPurchase['materialImagePath'] = material['imagePath'];
 
@@ -198,6 +201,7 @@ export class EditPurchasePage {
       this.selectedPurchase['cost'] = this.totalCostOfPurchase / this.quantityPurchased;
       this.selectedPurchase['quantityPurchased'] = this.quantityPurchased;
       this.selectedPurchase['quantityRemaining'] = this.quantityPurchased;
+      console.log(this.selectedPurchase);
       this.purchaseManager.edit(this.selectedPurchase['id'], this.selectedPurchase);
       this.navCtrl.pop();
 
