@@ -225,7 +225,7 @@ export class ReportCreator {
     const income = Array<Array<string>>();
     const inventory = Array<Array<string>>();
 
-    let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (yyyy-mm-dd)'];
+    let incomeHeadings = ['No.', 'Crops', 'Area Exploited In (Ha.s)', 'Total Yield Recorded', 'Yield Record Unit', 'Total Yield in Tonnes', 'Sale Recorded(Quantity)', 'Sale Record Unit', 'Sale in Tonnes','Price of Sale/Tonnes', 'Date Entered (yyyy-mm-dd)'];
     income.push(incomeHeadings);
     let inventoryHeadings = ['No.','Name','Category','Quantity Purchased','Unit','Unit Price ($)','Quantity in Stock','Total Value in Stock ($)','Date Purchased (yyyy-mm-dd)'];
     inventory.push(inventoryHeadings);
@@ -278,7 +278,7 @@ export class ReportCreator {
             }else {
               yieldTonnes *= 0.000453592 * 5;
             }
-            yieldTonnes = yieldTonnes.toFixed(6);
+            yieldTonnes = yieldTonnes.toFixed(3);
 
             let saleTonnes = sale['quantityOfUnitsSold'];
             if (sale['unitsSoldBy'].localeCompare('pounds(lb)')){
@@ -288,7 +288,7 @@ export class ReportCreator {
             }else {
               saleTonnes *= 0.000453592 * 5;
             }
-            saleTonnes = saleTonnes.toFixed(6);
+            saleTonnes = saleTonnes.toFixed(3);
 
             let salePerTonnes = sale['costPerunit'];
             if (sale['unitsSoldBy'].localeCompare('pounds(lb)')){
@@ -363,7 +363,7 @@ export class ReportCreator {
     let cycleDataMap = new Map<string, Array<Object>>();
     // Current retrieves all of the cycles available in the database - //TODO - Need to provide interface for user to specify timeframe
     return this.cycleManager.getAll().then((cycleListing) => {
-      let transactionsHeadings = ['No.', 'Crops', 'Input Description', 'Quantity per Ha. (1)', 'Area Exploited In (Ha.s) (2)', 'Price (in Soles)/Unit (3)', 'Total Expenses (In Soles) (1x2x3=4)', 'Date Entered (yyyy-mm-dd)'];
+      let transactionsHeadings = ['No.', 'Crops', 'Input Description', 'Quantity per Ha.', 'Area Exploited In (Ha.s)', 'Price (in Soles)/Unit', 'Total Expenses (In Soles)', 'Date Entered (yyyy-mm-dd)'];
       let count = 1;
 
       const materialUsedPromises = [];
@@ -431,7 +431,7 @@ export class ReportCreator {
                 quantityPerAreaString, // Quantity per Ha (1).
                 areaOfLandString, // Area Exploited in (Ha.s) (2)
                 costPerMaterial, // Price in Soles/Unit (3)
-                monthlyExpense, // Monthly Expense (in soles)
+                monthlyExpense.toFixed(2), // Monthly Expense (in soles)
                 materialUse['dateUsed'].slice(0,10)
               ];
               let newDate = new Date(materialUse['dateUsed']);
